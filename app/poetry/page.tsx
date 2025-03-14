@@ -415,8 +415,6 @@ export default function PoetryPage() {
                     </div>
                 </div>
               </div>
-
-              </div>
             </Card>
             
             <Tabs defaultValue="poem" onValueChange={setActiveTab} className="mx-auto w-full">

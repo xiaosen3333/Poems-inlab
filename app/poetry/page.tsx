@@ -69,32 +69,51 @@ export default function PoetryPage() {
           />
           
           {/* Middle Panel - Canvas Area */}
-          <Card className="p-5 sm:p-7 rounded-3xl shadow-sm bg-white overflow-hidden">
-            <div className="text-center mb-4">
-              <h2 className="text-xl font-medium text-purple-600">Poetry Visualization</h2>
+          <div className="relative flex flex-col">
+            <Card className="p-5 sm:p-7 rounded-3xl shadow-sm bg-white overflow-hidden flex-1">
+              <div className="relative h-full">
+                {/* Left navigation arrow */}
+                <button className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white w-10 h-16 sm:w-12 sm:h-20 rounded-full shadow-md flex items-center justify-center z-10">
+                  <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 1L1 9L9 17" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+                
+                <PoetryCanvas
+                  canvasElements={canvasElements}
+                  setCanvasElements={setCanvasElements}
+                  draggedElement={draggedElement}
+                  selectedCanvasElement={selectedCanvasElement}
+                  setSelectedCanvasElement={setSelectedCanvasElement}
+                  addElementToCanvas={addElementToCanvas}
+                  removeCanvasElement={removeCanvasElement}
+                  visualElements={visualElements}
+                />
+                
+                {/* Right navigation arrow */}
+                <button className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-white w-10 h-16 sm:w-12 sm:h-20 rounded-full shadow-md flex items-center justify-center z-10">
+                  <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L9 9L1 17" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </Card>
+            
+            <div className="mt-4 mx-auto w-full bg-[#9747FF] text-white rounded-full py-2 px-4 text-center shadow-sm">
+              <h2 className="text-base sm:text-lg font-medium">Poetry Visualization</h2>
             </div>
-            <PoetryCanvas
-              canvasElements={canvasElements}
-              setCanvasElements={setCanvasElements}
-              draggedElement={draggedElement}
-              selectedCanvasElement={selectedCanvasElement}
-              setSelectedCanvasElement={setSelectedCanvasElement}
-              addElementToCanvas={addElementToCanvas}
-              removeCanvasElement={removeCanvasElement}
-              visualElements={visualElements}
-            />
-          </Card>
+          </div>
 
           {/* Right Panel - Content */}
-          <Card className="p-5 sm:p-7 rounded-3xl shadow-sm bg-white overflow-hidden flex flex-col">
-            <div className="text-center mb-5">
-              <h2 className="text-xl font-medium text-purple-600">Poetry Showcase</h2>
-            </div>
-            
-            <Tabs defaultValue="poem" onValueChange={setActiveTab} className="flex-1 flex flex-col">
-              <div className="flex-1 flex flex-col justify-center overflow-y-auto h-[600px] sm:h-[650px] md:h-[700px] relative">
+          <div className="flex flex-col">
+            <Card className="p-5 sm:p-7 rounded-3xl shadow-sm bg-white overflow-hidden mb-4">
+              <div className="text-center mb-2">
+                <h2 className="text-xl font-medium text-purple-600">Poetry Showcase</h2>
+              </div>
+              
+              <div className="flex-1 h-[600px] sm:h-[650px] md:h-[700px] relative overflow-y-auto">
                 {/* Poem Tab */}
-                <div className={`absolute inset-0 ${activeTab === "poem" ? "opacity-100 visible" : "opacity-0 invisible"} transition-opacity duration-200`}>
+                <div className={`${activeTab === "poem" ? "block" : "hidden"}`}>
                   <PoemTab 
                     poem={quietNightPoem} 
                     markedKeywords={markedKeywords}
@@ -103,7 +122,7 @@ export default function PoetryPage() {
                 </div>
 
                 {/* Graph Tab */}
-                <div className={`absolute inset-0 flex flex-col items-center justify-start py-4 w-full overflow-y-auto ${activeTab === "graph" ? "opacity-100 visible" : "opacity-0 invisible"} transition-opacity duration-200`}>
+                <div className={`${activeTab === "graph" ? "block" : "hidden"}`}>
                     <h2 className="text-xl sm:text-2xl font-medium mb-6 sm:mb-8 text-center">Scene Graph</h2>
                     <div className="w-full h-[250px] sm:h-[300px] md:h-[350px] relative mb-8 sm:mb-10">
                       <GraphComponent 
@@ -152,7 +171,7 @@ export default function PoetryPage() {
                 </div>
 
                 {/* QA Tab Content */}
-                <div className={`absolute inset-0 flex flex-col items-center justify-start py-4 w-full overflow-y-auto ${activeTab === "qa" ? "opacity-100 visible" : "opacity-0 invisible"} transition-opacity duration-200`}>
+                <div className={`${activeTab === "qa" ? "block" : "hidden"}`}>
                     <h2 className="text-xl sm:text-2xl font-medium mb-6 sm:mb-8 text-center">Poetic Doubt-solving Station</h2>
                     <div className="mb-8 sm:mb-10 w-full">
                       <div className="text-base sm:text-lg mb-4 sm:mb-5">What can I help you with?</div>
@@ -228,10 +247,8 @@ export default function PoetryPage() {
                 </div>
 
                 {/* Color Analysis Tab */}
-                <div className={`absolute inset-0 flex flex-col items-center justify-start py-4 w-full overflow-y-auto ${activeTab === "color" ? "opacity-100 visible" : "opacity-0 invisible"} transition-opacity duration-200`}>
-                    <div className="mb-4 sm:mb-6 w-full">
-                      <h2 className="text-xl sm:text-2xl font-medium mb-4 text-center">Analysis of Color and Emotion</h2>
-                    </div>
+                <div className={`${activeTab === "color" ? "block" : "hidden"}`}>
+                    <h2 className="text-xl sm:text-2xl font-medium mb-6 sm:mb-8 text-center">Analysis of Color and Emotion</h2>
 
                     {/* Emotion Radar Chart Section */}
                     <div className="mt-4 sm:mt-8 space-y-4 sm:space-y-6">
@@ -399,16 +416,18 @@ export default function PoetryPage() {
                 </div>
               </div>
 
-              <div className="mt-auto pt-4">
-                <TabsList className="bg-gray-50 rounded-full grid grid-cols-4 w-full overflow-hidden text-xs sm:text-sm p-1 shadow-sm">
-                  <TabsTrigger value="poem" className={`rounded-full p-2 sm:p-2.5 ${activeTab === "poem" ? "bg-white text-[#9747FF] font-medium shadow-sm" : "text-gray-600"}`}>Poem</TabsTrigger>
-                  <TabsTrigger value="graph" className={`rounded-full p-2 sm:p-2.5 ${activeTab === "graph" ? "bg-white text-[#9747FF] font-medium shadow-sm" : "text-gray-600"}`}>Graph</TabsTrigger>
-                  <TabsTrigger value="qa" className={`rounded-full p-2 sm:p-2.5 ${activeTab === "qa" ? "bg-white text-[#9747FF] font-medium shadow-sm" : "text-gray-600"}`}>Q&A</TabsTrigger>
-                  <TabsTrigger value="color" className={`rounded-full p-2 sm:p-2.5 ${activeTab === "color" ? "bg-white text-[#9747FF] font-medium shadow-sm" : "text-gray-600"}`}>Color</TabsTrigger>
-                </TabsList>
               </div>
+            </Card>
+            
+            <Tabs defaultValue="poem" onValueChange={setActiveTab} className="mx-auto w-full">
+              <TabsList className="bg-gray-50 rounded-full grid grid-cols-4 w-full overflow-hidden text-xs sm:text-sm p-1 shadow-sm">
+                <TabsTrigger value="poem" className={`rounded-full p-2 sm:p-2.5 ${activeTab === "poem" ? "bg-white text-[#9747FF] font-medium shadow-sm" : "text-gray-600"}`}>Poem</TabsTrigger>
+                <TabsTrigger value="graph" className={`rounded-full p-2 sm:p-2.5 ${activeTab === "graph" ? "bg-white text-[#9747FF] font-medium shadow-sm" : "text-gray-600"}`}>Graph</TabsTrigger>
+                <TabsTrigger value="qa" className={`rounded-full p-2 sm:p-2.5 ${activeTab === "qa" ? "bg-white text-[#9747FF] font-medium shadow-sm" : "text-gray-600"}`}>Q&A</TabsTrigger>
+                <TabsTrigger value="color" className={`rounded-full p-2 sm:p-2.5 ${activeTab === "color" ? "bg-white text-[#9747FF] font-medium shadow-sm" : "text-gray-600"}`}>Color</TabsTrigger>
+              </TabsList>
             </Tabs>
-          </Card>
+          </div>
         </div>
       </main>
     </div>

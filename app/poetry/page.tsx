@@ -104,8 +104,8 @@ export default function PoetryPage() {
 
                 {/* Graph Tab */}
                 <div className={`absolute inset-0 flex flex-col items-center justify-start py-4 w-full overflow-y-auto ${activeTab === "graph" ? "opacity-100 visible" : "opacity-0 invisible"} transition-opacity duration-200`}>
-                    <h2 className="text-xl sm:text-2xl font-medium mb-3 sm:mb-4 text-center">Scene Graph</h2>
-                    <div className="w-full h-[250px] sm:h-[300px] md:h-[350px] relative">
+                    <h2 className="text-xl sm:text-2xl font-medium mb-6 sm:mb-8 text-center">Scene Graph</h2>
+                    <div className="w-full h-[250px] sm:h-[300px] md:h-[350px] relative mb-8 sm:mb-10">
                       <GraphComponent 
                         nodes={nodes} 
                         edges={edges} 
@@ -128,7 +128,7 @@ export default function PoetryPage() {
                       />
                     </div>
                     
-                    <div className="mt-4 flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4">
+                    <div className="flex justify-center items-center gap-3 sm:gap-4">
                       <Button 
                         className="rounded-full bg-[#9747FF] hover:bg-[#8440EA] text-white text-xs sm:text-sm px-6 py-2 w-auto shadow-sm"
                         onClick={() => {
@@ -144,23 +144,24 @@ export default function PoetryPage() {
                       >
                         Move
                       </Button>
-                      <div className="text-xs sm:text-sm text-gray-500 italic ml-2">
-                        Click on nodes to move them
-                      </div>
+                    </div>
+                    
+                    <div className="text-xs sm:text-sm text-gray-500 italic mt-3">
+                      Click on nodes to move them
                     </div>
                 </div>
 
                 {/* QA Tab Content */}
                 <div className={`absolute inset-0 flex flex-col items-center justify-start py-4 w-full overflow-y-auto ${activeTab === "qa" ? "opacity-100 visible" : "opacity-0 invisible"} transition-opacity duration-200`}>
-                    <h2 className="text-xl sm:text-2xl font-medium mb-4 sm:mb-6 text-center">Poetic Doubt-solving Station</h2>
-                    <div className="mb-6 sm:mb-8 w-full">
-                      <div className="text-base sm:text-lg mb-3 sm:mb-4">What can I help you with?</div>
+                    <h2 className="text-xl sm:text-2xl font-medium mb-6 sm:mb-8 text-center">Poetic Doubt-solving Station</h2>
+                    <div className="mb-8 sm:mb-10 w-full">
+                      <div className="text-base sm:text-lg mb-4 sm:mb-5">What can I help you with?</div>
 
-                      <div className="bg-purple-100 p-3 sm:p-4 rounded-xl mb-4 sm:mb-6 text-xs sm:text-sm max-w-[90%] sm:max-w-[80%] ml-auto">
+                      <div className="bg-purple-100 p-3 sm:p-4 rounded-xl mb-5 sm:mb-6 text-xs sm:text-sm max-w-[90%] sm:max-w-[80%] ml-auto">
                         Who is the author of this poem, and what is its historical background of the era?
                       </div>
 
-                      <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm">
+                      <div className="space-y-4 sm:space-y-5 text-xs sm:text-sm">
                         <p>
                           The <strong>author</strong> of <em>In The Quiet Night</em> is Li Bai, who lived in the Tang
                           Dynasty.
@@ -171,7 +172,7 @@ export default function PoetryPage() {
                       </div>
                     </div>
                     
-                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-8 w-full">
+                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 w-full">
                       <Button variant="outline" size="sm" className="bg-white hover:bg-gray-50 text-gray-700 border-gray-200 rounded-full px-3 sm:px-4 text-xs shadow-sm">
                         <span className="flex items-center gap-1">
                           <span className="bg-gray-100 w-4 h-4 rounded-full flex items-center justify-center mr-1">ⓘ</span>
@@ -198,7 +199,7 @@ export default function PoetryPage() {
                       </Button>
                     </div>
                     
-                    <div className="w-full max-w-md mx-auto pt-2 sm:pt-4">
+                    <div className="w-full max-w-md mx-auto mt-auto">
                       <div className="relative">
                         <input
                           type="text"

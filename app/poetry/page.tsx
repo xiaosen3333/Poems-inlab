@@ -24,6 +24,17 @@ export default function PoetryPage() {
   const [edges, setEdges] = useState(defaultSceneEdges)
   const [isMoving, setIsMoving] = useState(false)
   const [markedKeywords, setMarkedKeywords] = useState(false)
+  const [activeCanvas, setActiveCanvas] = useState(1)
+  const [canvasCount] = useState(4)
+  
+  // Handle canvas navigation
+  const nextCanvas = () => {
+    setActiveCanvas(prev => prev < canvasCount ? prev + 1 : 1)
+  }
+  
+  const prevCanvas = () => {
+    setActiveCanvas(prev => prev > 1 ? prev - 1 : canvasCount)
+  }
   
   const canvasElementsContext = useCanvasElements()
   const {
@@ -72,13 +83,23 @@ export default function PoetryPage() {
           <div className="relative flex flex-col">
             <Card className="p-5 sm:p-7 rounded-3xl shadow-sm bg-white overflow-hidden flex-1">
               <div className="relative h-full">
-                {/* Left navigation arrow */}
-                <button className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white w-10 h-16 sm:w-12 sm:h-20 rounded-full shadow-md flex items-center justify-center z-10">
+                {/* Canvas Title - Only show in Graph tab - Commented out for now */}
+                {/* {activeTab === "graph" && (
+                  <div className="absolute top-3 left-5 text-sm font-medium text-gray-500 z-10">
+                    Line {activeCanvas}
+                  </div>
+                )} */}
+                
+                {/* Left navigation arrow - Display regardless of tab */}
+                <button 
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white w-10 h-16 sm:w-12 sm:h-20 rounded-full shadow-md flex items-center justify-center z-10"
+                >
                   <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9 1L1 9L9 17" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
                 
+                {/* Always show the poetry canvas regardless of active tab */}
                 <PoetryCanvas
                   canvasElements={canvasElements}
                   setCanvasElements={setCanvasElements}
@@ -90,8 +111,10 @@ export default function PoetryPage() {
                   visualElements={visualElements}
                 />
                 
-                {/* Right navigation arrow */}
-                <button className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-white w-10 h-16 sm:w-12 sm:h-20 rounded-full shadow-md flex items-center justify-center z-10">
+                {/* Right navigation arrow - Display regardless of tab */}
+                <button 
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-white w-10 h-16 sm:w-12 sm:h-20 rounded-full shadow-md flex items-center justify-center z-10"
+                >
                   <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1L9 9L1 17" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
@@ -124,27 +147,114 @@ export default function PoetryPage() {
                 {/* Graph Tab */}
                 <div className={`${activeTab === "graph" ? "block" : "hidden"}`}>
                     <h2 className="text-xl sm:text-2xl font-medium mb-6 sm:mb-8 text-center">Scene Graph</h2>
-                    <div className="w-full h-[250px] sm:h-[300px] md:h-[350px] relative mb-8 sm:mb-10">
-                      <GraphComponent 
-                        nodes={nodes} 
-                        edges={edges} 
-                        onNodeClick={(nodeId) => {
-                          console.log('Node clicked:', nodeId);
+                    
+                    <div className="flex items-center justify-center mb-8 sm:mb-10">
+                      {/* Left navigation button - Fixed positioned outside of canvas */}
+                      <button 
+                        onClick={prevCanvas}
+                        className="bg-white w-10 h-16 sm:w-12 sm:h-20 rounded-full shadow-md flex items-center justify-center z-10 hover:bg-gray-50 transition-colors mr-3 sm:mr-4"
+                      >
+                        <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M9 1L1 9L9 17" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                      
+                      {/* Graph container with line title */}
+                      <div className="relative w-full max-w-[calc(100%-80px)] sm:max-w-[calc(100%-100px)] h-[250px] sm:h-[300px] md:h-[350px]">
+                        {/* Line title for the graph canvas */}
+                        <div className="absolute top-3 left-5 text-sm font-medium text-gray-500 z-10">
+                          Line {activeCanvas}
+                        </div>
+                        
+                        {/* Graph content */}
+                        <div className="w-full h-full relative bg-white rounded-2xl p-4">
+                          {activeCanvas === 1 && (
+                            <GraphComponent 
+                              nodes={[
+                                { id: 'moon', x: 200, y: 100, label: 'Moon', color: '#86e1fc' },
+                                { id: 'moonlight', x: 300, y: 150, label: 'Moonlight', color: '#86e1fc' },
+                                { id: 'bed', x: 400, y: 150, label: 'Bed', color: '#86e1fc' },
+                                { id: 'inside1', x: 350, y: 200, label: 'Inside', color: '#7b6cd9' },
+                                { id: 'room', x: 400, y: 250, label: 'Room', color: '#86e1fc' },
+                                { id: 'inside2', x: 300, y: 200, label: 'Inside', color: '#7b6cd9' },
+                                { id: 'near', x: 250, y: 250, label: 'Near', color: '#7b6cd9' },
+                              ]} 
+                              edges={[
+                                { id: 'e1', source: 'moon', target: 'moonlight' },
+                                { id: 'e2', source: 'moonlight', target: 'bed' },
+                                { id: 'e3', source: 'moonlight', target: 'inside1' },
+                                { id: 'e4', source: 'inside1', target: 'room' },
+                                { id: 'e5', source: 'moonlight', target: 'inside2' },
+                                { id: 'e6', source: 'inside2', target: 'near' },
+                              ]}
+                              onNodeClick={() => {}}
+                              onEdgeClick={() => {}}
+                            />
+                          )}
                           
-                          // Allow direct node movement (without requiring move button)
-                          // If the node is clicked, move it slightly to show it's movable
-                          setNodes(nodes.map(node => 
-                            node.id === nodeId 
-                              ? { 
-                                  ...node, 
-                                  x: Math.max(50, Math.min(450, node.x + (Math.random() * 30 - 15))),
-                                  y: Math.max(50, Math.min(350, node.y + (Math.random() * 30 - 15)))
-                                } 
-                              : node
-                          ));
-                        }}
-                        onEdgeClick={(edgeId) => console.log('Edge clicked:', edgeId)}
-                      />
+                          {activeCanvas === 2 && (
+                            <GraphComponent 
+                              nodes={[
+                                { id: 'person', x: 200, y: 200, label: 'Person', color: '#86e1fc' },
+                                { id: 'standing', x: 250, y: 250, label: 'Standing on', color: '#7b6cd9' },
+                                { id: 'ground', x: 300, y: 300, label: 'Ground', color: '#86e1fc' },
+                              ]} 
+                              edges={[
+                                { id: 'e1', source: 'person', target: 'standing' },
+                                { id: 'e2', source: 'standing', target: 'ground' },
+                              ]}
+                              onNodeClick={() => {}}
+                              onEdgeClick={() => {}}
+                            />
+                          )}
+                          
+                          {activeCanvas === 3 && (
+                            <GraphComponent 
+                              nodes={[
+                                { id: 'frost', x: 250, y: 150, label: 'Frost', color: '#86e1fc' },
+                                { id: 'wonder', x: 200, y: 250, label: 'Wonder', color: '#7b6cd9' },
+                                { id: 'looking', x: 300, y: 250, label: 'Looking', color: '#7b6cd9' },
+                              ]} 
+                              edges={[
+                                { id: 'e1', source: 'wonder', target: 'frost' },
+                                { id: 'e2', source: 'looking', target: 'frost' },
+                              ]}
+                              onNodeClick={() => {}}
+                              onEdgeClick={() => {}}
+                            />
+                          )}
+                          
+                          {activeCanvas === 4 && (
+                            <GraphComponent 
+                              nodes={[
+                                { id: 'night', x: 200, y: 150, label: 'Night', color: '#86e1fc' },
+                                { id: 'homesick', x: 300, y: 250, label: 'Homesick', color: '#7b6cd9' },
+                                { id: 'bowing', x: 200, y: 300, label: 'Bowing', color: '#7b6cd9' },
+                                { id: 'missing', x: 350, y: 350, label: 'Missing', color: '#7b6cd9' },
+                                { id: 'hometown', x: 450, y: 350, label: 'Hometown', color: '#86e1fc' },
+                              ]} 
+                              edges={[
+                                { id: 'e1', source: 'homesick', target: 'night' },
+                                { id: 'e2', source: 'homesick', target: 'bowing' },
+                                { id: 'e3', source: 'homesick', target: 'missing' },
+                                { id: 'e4', source: 'missing', target: 'hometown' },
+                              ]}
+                              onNodeClick={() => {}}
+                              onEdgeClick={() => {}}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      
+                      {/* Right navigation button - Fixed positioned outside of canvas */}
+                      <button 
+                        onClick={nextCanvas}
+                        className="bg-white w-10 h-16 sm:w-12 sm:h-20 rounded-full shadow-md flex items-center justify-center z-10 hover:bg-gray-50 transition-colors ml-3 sm:ml-4"
+                      >
+                        <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M1 1L9 9L1 17" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
                     </div>
                     
                     <div className="flex justify-center items-center gap-3 sm:gap-4">

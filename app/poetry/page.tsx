@@ -176,7 +176,7 @@ export default function PoetryPage() {
           {/* Right Panel - Content */}
           <div className="relative flex flex-col w-[560px] h-[620px] -left-10">
             <Card className="p-3 sm:p-4 rounded-3xl shadow-sm bg-white overflow-hidden mb-4 h-full">
-              <div className="flex-1 h-full relative flex flex-col justify-center">
+              <div className="flex-1 h-full relative flex flex-col">
                 {/* Poem Tab */}
                 <div
                   className={`${
@@ -518,7 +518,7 @@ export default function PoetryPage() {
                     activeTab === "color" ? "block" : "hidden"
                   } h-full flex flex-col`}
                 >
-                  <ColorAnalysisTab />
+                  <ColorAnalysisTab className="h-full" />
                 </div>
               </div>
             </Card>

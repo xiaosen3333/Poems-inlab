@@ -107,7 +107,7 @@ export function PoetryCanvas({
           if (draggedElement) {
             // If we're tracking a dragged element
             addElementToCanvas(draggedElement, x, y);
-            
+
             // Force end of drag immediately after drop
             onDragEnd();
           } else {
@@ -138,7 +138,7 @@ export function PoetryCanvas({
       {/* Background instruction text */}
       {canvasElements.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center text-gray-400 pointer-events-none">
-          <div className="text-center text-purple-300">
+          <div className="text-center text-[#7067DC]/50">
             <p className="text-xl sm:text-2xl font-light">No Image Generated</p>
           </div>
         </div>

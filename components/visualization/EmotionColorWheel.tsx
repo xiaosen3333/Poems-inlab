@@ -8,7 +8,10 @@ interface EmotionColorWheelProps {
   onAutoAnalyze?: () => void;
 }
 
-const EmotionColorWheel = ({ className, onAutoAnalyze }: EmotionColorWheelProps) => {
+const EmotionColorWheel = ({
+  className,
+  onAutoAnalyze,
+}: EmotionColorWheelProps) => {
   // Color definitions for emotions
   const emotionColors = [
     { emotion: "Joy", color: "#e8a87c" },
@@ -25,25 +28,34 @@ const EmotionColorWheel = ({ className, onAutoAnalyze }: EmotionColorWheelProps)
   };
 
   return (
-    <div className={cn("flex flex-col", className)}>
-      {/* Emotion color legend - Placed on left */}
-      <div className="grid grid-cols-2 xs:grid-cols-3 gap-x-4 gap-y-2 mb-4">
-        {emotionColors.map(({ emotion, color }) => (
-          <div key={emotion} className="flex items-center">
-            <div 
-              className="mr-2 h-3 w-3 rounded" 
-              style={{ backgroundColor: color }}
-            />
-            <span className="text-xs text-gray-700">
-              {emotion}
-            </span>
-          </div>
-        ))}
+    <div className={cn("flex flex-row justify-between pr-8 pl-8", className)}>
+      <div className="flex flex-col justify-between">
+        {/* Emotion color legend - Placed on left */}
+        <div className="flex flex-col mb-6 px-4">
+          {emotionColors.map(({ emotion, color }) => (
+            <div key={emotion} className="flex items-center">
+              <div
+                className="mr-2 h-3 w-3 rounded"
+                style={{ backgroundColor: color }}
+              />
+              <span className="text-xs text-gray-700">{emotion}</span>
+            </div>
+          ))}
+        </div>
+        {/* Auto analyze button - Centered below the wheel */}
+        <div className="mt-3 flex justify-center">
+          <Button
+            variant="outline"
+            className="rounded-full px-4 py-1 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-sm h-[28px] w-[105px]"
+            onClick={handleAutoAnalyze}
+          >
+            Auto Analyze
+          </Button>
+        </div>
       </div>
-
       {/* Color wheel container */}
       <div className="flex flex-col items-center">
-        <div className="relative h-[150px] w-[150px] mx-auto overflow-hidden">
+        <div className="relative h-[160px] w-[160px] mx-auto overflow-hidden">
           <div className="absolute inset-[0] rounded-full border-2 border-white">
             {/* Joy sector */}
             <div
@@ -53,7 +65,7 @@ const EmotionColorWheel = ({ className, onAutoAnalyze }: EmotionColorWheelProps)
                 backgroundColor: "#e8a87c",
               }}
             />
-            
+
             {/* Surprise sector */}
             <div
               className="absolute inset-0"
@@ -62,7 +74,7 @@ const EmotionColorWheel = ({ className, onAutoAnalyze }: EmotionColorWheelProps)
                 backgroundColor: "#f8ef86",
               }}
             />
-            
+
             {/* No Emotion sector */}
             <div
               className="absolute inset-0"
@@ -71,7 +83,7 @@ const EmotionColorWheel = ({ className, onAutoAnalyze }: EmotionColorWheelProps)
                 backgroundColor: "#c1f486",
               }}
             />
-            
+
             {/* Sadness sector */}
             <div
               className="absolute inset-0"
@@ -80,7 +92,7 @@ const EmotionColorWheel = ({ className, onAutoAnalyze }: EmotionColorWheelProps)
                 backgroundColor: "#86b5f4",
               }}
             />
-            
+
             {/* Fear sector */}
             <div
               className="absolute inset-0"
@@ -89,7 +101,7 @@ const EmotionColorWheel = ({ className, onAutoAnalyze }: EmotionColorWheelProps)
                 backgroundColor: "#c486f4",
               }}
             />
-            
+
             {/* Anger sector */}
             <div
               className="absolute inset-0"
@@ -110,7 +122,7 @@ const EmotionColorWheel = ({ className, onAutoAnalyze }: EmotionColorWheelProps)
                 }}
               />
             </div>
-            
+
             {/* Color tabs */}
             <div className="absolute top-1/4 right-0 w-5 h-10 bg-[#e8a87c] translate-x-1/2 rounded-r-sm" />
             <div className="absolute top-0 right-1/4 w-10 h-5 bg-[#f8ef86] -translate-y-1/2 rounded-t-sm" />
@@ -118,21 +130,10 @@ const EmotionColorWheel = ({ className, onAutoAnalyze }: EmotionColorWheelProps)
             <div className="absolute top-1/4 left-0 w-5 h-10 bg-[#86b5f4] -translate-x-1/2 rounded-l-sm" />
             <div className="absolute bottom-1/4 left-0 w-5 h-10 bg-[#c486f4] -translate-x-1/2 rounded-l-sm" />
             <div className="absolute bottom-1/4 right-0 w-5 h-10 bg-[#f486a9] translate-x-1/2 rounded-r-sm" />
-            
+
             {/* Inner white circle */}
             <div className="absolute inset-[30%] rounded-full bg-white border-2 border-white" />
           </div>
-        </div>
-
-        {/* Auto analyze button - Centered below the wheel */}
-        <div className="mt-3 flex justify-center">
-          <Button
-            variant="outline"
-            className="rounded-full px-4 py-1 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-sm h-[28px] w-[105px]"
-            onClick={handleAutoAnalyze}
-          >
-            Auto Analyze
-          </Button>
         </div>
       </div>
     </div>

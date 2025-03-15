@@ -17,7 +17,7 @@ const ColorAnalysisTab = ({ className }: ColorAnalysisTabProps) => {
   };
 
   return (
-    <div className={className}>
+    <div className={`${className} h-full overflow-y-auto`}>
       <h2 className="text-xl font-medium mb-6 text-center">
         Analysis of Color and Emotion
       </h2>
@@ -31,7 +31,7 @@ const ColorAnalysisTab = ({ className }: ColorAnalysisTabProps) => {
       <div className="mx-auto w-full border-t border-dashed border-[#7067DC] mb-6"></div>
 
       {/* Color Wheel Section */}
-      <div className="flex-1">
+      <div className="flex-1 mb-4">
         <EmotionColorWheel onAutoAnalyze={handleAutoAnalyze} />
       </div>
     </div>

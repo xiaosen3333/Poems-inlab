@@ -136,14 +136,14 @@ export function GraphComponent({
         height: 40,
         attrs: {
           body: {
-            fill: node.type === 'entity' ? '#dbeafe' : '#c084fc',
-            stroke: node.type === 'entity' ? '#93c5fd' : '#a855f7',
+            fill: node.type === 'entity' ? '#86e1fc' : '#7b6cd9',
+            stroke: node.type === 'entity' ? '#70c9e0' : '#6a5cc0',
             rx: 6,
             ry: 6,
           },
           label: {
             text: node.label,
-            fill: node.type === 'entity' ? '#1e3a8a' : '#ffffff',
+            fill: node.type === 'entity' ? '#444444' : '#ffffff',
             fontSize: 12,
             fontFamily: 'Arial, sans-serif',
           },
@@ -163,7 +163,7 @@ export function GraphComponent({
         target: { cell: edge.target },
         attrs: {
           line: {
-            stroke: '#a855f7',
+            stroke: '#7b6cd9',
             strokeWidth: 2,
             targetMarker: {
               name: 'block',

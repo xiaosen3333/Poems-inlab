@@ -1,25 +1,34 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { PoemLine } from "./PoemLine"
-import { PoemData } from "@/lib/data/poems"
+import { Button } from "@/components/ui/button";
+import { PoemLine } from "./PoemLine";
+import { PoemData } from "@/lib/data/poems";
 
 interface PoemTabProps {
-  poem: PoemData
-  markedKeywords: boolean
-  toggleKeywords: () => void
+  poem: PoemData;
+  markedKeywords: boolean;
+  toggleKeywords: () => void;
 }
 
-export function PoemTab({ poem, markedKeywords, toggleKeywords }: PoemTabProps) {
+export function PoemTab({
+  poem,
+  markedKeywords,
+  toggleKeywords,
+}: PoemTabProps) {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-start py-2 w-full overflow-y-auto opacity-100 visible">
+      <h2 className="text-xl sm:text-2xl font-medium mb-5 sm:mb-6 text-center">
+        Poetry Showcase
+      </h2>
       <div className="mb-2 sm:mb-3 text-center">
         <div className="text-lg sm:text-xl mb-0.5">«{poem.title.original}»</div>
         <div className="text-base sm:text-lg">{poem.title.translated}</div>
       </div>
 
       <div className="mb-2 sm:mb-3 text-xs text-gray-600 text-center">
-        <div>{poem.author.dynasty} · {poem.author.name}</div>
+        <div>
+          {poem.author.dynasty} · {poem.author.name}
+        </div>
         <div>Li Bai</div>
       </div>
 
@@ -45,5 +54,5 @@ export function PoemTab({ poem, markedKeywords, toggleKeywords }: PoemTabProps) 
         </Button>
       </div>
     </div>
-  )
+  );
 }

@@ -73,9 +73,9 @@ export default function PoetryPage() {
       <Header />
 
       <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
-        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr_minmax(425px,1fr)] gap-4 sm:gap-7">
+        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr_minmax(425px,1fr)] gap-4 sm:gap-7 items-stretch">
           {/* Left Sidebar - Visual Elements with Toggle */}
-          <div className="md:block relative right-20">
+          <div className="md:block ">
             <VisualElementsSidebar
               usedElements={usedElements}
               draggedElement={draggedElement}
@@ -95,9 +95,9 @@ export default function PoetryPage() {
           />
 
           {/* Middle Panel - Canvas Area */}
-          <div className="relative flex flex-col">
-            <Card className="p-3 sm:p-4 rounded-3xl shadow-sm bg-white overflow-hidden flex-1 w-full">
-              <div className="relative h-full">
+          <div className="relative flex flex-col w-[700px] h-[620px] gap-4 -left-10">
+            <Card className="p-3 sm:p-4 rounded-3xl shadow-sm bg-white overflow-hidden flex-1 w-full h-full">
+              <div className="relative flex flex-row justify-center items-center h-full">
                 {/* Canvas Title - Only show in Graph tab - Commented out for now */}
                 {/* {activeTab === "graph" && (
                   <div className="absolute top-3 left-5 text-sm font-medium text-gray-500 z-10">
@@ -108,11 +108,11 @@ export default function PoetryPage() {
                 {/* Left navigation arrow - Display regardless of tab */}
                 <button
                   onClick={prevCanvas}
-                  className="absolute -left-3 top-1/2 -translate-y-1/2   z-10 "
+                  className="left-7 top-1/2  z-10  h-24 flex items-center justify-center"
                 >
                   <svg
-                    width="25"
-                    height=""
+                    width="20"
+                    height="35"
                     viewBox="0 0 10 18"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -142,11 +142,11 @@ export default function PoetryPage() {
                 {/* Right navigation arrow - Display regardless of tab */}
                 <button
                   onClick={nextCanvas}
-                  className="absolute -right-3 top-1/2 -translate-y-1/2 "
+                  className=" -right-7 top-1/2 z-10 h-24 flex items-center justify-center"
                 >
                   <svg
-                    width="25"
-                    height=""
+                    width="20"
+                    height="35"
                     viewBox="0 0 10 18"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -163,23 +163,17 @@ export default function PoetryPage() {
               </div>
             </Card>
 
-            <div className="mt-4 mx-auto w-full bg-[#7067DC] text-white rounded-full py-2 px-4 text-center shadow-sm">
-              <h2 className="text-base sm:text-lg font-medium">
+            <div className="flex justify-center">
+              <Button className="bg-[#7067DC] h-[42px] w-full hover:bg-[#6058c8] text-white rounded-full px-6 text-base sm:text-lg font-medium shadow-sm">
                 Poetry Visualization
-              </h2>
+              </Button>
             </div>
           </div>
 
           {/* Right Panel - Content */}
-          <div className="flex flex-col w-full">
-            <Card className="p-3 sm:p-4 rounded-3xl shadow-sm bg-white overflow-hidden mb-4">
-              <div className="text-center mb-4">
-                <h2 className="text-xl font-medium text-purple-600">
-                  Poetry Showcase
-                </h2>
-              </div>
-
-              <div className="flex-1 h-[420px] sm:h-[420px] md:h-[520px] relative">
+          <div className="relative flex flex-col w-[560px] h-[620px] -left-10">
+            <Card className="p-3 sm:p-4 rounded-3xl shadow-sm bg-white overflow-hidden mb-4 h-full">
+              <div className="flex-1 h-full relative flex flex-col justify-center">
                 {/* Poem Tab */}
                 <div
                   className={`${
@@ -201,19 +195,19 @@ export default function PoetryPage() {
                     activeTab === "graph" ? "block" : "hidden"
                   } h-full flex flex-col`}
                 >
-                  <h2 className="text-lg sm:text-xl font-medium mb-5 sm:mb-6 text-center">
+                  <h2 className="text-xl sm:text-2xl font-medium mb-5 sm:mb-6 text-center">
                     Scene Graph
                   </h2>
 
-                  <div className="flex items-center justify-center mb-6 sm:mb-8 flex-1">
+                  <div className="flex items-center justify-center my-auto flex-1">
                     {/* Left navigation button - Fixed positioned outside of canvas */}
                     <button
                       onClick={prevGraphCanvas}
-                      className="bg-white w-10 h-16 sm:w-12 sm:h-20 "
+                      className="w-14 h-24 flex items-center justify-center"
                     >
                       <svg
-                        width="25"
-                        height=""
+                        width="35"
+                        height="35"
                         viewBox="0 0 10 18"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -454,11 +448,11 @@ export default function PoetryPage() {
                     {/* Right navigation button - Fixed positioned outside of canvas */}
                     <button
                       onClick={nextGraphCanvas}
-                      className="bg-white w-10 h-16 sm:w-12 sm:h-20 "
+                      className="w-14 h-24 flex items-center justify-center"
                     >
                       <svg
-                        width="25"
-                        height=""
+                        width="35"
+                        height="35"
                         viewBox="0 0 10 18"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -474,9 +468,9 @@ export default function PoetryPage() {
                     </button>
                   </div>
 
-                  <div className="flex justify-center items-center gap-2 sm:gap-3 mt-auto">
+                  <div className="flex justify-center items-center gap-4 sm:gap-5 mb-4 mt-4">
                     <Button
-                      className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white text-xs px-4 py-1 w-auto shadow-sm"
+                      className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white text-xs px-6 py-2 w-auto shadow-sm"
                       onClick={() => {
                         // Reset to default positions
                         setNodes(defaultSceneNodes);
@@ -485,7 +479,7 @@ export default function PoetryPage() {
                     >
                       Generate Graph
                     </Button>
-                    <Button className="rounded-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs px-4 py-1 w-auto shadow-sm">
+                    <Button className="rounded-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs px-6 py-2 w-auto shadow-sm">
                       Move
                     </Button>
                   </div>
@@ -837,54 +831,42 @@ export default function PoetryPage() {
               </div>
             </Card>
 
-            <Tabs
-              defaultValue="poem"
-              onValueChange={setActiveTab}
-              className="mx-auto w-full"
-            >
-              <TabsList className="bg-gray-50 rounded-full grid grid-cols-4 w-full overflow-hidden text-xs sm:text-sm p-1 shadow-sm">
-                <TabsTrigger
-                  value="poem"
-                  className={`rounded-full p-2 sm:p-2.5 ${
-                    activeTab === "poem"
-                      ? "bg-white text-[#7067DC] font-medium shadow-sm"
-                      : "text-gray-600"
+            <div className="h-[42px] flex items-center justify-between py-1 px-2 bg-gray-50 rounded-full overflow-hidden shadow-sm">
+              <div className="flex items-center gap-2 sm:gap-4 justify-between w-full text-sm sm:text-base">
+                <div
+                  onClick={() => setActiveTab("poem")}
+                  className={`flex-1 text-center cursor-pointer py-2 px-3 sm:px-4 text-gray-600 ${
+                    activeTab === "poem" ? "font-bold" : ""
                   }`}
                 >
                   Poem
-                </TabsTrigger>
-                <TabsTrigger
-                  value="graph"
-                  className={`rounded-full p-2 sm:p-2.5 ${
-                    activeTab === "graph"
-                      ? "bg-white text-[#7067DC] font-medium shadow-sm"
-                      : "text-gray-600"
+                </div>
+                <div
+                  onClick={() => setActiveTab("graph")}
+                  className={`flex-1 text-center cursor-pointer py-2 px-3 sm:px-4 text-gray-600 ${
+                    activeTab === "graph" ? "font-bold" : ""
                   }`}
                 >
                   Graph
-                </TabsTrigger>
-                <TabsTrigger
-                  value="qa"
-                  className={`rounded-full p-2 sm:p-2.5 ${
-                    activeTab === "qa"
-                      ? "bg-white text-[#7067DC] font-medium shadow-sm"
-                      : "text-gray-600"
+                </div>
+                <div
+                  onClick={() => setActiveTab("qa")}
+                  className={`flex-1 text-center cursor-pointer py-2 px-3 sm:px-4 text-gray-600 ${
+                    activeTab === "qa" ? "font-bold" : ""
                   }`}
                 >
                   Q&A
-                </TabsTrigger>
-                <TabsTrigger
-                  value="color"
-                  className={`rounded-full p-2 sm:p-2.5 ${
-                    activeTab === "color"
-                      ? "bg-white text-[#7067DC] font-medium shadow-sm"
-                      : "text-gray-600"
+                </div>
+                <div
+                  onClick={() => setActiveTab("color")}
+                  className={`flex-1 text-center cursor-pointer py-2 px-3 sm:px-4 text-gray-600 ${
+                    activeTab === "color" ? "font-bold" : ""
                   }`}
                 >
                   Color
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </main>

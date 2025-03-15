@@ -32,7 +32,7 @@ export const visualElements: VisualElement[] = [
     id: 2,
     src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%202-HhSUNvkc0TZeOSThRSFexIEwfwG7Jp.png",
     alt: "Scholar in meditation",
-    title: "The Contemplative Scholar",
+    title: "Person",
     description:
       "This figure represents the ideal of the scholar-sage, who balances intellectual pursuit with spiritual cultivation. The meditative posture reflects the belief that true wisdom comes from both study and inner reflection.",
     period: "Song Dynasty",

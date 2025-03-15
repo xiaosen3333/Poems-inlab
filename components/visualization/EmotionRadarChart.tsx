@@ -49,28 +49,70 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [activeNodeIndex, setActiveNodeIndex] = useState<number | null>(null);
 
-  // Generate concentric circles for the radar grid
-  const generateCircles = () => {
-    const circles = [];
+  // Generate radar grid with concentric circles using different purple background colors
+  const generateRadarGrid = () => {
+    const elements = [];
     const circleCount = 4; // Number of concentric circles
 
-    for (let i = 1; i <= circleCount; i++) {
+    // Different purple colors for each circular layer - from darkest (innermost) to lightest (outermost)
+    const purpleColors = [
+      "#f2f0ff", // Lightest purple (outermost)
+      "#e5e2f8", // Light purple
+      "#dbd7f4", // Medium purple
+      "#d1cef0", // Darkest purple (innermost)
+    ];
+
+    // Create concentric circles with different purple background colors (from outermost to innermost)
+    for (let i = circleCount; i >= 1; i--) {
       const circleRadius = (radius * i) / circleCount;
-      circles.push(
+
+      // Add circle with purple background - drawing from innermost to outermost
+      elements.push(
         <circle
-          key={`circle-${i}`}
+          key={`circle-fill-${i}`}
           cx={centerX}
           cy={centerY}
           r={circleRadius}
-          fill="none"
-          stroke="#d8d4f2"
-          strokeDasharray={i < circleCount ? "4 4" : "none"}
-          strokeWidth={i === circleCount ? 1 : 0.75}
+          fill={purpleColors[circleCount - i]}
+          stroke="none"
         />
       );
     }
 
-    return circles;
+    // Add grid circles (just the outlines)
+    for (let i = 1; i <= circleCount; i++) {
+      const circleRadius = (radius * i) / circleCount;
+      elements.push(
+        <circle
+          key={`circle-grid-${i}`}
+          cx={centerX}
+          cy={centerY}
+          r={circleRadius}
+          fill="none"
+          stroke="#b6b0e4"
+          strokeDasharray={i < circleCount ? "4 4" : "none"}
+          strokeWidth={1}
+        />
+      );
+    }
+
+    // Add axis lines from center to each emotion point
+    data.forEach((point, index) => {
+      const coords = getCoordinates(point.angle, radius);
+      elements.push(
+        <line
+          key={`axis-${index}`}
+          x1={centerX}
+          y1={centerY}
+          x2={coords.x}
+          y2={coords.y}
+          stroke="#b6b0e4"
+          strokeWidth={1}
+        />
+      );
+    });
+
+    return elements;
   };
 
   // Calculate coordinates from angle and distance
@@ -220,28 +262,12 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
             className="w-full h-full"
             onClick={handleClick}
           >
-            {/* Radar Grid - Concentric circles */}
-            {generateCircles()}
-
-            {/* Radar Grid - Axis lines */}
-            {data.map((point, index) => {
-              const coords = getCoordinates(point.angle, radius);
-              return (
-                <line
-                  key={`axis-${index}`}
-                  x1={centerX}
-                  y1={centerY}
-                  x2={coords.x}
-                  y2={coords.y}
-                  stroke="#d8d4f2"
-                  strokeWidth={1}
-                />
-              );
-            })}
+            {/* Radar Grid with different colored layers and axis lines */}
+            {generateRadarGrid()}
 
             {/* Axis Labels */}
             {data.map((point, index) => {
-              const coords = getCoordinates(point.angle, radius + 25);
+              const coords = getCoordinates(point.angle, radius + 30);
               return (
                 <text
                   key={`label-${index}`}
@@ -249,9 +275,9 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
                   y={coords.y}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  fontSize="12"
+                  fontSize="25"
                   fontWeight="500"
-                  fill="#666"
+                  fill="#444"
                 >
                   {point.emotion}
                 </text>
@@ -261,7 +287,7 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
             {/* User data (purple) polygon */}
             <polygon
               points={getUserPolygonPoints()}
-              fill="rgba(123, 108, 217, 0.2)"
+              fill="none"
               stroke="#7b6cd9"
               strokeWidth={2}
             />

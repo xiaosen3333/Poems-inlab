@@ -91,11 +91,11 @@ export function PoemLine({ originalText, translatedText, showKeywords, keywords 
   }
 
   return (
-    <div className="flex flex-col gap-1.5 sm:gap-2.5">
-      <div className="text-center text-lg sm:text-2xl font-normal tracking-wide">
+    <div className="flex flex-col gap-1 sm:gap-1.5">
+      <div className="text-center text-base sm:text-lg font-normal tracking-wide">
         {renderHighlightedText(originalText, true)}
       </div>
-      <div className="text-center text-sm sm:text-base text-gray-700">
+      <div className="text-center text-xs sm:text-sm text-gray-700">
         {renderHighlightedText(translatedText, false)}
       </div>
     </div>

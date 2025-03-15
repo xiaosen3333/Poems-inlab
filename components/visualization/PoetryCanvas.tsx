@@ -67,7 +67,7 @@ export function PoetryCanvas({
 
   return (
     <div 
-      className="relative flex-1 border border-dashed border-gray-200 rounded-2xl bg-white overflow-visible min-h-[580px] sm:min-h-[620px] md:min-h-[650px]" 
+      className="relative flex-1 border border-dashed border-gray-200 rounded-2xl bg-white overflow-visible min-h-[400px] sm:min-h-[440px] md:min-h-[470px]" 
       onDragOver={(e) => {
         e.preventDefault()
         e.dataTransfer.dropEffect = "copy"

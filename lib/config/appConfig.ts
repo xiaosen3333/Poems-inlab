@@ -86,13 +86,43 @@ export const visualElements: VisualElement[] = [
 /**
  * Emotion color wheel data configuration
  */
-export const emotionColorWheelData = [
+export const emotionColorWheelLegend = [
   { emotion: "Joy", color: "#e8a87c", value: 75, degree: 0 },
   { emotion: "Surprise", color: "#f8ef86", value: 45, degree: 60 },
   { emotion: "No Emotion", color: "#c1f486", value: 30, degree: 120 },
   { emotion: "Sadness", color: "#86b5f4", value: 60, degree: 180 },
   { emotion: "Fear", color: "#c486f4", value: 25, degree: 240 },
   { emotion: "Anger", color: "#f486a9", value: 50, degree: 300 },
+];
+
+export const emotionColorWheelData = [
+  { emotion: "Joy", color: "#85F614", value: 20, degree: -7.5 },
+  { emotion: "Delight", color: "#4AEB27", value: 20, degree: 7.5 },
+  { emotion: "Happiness", color: "#00D613", value: 20, degree: 22.5 },
+  { emotion: "Elation", color: "#00C246", value: 20, degree: 37.5 },
+  { emotion: "Surprise", color: "#06A865", value: 20, degree: 52.5 },
+  { emotion: "Wonder", color: "#008C64", value: 20, degree: 67.5 },
+  { emotion: "Amazement", color: "#019293", value: 20, degree: 82.5 },
+
+  { emotion: "Curiosity", color: "#107A9A", value: 20, degree: 97.5 },
+  { emotion: "Calmness", color: "#2566CA", value: 20, degree: 112.5 },
+  { emotion: "Serenity", color: "#4558CD", value: 20, degree: 127.5 },
+  { emotion: "Tranquility", color: "#3200C4", value: 20, degree: 142.5 },
+  { emotion: "Melancholy", color: "#3B00AF", value: 20, degree: 157.5 },
+  { emotion: "Sadness", color: "#500096", value: 20, degree: 172.5 },
+  { emotion: "Grief", color: "#590C6C", value: 20, degree: 187.5 },
+
+  { emotion: "Sorrow", color: "#691B71", value: 20, degree: 202.5 },
+  { emotion: "Anxiety", color: "#54003B", value: 20, degree: 217.5 },
+
+  { emotion: "Fear", color: "#860445", value: 20, degree: 232.5 },
+  { emotion: "Dread", color: "#A30B2F", value: 20, degree: 247.5 },
+  { emotion: "Shock", color: "#CC1715", value: 20, degree: 262.5 },
+  { emotion: "Disgust", color: "#DA4518", value: 20, degree: 277.5 },
+  { emotion: "Anger", color: "#EA8217", value: 20, degree: 292.5 },
+  { emotion: "Rage", color: "#EDB71C", value: 20, degree: 307.5 },
+  { emotion: "Frustration", color: "#E7F513", value: 20, degree: 322.5 },
+  { emotion: "Irritation", color: "#BDF61A", value: 20, degree: 337.5 },
 ];
 
 /**
@@ -405,5 +435,13 @@ export const uiConstants = {
     relationStroke: '#7165DA',
     edgeStroke: 'black',
     borderRadius: 0,
+  },
+  
+  // Canvas image size constants
+  canvasImage: {
+    defaultWidth: 100,
+    defaultHeight: 100,
+    maxWidth: 200,
+    maxHeight: 200,
   }
 };

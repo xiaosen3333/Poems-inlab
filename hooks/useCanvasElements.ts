@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react"
 import { elementSizes } from "@/lib/data/visualElements"
+import { uiConstants } from "@/lib/config/appConfig"
 
 export interface CanvasElement {
   id: string;
@@ -93,8 +94,11 @@ export function useCanvasElements() {
     
     const { canvasElements, setCanvasElements } = getCanvasData();
     
-    // Use predefined size based on element type or default to 100x100 if not found
-    const size = elementSizes[elementId as keyof typeof elementSizes] || { width: 100, height: 100 }
+    // Use predefined size based on element type or default to config values if not found
+    const size = elementSizes[elementId as keyof typeof elementSizes] || { 
+      width: uiConstants.canvasImage.defaultWidth, 
+      height: uiConstants.canvasImage.defaultHeight 
+    }
     
     // Get canvas dimensions
     const canvas = document.querySelector('.relative.flex-1.border.border-dashed')

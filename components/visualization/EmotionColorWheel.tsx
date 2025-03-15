@@ -4,7 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { emotionColorWheelData, uiConstants } from "@/lib/config/appConfig";
+import {
+  emotionColorWheelData,
+  emotionColorWheelLegend,
+  uiConstants,
+} from "@/lib/config/appConfig";
 
 interface EmotionColorWheelProps {
   className?: string;
@@ -32,7 +36,7 @@ const EmotionColorWheel = ({
       <div className="flex flex-col justify-start">
         {/* Emotion color legend */}
         <div className="flex flex-col mb-6 px-4">
-          {emotionColorWheelData.map(({ emotion, color }) => (
+          {emotionColorWheelLegend.map(({ emotion, color }) => (
             <div key={emotion} className="flex items-center mb-1">
               <div
                 className="mr-2 h-3 w-3"
@@ -61,7 +65,7 @@ const EmotionColorWheel = ({
       {/* Color wheel container - right side */}
       <div className="relative h-[180px] w-[180px]">
         {/* Color wheel image */}
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute top-3.5 right-0.5 inset-0 flex items-center justify-center rotate-[-3deg]">
           <Image
             src="/colorCircle.png"
             alt="Color Circle"
@@ -82,7 +86,7 @@ const EmotionColorWheel = ({
               const radians = (degree * Math.PI) / 180;
               const centerX = 90; // Center X coordinate (half of container width)
               const centerY = 90; // Center Y coordinate (half of container height)
-              const radius = 80; // Radius of the color wheel (slightly smaller than container dimensions)
+              const radius = 84; // Radius of the color wheel (slightly smaller than container dimensions)
 
               // Calculate the bar's starting position at the edge of the wheel
               const startX = centerX + Math.cos(radians) * radius;
@@ -97,7 +101,7 @@ const EmotionColorWheel = ({
               return (
                 <div
                   key={emotion}
-                  className="absolute origin-left transition-all duration-500 ease-out"
+                  className="absolute origin-left transition-all duration-500 ease-out "
                   style={{
                     left: `${startX}px`,
                     top: `${startY}px`,
@@ -109,7 +113,7 @@ const EmotionColorWheel = ({
                     }px)`,
 
                     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                    borderRadius: "2px",
+                    // borderRadius: "2px",
                     zIndex: 5,
                   }}
                 />

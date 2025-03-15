@@ -191,7 +191,12 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
 
   // Show auto analysis results
   const handleAutoAnalyze = () => {
-    setData(radarChartAnalysisData);
+    // Create a merged data object that preserves user modifications
+    const newData = data.map((point, index) => ({
+      ...point,
+      analysisValue: radarChartAnalysisData[index].analysisValue
+    }));
+    setData(newData);
     setShowAnalysis(true);
     setIsSelecting(false);
   };
@@ -225,6 +230,7 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
                 : "bg-white text-[#7067DC] border-none hover:bg-[#7067DC] hover:text-white"
             )}
             onClick={handleSelect}
+            disabled={showAnalysis}
           >
             Select
           </Button>

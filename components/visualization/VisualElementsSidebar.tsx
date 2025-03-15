@@ -82,7 +82,7 @@ export function VisualElementsSidebar({
           sidebarOpen
             ? "bg-[#7067DC] text-white"
             : hasAvailableElements
-            ? "bg-white text-gray-400 border border-gray-200"
+            ? "bg-white text-black-400 border border-gray-200"
             : "bg-white text-gray-300 border border-gray-200 opacity-70"
         } 
         w-8 h-[150px] rounded-full flex items-center justify-center transition-all duration-300 shadow-lg 

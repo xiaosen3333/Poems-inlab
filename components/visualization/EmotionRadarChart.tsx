@@ -224,7 +224,7 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
       <div className="flex flex-col justify-between">
         {/* Legend row - Positioned at top right per design */}
         <div className="flex justify-end mb-4">
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col  gap-3">
             <div className="flex items-center">
               <div className="mr-2 h-3 w-3 rounded bg-[#7b6cd9]"></div>
               <span className="text-xs text-gray-700">User Selected</span>

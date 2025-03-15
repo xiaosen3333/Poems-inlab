@@ -256,25 +256,25 @@ export interface PredefinedQuestion {
  * Predefined questions for poetry analysis
  */
 export const predefinedQuestions: PredefinedQuestion[] = [
-  { 
+  {
     id: 'background',
     label: 'Background',
     icon: '/button1.png',
     question: 'Please explain the historical background of this poem and its author.'
   },
-  { 
+  {
     id: 'techniques',
     label: 'Techniques',
     icon: '/button2.png',
     question: 'What poetic techniques are used in this poem?'
   },
-  { 
+  {
     id: 'theme',
     label: 'Theme',
     icon: '/button3.png',
     question: 'What are the main themes of this poem?'
   },
-  { 
+  {
     id: 'more',
     label: 'More',
     icon: '/button4.png',
@@ -386,7 +386,7 @@ export const uiConstants = {
   colorWheel: {
     maxBarLength: 80,  // maximum pixel length for a bar at 100% value
   },
-  
+
   // EmotionRadarChart constants
   radarChart: {
     svgWidth: 500,
@@ -394,16 +394,16 @@ export const uiConstants = {
     radius: 180,
     circleCount: 4,  // Number of concentric circles
   },
-  
+
   // Graph visualization constants
   graph: {
-    nodeWidth: 110,  // 增加节点宽度
-    nodeHeight: 45,  // 增加节点高度
-    entityFill: '#86e1fc',
-    entityStroke: '#70c9e0',
-    relationFill: '#7b6cd9',
-    relationStroke: '#6a5cc0',
-    edgeStroke: '#7b6cd9',
-    borderRadius: 6,
+    nodeWidth: 90,  // 增加节点宽度
+    nodeHeight: 35,  // 增加节点高度
+    entityFill: '#9AE3EB',
+    entityStroke: '#9AE3EB',
+    relationFill: '#7165DA',
+    relationStroke: '#7165DA',
+    edgeStroke: 'black',
+    borderRadius: 0,
   }
 };

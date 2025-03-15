@@ -184,8 +184,8 @@ export function GraphComponent({
           },
           label: {
             text: node.label,
-            fill: node.type === "entity" ? "#444444" : "#ffffff",
-            fontSize: 12,
+            fill: node.type === "entity" ? "#7067DD" : "#9AE3EB",
+            fontSize: 16,
             fontFamily: "Arial, sans-serif",
           },
         },
@@ -253,19 +253,19 @@ export function GraphComponent({
     if (nodes.length > 0) {
       try {
         // 在更大的画布上，我们可以使用更合适的缩放比例
-        
+
         // 首先居中内容
         graph.centerContent({
-          padding: 50  // 合理的边距
+          padding: 50, // 合理的边距
         });
-        
+
         // 使用更适合的缩放比例
-        graph.zoomTo(0.8);  // 增大缩放比例，使节点更大
-        
+        graph.zoomTo(0.8); // 增大缩放比例，使节点更大
+
         // 获取容器尺寸
         const width = graph.options.width as number;
         const height = graph.options.height as number;
-        
+
         // 应用一个小的偏移来确保居中效果
         graph.translate(width / 8, height / 8);
       } catch (e) {

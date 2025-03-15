@@ -1,14 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  GraphComponent,
-  defaultSceneNodes,
-  defaultSceneEdges,
-} from "@/components/ui/graph";
+import { GraphComponent } from "@/components/ui/graph";
 
 // Import components
 import { Header } from "@/components/layout/Header";
@@ -20,18 +15,74 @@ import { ChatInterface } from "@/components/poetry/ChatInterface";
 import { ColorAnalysisTab } from "@/components/poetry/ColorAnalysisTab";
 
 // Import data and hooks
-import { useCanvasElements, CanvasElement } from "@/hooks/useCanvasElements";
+import { useCanvasElements } from "@/hooks/useCanvasElements";
 import { quietNightPoem } from "@/lib/data/poems";
 import { visualElements } from "@/lib/data/visualElements";
+import { graphCanvasData, SceneNode, SceneEdge } from "@/lib/config/appConfig";
 
 export default function PoetryPage() {
   const [activeTab, setActiveTab] = useState("poem");
-  const [nodes, setNodes] = useState(defaultSceneNodes);
-  const [edges, setEdges] = useState(defaultSceneEdges);
-  const [isMoving, setIsMoving] = useState(false);
   const [markedKeywords, setMarkedKeywords] = useState(false);
   const [canvasCount] = useState(4);
   const [graphCanvasNumber, setGraphCanvasNumber] = useState(1);
+
+  // Graph state management
+  const [isMoving, setIsMoving] = useState(false);
+  const [graphGenerated, setGraphGenerated] = useState(
+    Array(canvasCount).fill(false)
+  );
+  const [canvasStates, setCanvasStates] = useState<
+    Array<{
+      nodes: SceneNode[];
+      edges: SceneEdge[];
+    }>
+  >(
+    Array(canvasCount)
+      .fill(null)
+      .map(() => ({
+        nodes: [],
+        edges: [],
+      }))
+  );
+
+  // Generate graph handler
+  const handleGenerateGraph = () => {
+    const updatedStates = [...canvasStates];
+    // Type assertion to ensure the data matches SceneNode type
+    const nodes = [
+      ...graphCanvasData[graphCanvasNumber - 1].nodes,
+    ] as SceneNode[];
+    const edges = [
+      ...graphCanvasData[graphCanvasNumber - 1].edges,
+    ] as SceneEdge[];
+
+    updatedStates[graphCanvasNumber - 1] = {
+      nodes,
+      edges,
+    };
+
+    setCanvasStates(updatedStates);
+
+    // Mark current canvas as generated
+    const updatedGenerated = [...graphGenerated];
+    updatedGenerated[graphCanvasNumber - 1] = true;
+    setGraphGenerated(updatedGenerated);
+  };
+
+  // Handle node movement updates
+  const handleNodesMoved = (updatedNodes: SceneNode[]) => {
+    const updatedStates = [...canvasStates];
+    updatedStates[graphCanvasNumber - 1] = {
+      ...updatedStates[graphCanvasNumber - 1],
+      nodes: updatedNodes,
+    };
+    setCanvasStates(updatedStates);
+  };
+
+  // Toggle move mode
+  const toggleMoveMode = () => {
+    setIsMoving(!isMoving);
+  };
 
   const canvasElementsContext = useCanvasElements();
   const {
@@ -69,6 +120,12 @@ export default function PoetryPage() {
   const prevGraphCanvas = () => {
     setGraphCanvasNumber((prev) => (prev > 1 ? prev - 1 : canvasCount));
   };
+
+  // Ensure proper rendering when switching canvases
+  useEffect(() => {
+    // Reset move mode when switching canvases
+    setIsMoving(false);
+  }, [graphCanvasNumber]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-50">
@@ -202,14 +259,14 @@ export default function PoetryPage() {
                     Scene Graph
                   </h2>
 
-                  <div className="flex items-center justify-center my-auto flex-1">
+                  <div className="w-full flex items-center justify-center my-auto flex-1">
                     {/* Left navigation button - Fixed positioned outside of canvas */}
                     <button
                       onClick={prevGraphCanvas}
-                      className="w-14 h-24 flex items-center justify-center"
+                      className="w-10 h-24 flex items-center justify-center relative top-5"
                     >
                       <svg
-                        width="35"
+                        width="25"
                         height="35"
                         viewBox="0 0 10 18"
                         fill="none"
@@ -225,236 +282,44 @@ export default function PoetryPage() {
                       </svg>
                     </button>
 
-                    {/* Graph container with line title */}
-                    <div className="relative w-full max-w-[calc(100%-80px)] sm:max-w-[calc(100%-100px)] h-[280px] sm:h-[320px] md:h-[380px]">
+                    {/* Graph container with line title - 增加高度 */}
+                    <div className="relative w-full max-w-[calc(100%-80px)] sm:max-w-[calc(100%-100px)] h-[380px] sm:h-[380px] md:h-[380px]">
                       {/* Line title for the graph canvas */}
                       <div className="absolute top-3 left-5 text-sm font-medium text-gray-500 z-10">
                         Line {graphCanvasNumber}
                       </div>
 
-                      {/* Graph content */}
-                      <div className="w-full h-full relative bg-white rounded-2xl p-4">
-                        {graphCanvasNumber === 1 && (
+                      {/* Graph content - 增加高度和减少内边距 */}
+                      <div className="w-full h-[380px] relative bg-white rounded-2xl overflow-hidden">
+                        {/* 增加渲染区域尺寸 */}
+                        <div className="w-full h-full relative mx-auto my-auto">
+                          {/* Use the same key to prevent component recreation when only props change */}
                           <GraphComponent
-                            nodes={[
-                              {
-                                id: "moon",
-                                x: 200,
-                                y: 100,
-                                label: "Moon",
-                                color: "#86e1fc",
-                              },
-                              {
-                                id: "moonlight",
-                                x: 300,
-                                y: 150,
-                                label: "Moonlight",
-                                color: "#86e1fc",
-                              },
-                              {
-                                id: "bed",
-                                x: 400,
-                                y: 150,
-                                label: "Bed",
-                                color: "#86e1fc",
-                              },
-                              {
-                                id: "inside1",
-                                x: 350,
-                                y: 200,
-                                label: "Inside",
-                                color: "#7b6cd9",
-                              },
-                              {
-                                id: "room",
-                                x: 400,
-                                y: 250,
-                                label: "Room",
-                                color: "#86e1fc",
-                              },
-                              {
-                                id: "inside2",
-                                x: 300,
-                                y: 200,
-                                label: "Inside",
-                                color: "#7b6cd9",
-                              },
-                              {
-                                id: "near",
-                                x: 250,
-                                y: 250,
-                                label: "Near",
-                                color: "#7b6cd9",
-                              },
-                            ]}
-                            edges={[
-                              { id: "e1", source: "moon", target: "moonlight" },
-                              { id: "e2", source: "moonlight", target: "bed" },
-                              {
-                                id: "e3",
-                                source: "moonlight",
-                                target: "inside1",
-                              },
-                              { id: "e4", source: "inside1", target: "room" },
-                              {
-                                id: "e5",
-                                source: "moonlight",
-                                target: "inside2",
-                              },
-                              { id: "e6", source: "inside2", target: "near" },
-                            ]}
+                            key={`graph-canvas-${graphCanvasNumber}`}
+                            nodes={
+                              canvasStates[graphCanvasNumber - 1]?.nodes || []
+                            }
+                            edges={
+                              canvasStates[graphCanvasNumber - 1]?.edges || []
+                            }
                             onNodeClick={() => {}}
                             onEdgeClick={() => {}}
+                            isMovable={
+                              isMoving && graphGenerated[graphCanvasNumber - 1]
+                            }
+                            onNodesMoved={handleNodesMoved}
                           />
-                        )}
-
-                        {graphCanvasNumber === 2 && (
-                          <GraphComponent
-                            nodes={[
-                              {
-                                id: "person",
-                                x: 200,
-                                y: 200,
-                                label: "Person",
-                                color: "#86e1fc",
-                              },
-                              {
-                                id: "standing",
-                                x: 250,
-                                y: 250,
-                                label: "Standing on",
-                                color: "#7b6cd9",
-                              },
-                              {
-                                id: "ground",
-                                x: 300,
-                                y: 300,
-                                label: "Ground",
-                                color: "#86e1fc",
-                              },
-                            ]}
-                            edges={[
-                              {
-                                id: "e1",
-                                source: "person",
-                                target: "standing",
-                              },
-                              {
-                                id: "e2",
-                                source: "standing",
-                                target: "ground",
-                              },
-                            ]}
-                            onNodeClick={() => {}}
-                            onEdgeClick={() => {}}
-                          />
-                        )}
-
-                        {graphCanvasNumber === 3 && (
-                          <GraphComponent
-                            nodes={[
-                              {
-                                id: "frost",
-                                x: 250,
-                                y: 150,
-                                label: "Frost",
-                                color: "#86e1fc",
-                              },
-                              {
-                                id: "wonder",
-                                x: 200,
-                                y: 250,
-                                label: "Wonder",
-                                color: "#7b6cd9",
-                              },
-                              {
-                                id: "looking",
-                                x: 300,
-                                y: 250,
-                                label: "Looking",
-                                color: "#7b6cd9",
-                              },
-                            ]}
-                            edges={[
-                              { id: "e1", source: "wonder", target: "frost" },
-                              { id: "e2", source: "looking", target: "frost" },
-                            ]}
-                            onNodeClick={() => {}}
-                            onEdgeClick={() => {}}
-                          />
-                        )}
-
-                        {graphCanvasNumber === 4 && (
-                          <GraphComponent
-                            nodes={[
-                              {
-                                id: "night",
-                                x: 200,
-                                y: 150,
-                                label: "Night",
-                                color: "#86e1fc",
-                              },
-                              {
-                                id: "homesick",
-                                x: 300,
-                                y: 250,
-                                label: "Homesick",
-                                color: "#7b6cd9",
-                              },
-                              {
-                                id: "bowing",
-                                x: 200,
-                                y: 300,
-                                label: "Bowing",
-                                color: "#7b6cd9",
-                              },
-                              {
-                                id: "missing",
-                                x: 350,
-                                y: 350,
-                                label: "Missing",
-                                color: "#7b6cd9",
-                              },
-                              {
-                                id: "hometown",
-                                x: 450,
-                                y: 350,
-                                label: "Hometown",
-                                color: "#86e1fc",
-                              },
-                            ]}
-                            edges={[
-                              { id: "e1", source: "homesick", target: "night" },
-                              {
-                                id: "e2",
-                                source: "homesick",
-                                target: "bowing",
-                              },
-                              {
-                                id: "e3",
-                                source: "homesick",
-                                target: "missing",
-                              },
-                              {
-                                id: "e4",
-                                source: "missing",
-                                target: "hometown",
-                              },
-                            ]}
-                            onNodeClick={() => {}}
-                            onEdgeClick={() => {}}
-                          />
-                        )}
+                        </div>
                       </div>
                     </div>
 
                     {/* Right navigation button - Fixed positioned outside of canvas */}
                     <button
                       onClick={nextGraphCanvas}
-                      className="w-14 h-24 flex items-center justify-center"
+                      className="w-10 h-24 flex items-center justify-center relative top-5"
                     >
                       <svg
-                        width="35"
+                        width="25"
                         height="35"
                         viewBox="0 0 10 18"
                         fill="none"
@@ -476,12 +341,15 @@ export default function PoetryPage() {
                       <div className="relative inline-block ">
                         <Button
                           variant="outline"
-                          className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[100px] h-[20px]"
-                          onClick={() => {
-                            // Reset to default positions
-                            setNodes(defaultSceneNodes);
-                            setEdges(defaultSceneEdges);
-                          }}
+                          className={`rounded-full px-4 sm:px-6 py-1 sm:py-1.5 
+                            ${
+                              graphGenerated[graphCanvasNumber - 1]
+                                ? "bg-white text-gray-400 cursor-not-allowed"
+                                : "bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC]"
+                            } 
+                            border-none text-xs shadow-md w-[100px] h-[20px]`}
+                          onClick={handleGenerateGraph}
+                          disabled={graphGenerated[graphCanvasNumber - 1]}
                         >
                           Generate Graph
                         </Button>
@@ -489,7 +357,17 @@ export default function PoetryPage() {
                       <div className="relative inline-block">
                         <Button
                           variant="outline"
-                          className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[50px] h-[20px]"
+                          className={`rounded-full px-4 sm:px-6 py-1 sm:py-1.5 
+                            ${
+                              !graphGenerated[graphCanvasNumber - 1]
+                                ? "bg-white text-gray-400 cursor-not-allowed"
+                                : isMoving
+                                ? "bg-[#7067DC] text-white"
+                                : "bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC]"
+                            } 
+                            border-none text-xs shadow-md w-[50px] h-[20px]`}
+                          onClick={toggleMoveMode}
+                          disabled={!graphGenerated[graphCanvasNumber - 1]}
                         >
                           Move
                         </Button>
@@ -498,7 +376,14 @@ export default function PoetryPage() {
                     <div className="relative inline-block">
                       <Button
                         variant="outline"
-                        className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[120px] h-[20px]"
+                        className={`rounded-full px-4 sm:px-6 py-1 sm:py-1.5 
+                          ${
+                            !graphGenerated[graphCanvasNumber - 1]
+                              ? "bg-white text-gray-400 cursor-not-allowed"
+                              : "bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC]"
+                          } 
+                          border-none text-xs shadow-md w-[120px] h-[20px]`}
+                        disabled={!graphGenerated[graphCanvasNumber - 1]}
                       >
                         Generate Symbols
                       </Button>

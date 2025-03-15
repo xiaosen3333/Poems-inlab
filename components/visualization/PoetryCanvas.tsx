@@ -109,7 +109,9 @@ export function PoetryCanvas({
             addElementToCanvas(draggedElement, x, y);
 
             // Force end of drag immediately after drop
-            onDragEnd();
+            if (onDragEnd) {
+              onDragEnd();
+            }
           } else {
             // Try to get data from the drop event
             const dataString = e.dataTransfer.getData("text/plain");

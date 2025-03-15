@@ -1,130 +1,171 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from 'react'
-import { Graph, Node, Edge } from '@antv/x6'
-
-interface SceneNode {
-  id: string
-  label: string
-  type: 'entity' | 'relation'
-  x: number
-  y: number
-}
-
-interface SceneEdge {
-  id: string
-  source: string
-  target: string
-  label?: string
-}
+import { useEffect, useRef } from "react";
+import { Graph, Edge } from "@antv/x6";
+import { SceneNode, SceneEdge, uiConstants } from "@/lib/config/appConfig";
 
 interface GraphComponentProps {
-  nodes: SceneNode[]
-  edges: SceneEdge[]
-  onNodeClick?: (nodeId: string) => void
-  onEdgeClick?: (edgeId: string) => void
+  nodes: SceneNode[];
+  edges: SceneEdge[];
+  onNodeClick?: (id: string) => void;
+  onEdgeClick?: (id: string) => void;
+  isMovable?: boolean;
+  onNodesMoved?: (nodes: SceneNode[]) => void;
 }
 
-export function GraphComponent({ 
-  nodes = [], 
-  edges = [], 
-  onNodeClick, 
-  onEdgeClick 
+export function GraphComponent({
+  nodes = [],
+  edges = [],
+  onNodeClick,
+  onEdgeClick,
+  isMovable = false,
+  onNodesMoved,
 }: GraphComponentProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const graphRef = useRef<Graph | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
+  const graphRef = useRef<Graph | null>(null);
+  const nodesRef = useRef<SceneNode[]>(nodes);
+
+  // Update the ref when nodes prop changes
+  useEffect(() => {
+    nodesRef.current = nodes;
+  }, [nodes]);
 
   useEffect(() => {
-    if (!containerRef.current) return
+    if (!containerRef.current) return;
+
+    // Calculate fixed dimensions - important for consistent rendering
+    const containerWidth = containerRef.current.clientWidth || 500;
+    const containerHeight = containerRef.current.clientHeight || 300;
 
     // Initialize the graph
     const graph = new Graph({
       container: containerRef.current,
-      width: containerRef.current.clientWidth,
-      height: containerRef.current.clientHeight,
+      width: containerWidth,
+      height: containerHeight,
       grid: {
         visible: true,
-        type: 'doubleMesh',
+        type: "doubleMesh",
+        size: 20, // Fixed grid size for consistency
         args: [
           {
-            color: '#eee',
+            color: "#eee",
             thickness: 1,
           },
           {
-            color: '#ddd',
+            color: "#ddd",
             thickness: 1,
             factor: 4,
           },
         ],
       },
       connecting: {
-        router: 'manhattan',
+        router: "manhattan",
         connector: {
-          name: 'rounded',
+          name: "rounded",
           args: {
             radius: 8,
           },
         },
-        anchor: 'center',
-        connectionPoint: 'anchor',
+        anchor: "center",
+        connectionPoint: "anchor",
         allowBlank: false,
         snap: true,
         createEdge() {
           return new Edge({
             attrs: {
               line: {
-                stroke: '#a855f7',
+                stroke: "#a855f7",
                 strokeWidth: 2,
                 targetMarker: {
-                  name: 'block',
+                  name: "block",
                   width: 12,
                   height: 8,
                 },
               },
             },
             zIndex: 0,
-          })
+          });
         },
       },
       highlighting: {
         magnetAdsorbed: {
-          name: 'stroke',
+          name: "stroke",
           args: {
             attrs: {
-              stroke: '#5F95FF',
+              stroke: "#5F95FF",
               strokeWidth: 4,
             },
           },
         },
       },
       mousewheel: {
-        enabled: true,
-        zoomAtMousePosition: true,
-        modifiers: 'ctrl',
-        minScale: 0.5,
-        maxScale: 3,
+        enabled: false, // Disable mousewheel zooming for fixed scale
       },
       interacting: {
-        nodeMovable: true,
-        edgeMovable: true,
+        nodeMovable: isMovable, // Only allow node movement when isMovable is true
+        edgeMovable: false,
       },
-    })
+      // Prevent panning
+      panning: {
+        enabled: false,
+      },
+      // Fixed size for consistent rendering
+      resizing: {
+        enabled: false,
+      },
+      // Ensure content stays in view
+      translating: {
+        restrict: true,
+      },
+    });
 
-    graphRef.current = graph
+    graphRef.current = graph;
+
+    // Set up node movement handler
+    if (isMovable && onNodesMoved) {
+      graph.on("node:moved", (args) => {
+        const { node } = args;
+        const id = node.id as string;
+        const position = node.getPosition();
+
+        // Update the node position in our data
+        const updatedNodes = nodesRef.current.map((n) => {
+          if (n.id === id) {
+            return { ...n, x: position.x, y: position.y };
+          }
+          return n;
+        });
+
+        // Call the callback with updated node positions
+        nodesRef.current = updatedNodes;
+        onNodesMoved(updatedNodes);
+      });
+    }
 
     // Clean up function
     return () => {
-      graph.dispose()
-    }
-  }, [])
+      graph.dispose();
+    };
+  }, [isMovable, onNodesMoved]);
 
   // Add nodes and edges when they change
   useEffect(() => {
-    const graph = graphRef.current
-    if (!graph) return
+    const graph = graphRef.current;
+    if (!graph) return;
 
     // Clear existing cells
-    graph.clearCells()
+    graph.clearCells();
+
+    // Get constants from appConfig
+    const {
+      nodeWidth,
+      nodeHeight,
+      entityFill,
+      entityStroke,
+      relationFill,
+      relationStroke,
+      borderRadius,
+    } = uiConstants.graph;
 
     // Add nodes
     nodes.forEach((node) => {
@@ -132,28 +173,28 @@ export function GraphComponent({
         id: node.id,
         x: node.x,
         y: node.y,
-        width: 100,
-        height: 40,
+        width: nodeWidth,
+        height: nodeHeight,
         attrs: {
           body: {
-            fill: node.type === 'entity' ? '#86e1fc' : '#7b6cd9',
-            stroke: node.type === 'entity' ? '#70c9e0' : '#6a5cc0',
-            rx: 6,
-            ry: 6,
+            fill: node.type === "entity" ? entityFill : relationFill,
+            stroke: node.type === "entity" ? entityStroke : relationStroke,
+            rx: borderRadius,
+            ry: borderRadius,
           },
           label: {
             text: node.label,
-            fill: node.type === 'entity' ? '#444444' : '#ffffff',
+            fill: node.type === "entity" ? "#444444" : "#ffffff",
             fontSize: 12,
-            fontFamily: 'Arial, sans-serif',
+            fontFamily: "Arial, sans-serif",
           },
         },
-      })
+      });
 
       if (onNodeClick) {
-        cell.on('cell:click', () => onNodeClick(node.id))
+        cell.on("cell:click", () => onNodeClick(node.id));
       }
-    })
+    });
 
     // Add edges
     edges.forEach((edge) => {
@@ -163,78 +204,97 @@ export function GraphComponent({
         target: { cell: edge.target },
         attrs: {
           line: {
-            stroke: '#7b6cd9',
+            stroke: uiConstants.graph.edgeStroke,
             strokeWidth: 2,
             targetMarker: {
-              name: 'block',
+              name: "block",
               width: 12,
               height: 8,
             },
           },
         },
-        labels: edge.label ? [
-          {
-            attrs: {
-              text: {
-                text: edge.label,
-                fill: '#333',
-                fontSize: 12,
-                textAnchor: 'middle',
-                textVerticalAnchor: 'middle',
+        labels: edge.label
+          ? [
+              {
+                attrs: {
+                  text: {
+                    text: edge.label,
+                    fill: "#333",
+                    fontSize: 12,
+                    textAnchor: "middle",
+                    textVerticalAnchor: "middle",
+                  },
+                  rect: {
+                    fill: "#ffffff",
+                    stroke: "#a855f7",
+                    strokeWidth: 1,
+                    rx: 4,
+                    ry: 4,
+                    refWidth: "100%",
+                    refHeight: "100%",
+                    refX: 0,
+                    refY: 0,
+                  },
+                },
+                position: {
+                  distance: 0.5,
+                },
               },
-              rect: {
-                fill: '#ffffff',
-                stroke: '#a855f7',
-                strokeWidth: 1,
-                rx: 4,
-                ry: 4,
-                refWidth: '100%',
-                refHeight: '100%',
-                refX: 0,
-                refY: 0,
-              },
-            },
-            position: {
-              distance: 0.5,
-            },
-          },
-        ] : [],
-      })
+            ]
+          : [],
+      });
 
       if (onEdgeClick) {
-        cell.on('cell:click', () => onEdgeClick(edge.id))
+        cell.on("cell:click", () => onEdgeClick(edge.id));
       }
-    })
+    });
 
-    // Center the content
-    graph.centerContent()
-  }, [nodes, edges, onNodeClick, onEdgeClick])
+    // 完全重写渲染逻辑，确保节点始终在视图内
+    if (nodes.length > 0) {
+      try {
+        // 在更大的画布上，我们可以使用更合适的缩放比例
+        
+        // 首先居中内容
+        graph.centerContent({
+          padding: 50  // 合理的边距
+        });
+        
+        // 使用更适合的缩放比例
+        graph.zoomTo(0.8);  // 增大缩放比例，使节点更大
+        
+        // 获取容器尺寸
+        const width = graph.options.width as number;
+        const height = graph.options.height as number;
+        
+        // 应用一个小的偏移来确保居中效果
+        graph.translate(width / 8, height / 8);
+      } catch (e) {
+        // 如果上述方法失败，使用最保守的备用方法
+        console.log("使用备用定位方法");
+
+        // 使用更大的缩放比例，适合大画布
+        graph.zoomTo(0.7);
+
+        // 手动设置平移，确保内容居中
+        const width = graph.options.width as number;
+        const height = graph.options.height as number;
+
+        graph.translate(width / 6, height / 6);
+      }
+    } else {
+      // 无节点时，设置更好的初始视图
+      graph.zoomTo(0.9);
+      graph.translate(
+        (graph.options.width as number) / 4,
+        (graph.options.height as number) / 4
+      );
+    }
+  }, [nodes, edges, onNodeClick, onEdgeClick]);
 
   return (
-    <div ref={containerRef} className="w-full h-full border rounded-lg"></div>
-  )
+    <div
+      ref={containerRef}
+      className="w-full h-full border rounded-lg overflow-hidden"
+    ></div>
+  );
 }
-
-// Example data for the poem "In the Quiet Night"
-export const defaultSceneNodes: SceneNode[] = [
-  { id: 'moon', label: 'Moon', type: 'entity', x: 150, y: 50 },
-  { id: 'moonlight', label: 'Moonlight', type: 'entity', x: 300, y: 100 },
-  { id: 'bed', label: 'Bed', type: 'entity', x: 450, y: 100 },
-  { id: 'inside', label: 'Inside', type: 'relation', x: 350, y: 175 },
-  { id: 'room', label: 'Room', type: 'entity', x: 450, y: 250 },
-  { id: 'near', label: 'Near', type: 'relation', x: 250, y: 175 },
-  { id: 'person', label: 'Person', type: 'entity', x: 300, y: 250 },
-  { id: 'standingOn', label: 'Standing on', type: 'relation', x: 250, y: 300 },
-  { id: 'ground', label: 'Ground', type: 'entity', x: 300, y: 350 },
-]
-
-export const defaultSceneEdges: SceneEdge[] = [
-  { id: 'e1', source: 'moon', target: 'moonlight' },
-  { id: 'e2', source: 'moonlight', target: 'near' },
-  { id: 'e3', source: 'bed', target: 'inside' },
-  { id: 'e4', source: 'inside', target: 'room' },
-  { id: 'e5', source: 'bed', target: 'near' },
-  { id: 'e6', source: 'near', target: 'person' },
-  { id: 'e7', source: 'person', target: 'standingOn' },
-  { id: 'e8', source: 'standingOn', target: 'ground' },
-]

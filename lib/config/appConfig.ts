@@ -282,6 +282,100 @@ export const predefinedQuestions: PredefinedQuestion[] = [
   }
 ];
 
+// ========== GRAPH VISUALIZATION CONFIG ==========
+
+/**
+ * Node type definition
+ */
+export type NodeType = 'entity' | 'relation';
+
+/**
+ * Node interfaces for graph visualization
+ */
+export interface SceneNode {
+  id: string;
+  label: string;
+  type: NodeType;
+  x: number;
+  y: number;
+}
+
+/**
+ * Edge interface for graph visualization
+ */
+export interface SceneEdge {
+  id: string;
+  source: string;
+  target: string;
+  label?: string;
+}
+
+/**
+ * Graph data for each canvas (1-4)
+ */
+export const graphCanvasData = [
+  // Canvas 1 - Bedside moonlight scene
+  {
+    nodes: [
+      { id: "moon", label: "Moon", type: "entity", x: 60, y: 50 },
+      { id: "moonlight", label: "Moonlight", type: "entity", x: 120, y: 100 },
+      { id: "bed", label: "Bed", type: "entity", x: 180, y: 100 },
+      { id: "inside1", label: "Inside", type: "relation", x: 150, y: 150 },
+      { id: "room", label: "Room", type: "entity", x: 180, y: 200 },
+      { id: "inside2", label: "Inside", type: "relation", x: 120, y: 150 },
+      { id: "near", label: "Near", type: "relation", x: 90, y: 200 },
+    ],
+    edges: [
+      { id: "e1", source: "moon", target: "moonlight" },
+      { id: "e2", source: "moonlight", target: "bed" },
+      { id: "e3", source: "moonlight", target: "inside1" },
+      { id: "e4", source: "inside1", target: "room" },
+      { id: "e5", source: "moonlight", target: "inside2" },
+      { id: "e6", source: "inside2", target: "near" },
+    ]
+  },
+  // Canvas 2 - Person standing scene
+  {
+    nodes: [
+      { id: "person", label: "Person", type: "entity", x: 100, y: 70 },
+      { id: "standing", label: "Standing on", type: "relation", x: 130, y: 130 },
+      { id: "ground", label: "Ground", type: "entity", x: 160, y: 190 },
+    ],
+    edges: [
+      { id: "e1", source: "person", target: "standing" },
+      { id: "e2", source: "standing", target: "ground" },
+    ]
+  },
+  // Canvas 3 - Frost and wonder scene
+  {
+    nodes: [
+      { id: "frost", label: "Frost", type: "entity", x: 130, y: 90 },
+      { id: "wonder", label: "Wonder", type: "relation", x: 80, y: 150 },
+      { id: "looking", label: "Looking", type: "relation", x: 180, y: 150 },
+    ],
+    edges: [
+      { id: "e1", source: "wonder", target: "frost" },
+      { id: "e2", source: "looking", target: "frost" },
+    ]
+  },
+  // Canvas 4 - Homesickness scene
+  {
+    nodes: [
+      { id: "night", label: "Night", type: "entity", x: 80, y: 50 },
+      { id: "homesick", label: "Homesick", type: "relation", x: 130, y: 110 },
+      { id: "bowing", label: "Bowing", type: "relation", x: 80, y: 170 },
+      { id: "missing", label: "Missing", type: "relation", x: 180, y: 170 },
+      { id: "hometown", label: "Hometown", type: "entity", x: 230, y: 220 },
+    ],
+    edges: [
+      { id: "e1", source: "homesick", target: "night" },
+      { id: "e2", source: "homesick", target: "bowing" },
+      { id: "e3", source: "homesick", target: "missing" },
+      { id: "e4", source: "missing", target: "hometown" },
+    ]
+  }
+];
+
 // ========== UI CONSTANTS ==========
 
 /**
@@ -299,5 +393,17 @@ export const uiConstants = {
     svgHeight: 500,
     radius: 180,
     circleCount: 4,  // Number of concentric circles
+  },
+  
+  // Graph visualization constants
+  graph: {
+    nodeWidth: 110,  // 增加节点宽度
+    nodeHeight: 45,  // 增加节点高度
+    entityFill: '#86e1fc',
+    entityStroke: '#70c9e0',
+    relationFill: '#7b6cd9',
+    relationStroke: '#6a5cc0',
+    edgeStroke: '#7b6cd9',
+    borderRadius: 6,
   }
 };

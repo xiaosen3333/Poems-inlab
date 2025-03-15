@@ -3,12 +3,12 @@
 import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { 
-  RadarDataPoint, 
-  radarChartInitialData, 
-  radarChartAnalysisData, 
+import {
+  RadarDataPoint,
+  radarChartInitialData,
+  radarChartAnalysisData,
   radarChartPurpleColors,
-  uiConstants 
+  uiConstants,
 } from "@/lib/config/appConfig";
 
 interface EmotionRadarChartProps {
@@ -219,7 +219,7 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
           <Button
             variant="outline"
             className={cn(
-              "rounded-full px-4 py-1 text-xs shadow-sm h-[28px] w-[70px]",
+              "rounded-full px-4 py-1 text-xs shadow-md h-[20px] w-[50px]",
               isSelecting
                 ? "bg-[#7067DC] text-white border-none"
                 : "bg-white text-[#7067DC] border-none hover:bg-[#7067DC] hover:text-white"
@@ -230,7 +230,7 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
           </Button>
           <Button
             variant="outline"
-            className="rounded-full px-4 py-1 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-sm h-[28px] w-[105px]"
+            className="rounded-full px-4 py-1 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md h-[20px] w-[95px]"
             onClick={handleAutoAnalyze}
           >
             Auto Analyze

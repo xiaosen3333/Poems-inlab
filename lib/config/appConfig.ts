@@ -259,25 +259,25 @@ export const predefinedQuestions: PredefinedQuestion[] = [
   { 
     id: 'background',
     label: 'Background',
-    icon: 'ⓘ',
+    icon: '/button1.png',
     question: 'Please explain the historical background of this poem and its author.'
   },
   { 
     id: 'techniques',
     label: 'Techniques',
-    icon: 'T',
+    icon: '/button2.png',
     question: 'What poetic techniques are used in this poem?'
   },
   { 
     id: 'theme',
     label: 'Theme',
-    icon: '-',
+    icon: '/button3.png',
     question: 'What are the main themes of this poem?'
   },
   { 
     id: 'more',
     label: 'More',
-    icon: '+',
+    icon: '/button4.png',
     question: 'Please provide a deeper analysis of the imagery in this poem.'
   }
 ];

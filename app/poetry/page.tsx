@@ -471,26 +471,36 @@ export default function PoetryPage() {
                     </button>
                   </div>
 
-                  <div className="flex justify-center items-center gap-4 sm:gap-5 mb-4 mt-4">
-                    <div className="relative inline-block">
-                      <Button
-                        variant="outline"
-                        className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[100px] h-[20px]"
-                        onClick={() => {
-                          // Reset to default positions
-                          setNodes(defaultSceneNodes);
-                          setEdges(defaultSceneEdges);
-                        }}
-                      >
-                        Generate Graph
-                      </Button>
+                  <div className="flex flex-col justify-center items-center gap-4 sm:gap-5 mb-4 mt-4">
+                    <div className="flex flex-row gap-4">
+                      <div className="relative inline-block ">
+                        <Button
+                          variant="outline"
+                          className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[100px] h-[20px]"
+                          onClick={() => {
+                            // Reset to default positions
+                            setNodes(defaultSceneNodes);
+                            setEdges(defaultSceneEdges);
+                          }}
+                        >
+                          Generate Graph
+                        </Button>
+                      </div>
+                      <div className="relative inline-block">
+                        <Button
+                          variant="outline"
+                          className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[50px] h-[20px]"
+                        >
+                          Move
+                        </Button>
+                      </div>
                     </div>
                     <div className="relative inline-block">
                       <Button
                         variant="outline"
-                        className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[60px] h-[20px]"
+                        className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[120px] h-[20px]"
                       >
-                        Move
+                        Generate Symbols
                       </Button>
                     </div>
                   </div>

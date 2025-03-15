@@ -50,7 +50,7 @@ const EmotionColorWheel = ({
         <div className="mt-3 flex justify-center">
           <Button
             variant="outline"
-            className="rounded-full px-4 py-1 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-sm h-[28px] w-[105px]"
+            className="rounded-full px-4 py-1 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md h-[20px] w-[95px]"
             onClick={handleAutoAnalyze}
           >
             Auto Analyze

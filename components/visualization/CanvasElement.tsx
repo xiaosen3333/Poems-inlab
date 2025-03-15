@@ -63,7 +63,12 @@ export function CanvasElement({
           src={visualElement.src}
           alt={visualElement.title}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority
+          quality={90}
           className="object-contain pointer-events-none"
+          style={{ objectFit: "contain", objectPosition: "center" }}
+          unoptimized={false} // 确保图像质量
         />
         
         {/* Delete button overlay */}

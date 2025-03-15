@@ -30,13 +30,13 @@ export const visualElements: { [key: number]: VisualElement[] } = {
       id: 1,
       src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%204-pMO9HhFeGb1bYc2xe2uy36RlZ9CWYf.png",
       title: "Scholar's Writing Desk",
-      size: { width: 120, height: 120 }
+      size: { width: 120, height: 1 }
     },
     {
       id: 2,
       src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%202-HhSUNvkc0TZeOSThRSFexIEwfwG7Jp.png",
       title: "Person",
-      size: { width: 120, height: 100 }
+      size: { width: 81, height: 133 }
     },
     {
       id: 3,
@@ -519,9 +519,13 @@ export const uiConstants = {
 
   // Canvas image size constants
   canvasImage: {
-    defaultWidth: 100,
-    defaultHeight: 100,
-    maxWidth: 200,
-    maxHeight: 200,
+    defaultWidth: 120,
+    defaultHeight: 120,
+    maxWidth: 240,
+    maxHeight: 240,
+    // 设置下载图片的尺寸配置
+    downloadWidth: 1200,  // 下载画布的固定宽度
+    downloadQuality: 1.0, // 下载图片的质量 (0.0-1.0)
+    downloadScale: 2,     // 下载时的缩放因子，提高分辨率
   }
 };

@@ -19,7 +19,12 @@ import { ColorAnalysisTab } from "@/components/poetry/ColorAnalysisTab";
 import { useCanvasElements } from "@/hooks/useCanvasElements";
 import { quietNightPoem } from "@/lib/data/poems";
 import { visualElements } from "@/lib/data/visualElements";
-import { graphCanvasData, SceneNode, SceneEdge } from "@/lib/config/appConfig";
+import {
+  graphCanvasData,
+  SceneNode,
+  SceneEdge,
+  uiConstants,
+} from "@/lib/config/appConfig";
 
 export default function PoetryPage() {
   const [activeTab, setActiveTab] = useState("poem");
@@ -210,16 +215,39 @@ export default function PoetryPage() {
 
     if (currentCanvasRef) {
       try {
+        // 使用配置中定义的固定宽度和比例
+        const targetWidth = uiConstants.canvasImage.downloadWidth;
+        const originalRect = currentCanvasRef.getBoundingClientRect();
+        const aspectRatio = originalRect.height / originalRect.width;
+        const targetHeight = Math.round(targetWidth * aspectRatio); // 根据宽高比计算高度
+
         const canvas = await html2canvas(currentCanvasRef, {
           backgroundColor: "white",
-          scale: 2, // 提高分辨率
+          scale: uiConstants.canvasImage.downloadScale, // 使用配置的缩放因子
           logging: false,
           allowTaint: true,
           useCORS: true,
+          width: originalRect.width, // 使用原始宽度
+          height: originalRect.height, // 使用原始高度
         });
 
+        // 创建新的画布来调整大小，保持比例
+        const resizedCanvas = document.createElement("canvas");
+        resizedCanvas.width = targetWidth;
+        resizedCanvas.height = targetHeight;
+        const ctx = resizedCanvas.getContext("2d");
+
+        if (ctx) {
+          // 平滑绘制以保持质量
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = "high";
+          ctx.fillStyle = "white"; // 确保背景是白色
+          ctx.fillRect(0, 0, targetWidth, targetHeight);
+          ctx.drawImage(canvas, 0, 0, targetWidth, targetHeight);
+        }
+
         // 创建下载链接
-        const image = canvas.toDataURL("image/png");
+        const image = resizedCanvas.toDataURL("image/png");
         const link = document.createElement("a");
         link.href = image;
         link.download = `poetry-canvas-${activeCanvas}.png`;
@@ -246,16 +274,39 @@ export default function PoetryPage() {
       const canvasRef = canvasRefs.current[i - 1];
       if (canvasRef) {
         try {
+          // 使用配置中定义的固定宽度和比例
+          const targetWidth = uiConstants.canvasImage.downloadWidth;
+          const originalRect = canvasRef.getBoundingClientRect();
+          const aspectRatio = originalRect.height / originalRect.width;
+          const targetHeight = Math.round(targetWidth * aspectRatio); // 根据宽高比计算高度
+
           const canvas = await html2canvas(canvasRef, {
             backgroundColor: "white",
-            scale: 2,
+            scale: uiConstants.canvasImage.downloadScale, // 使用配置的缩放因子
             logging: false,
             allowTaint: true,
             useCORS: true,
+            width: originalRect.width, // 使用原始宽度
+            height: originalRect.height, // 使用原始高度
           });
 
+          // 创建新的画布来调整大小，保持比例
+          const resizedCanvas = document.createElement("canvas");
+          resizedCanvas.width = targetWidth;
+          resizedCanvas.height = targetHeight;
+          const ctx = resizedCanvas.getContext("2d");
+
+          if (ctx) {
+            // 平滑绘制以保持质量
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
+            ctx.fillStyle = "white"; // 确保背景是白色
+            ctx.fillRect(0, 0, targetWidth, targetHeight);
+            ctx.drawImage(canvas, 0, 0, targetWidth, targetHeight);
+          }
+
           // 创建下载链接
-          const image = canvas.toDataURL("image/png");
+          const image = resizedCanvas.toDataURL("image/png");
           const link = document.createElement("a");
           link.href = image;
           link.download = `poetry-canvas-${i}.png`;
@@ -304,7 +355,7 @@ export default function PoetryPage() {
           />
 
           {/* Middle Panel - Canvas Area */}
-          <div className="relative flex flex-col w-full h-[620px] gap-4">
+          <div className="relative flex flex-col w-[680px] h-[620px] gap-4">
             <Card className="p-3 sm:p-4 rounded-3xl shadow-sm bg-white overflow-hidden flex-1 w-full h-full">
               <div className="relative flex flex-row justify-center items-center h-full">
                 {/* Canvas Title - Only show in Graph tab - Commented out for now */}
@@ -318,7 +369,7 @@ export default function PoetryPage() {
                 <button
                   onClick={prevCanvas}
                   disabled={activeCanvas === 1}
-                  className={`left-7 top-1/2 z-10 h-24 flex items-center justify-center ${
+                  className={`relative left-2 z-10 h-24 flex items-center justify-center ${
                     activeCanvas === 1 ? "cursor-not-allowed" : "cursor-pointer"
                   }`}
                 >
@@ -363,7 +414,7 @@ export default function PoetryPage() {
                 <button
                   onClick={nextCanvas}
                   disabled={activeCanvas === canvasCount}
-                  className={`-right-7 top-1/2 z-10 h-24 flex items-center justify-center ${
+                  className={`relative right-2 z-10 h-24 flex items-center justify-center ${
                     activeCanvas === canvasCount
                       ? "cursor-not-allowed"
                       : "cursor-pointer"

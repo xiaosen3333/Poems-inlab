@@ -45,13 +45,23 @@ export function PoemTab({
       </div>
 
       <div className="mt-3 sm:mt-4 flex justify-center">
-        <Button
-          variant="outline"
-          className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-[#7067DC] hover:bg-[#5b54c0] text-white border-none text-xs shadow-sm"
-          onClick={toggleKeywords}
-        >
-          Mark Keywords
-        </Button>
+        <div className="relative inline-block">
+          <Button
+            variant="outline"
+            className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-[#7067DC] hover:bg-[#7067DC] text-white border-none text-xs shadow-sm w-[100px] h-[20px]"
+            onClick={toggleKeywords}
+          >
+            Mark Keywords
+          </Button>
+          {markedKeywords && (
+            <div
+              className="absolute top-[3px] inset-0 rounded-full pointer-events-none w-[100px] h-[20px]"
+              style={{
+                boxShadow: "0 0 0 2px white, 0 0 0 3px #7067DC",
+              }}
+            ></div>
+          )}
+        </div>
       </div>
     </div>
   );

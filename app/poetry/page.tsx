@@ -16,6 +16,7 @@ import { VisualElementsSidebar } from "@/components/visualization/VisualElements
 import { MobileVisualElements } from "@/components/visualization/MobileVisualElements";
 import { PoetryCanvas } from "@/components/visualization/PoetryCanvas";
 import { PoemTab } from "@/components/poetry/PoemTab";
+import { ChatInterface } from "@/components/poetry/ChatInterface";
 
 // Import data and hooks
 import { useCanvasElements, CanvasElement } from "@/hooks/useCanvasElements";
@@ -489,107 +490,15 @@ export default function PoetryPage() {
                 <div
                   className={`${
                     activeTab === "qa" ? "block" : "hidden"
-                  } h-full flex flex-col`}
+                  } h-full flex flex-col px-3 sm:px-5`}
                 >
                   <h2 className="text-lg sm:text-xl font-medium mb-5 sm:mb-6 text-center">
                     Poetic Doubt-solving Station
                   </h2>
-                  <div className="mb-6 sm:mb-8 w-full flex-1">
-                    <div className="text-sm sm:text-base mb-3 sm:mb-4">
-                      What can I help you with?
-                    </div>
-
-                    <div className="bg-purple-100 p-3 sm:p-4 rounded-xl mb-4 sm:mb-5 text-xs sm:text-sm max-w-[90%] sm:max-w-[80%] ml-auto">
-                      Who is the author of this poem, and what is its historical
-                      background of the era?
-                    </div>
-
-                    <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm">
-                      <p>
-                        The <strong>author</strong> of{" "}
-                        <em>In The Quiet Night</em> is Li Bai, who lived in the
-                        Tang Dynasty.
-                      </p>
-                      <p>{quietNightPoem.background}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap justify-center gap-3 mb-6 sm:mb-8 w-full">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="bg-white hover:bg-gray-50 text-gray-700 border-gray-200 rounded-full px-3 sm:px-4 text-xs shadow-sm"
-                    >
-                      <span className="flex items-center gap-1">
-                        <span className="bg-gray-100 w-4 h-4 rounded-full flex items-center justify-center mr-1">
-                          ⓘ
-                        </span>
-                        Background
-                      </span>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="bg-white hover:bg-gray-50 text-gray-700 border-gray-200 rounded-full px-3 sm:px-4 text-xs shadow-sm"
-                    >
-                      <span className="flex items-center gap-1">
-                        <span className="bg-gray-100 w-4 h-4 rounded-full flex items-center justify-center mr-1">
-                          T
-                        </span>
-                        Techniques
-                      </span>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="bg-white hover:bg-gray-50 text-gray-700 border-gray-200 rounded-full px-3 sm:px-4 text-xs shadow-sm"
-                    >
-                      <span className="flex items-center gap-1">
-                        <span className="bg-gray-100 w-4 h-4 rounded-full flex items-center justify-center mr-1">
-                          -
-                        </span>
-                        Theme
-                      </span>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="bg-white hover:bg-gray-50 text-gray-700 border-gray-200 rounded-full px-3 sm:px-4 text-xs shadow-sm"
-                    >
-                      <span className="flex items-center gap-1">
-                        <span className="bg-gray-100 w-4 h-4 rounded-full flex items-center justify-center mr-1">
-                          +
-                        </span>
-                        More
-                      </span>
-                    </Button>
-                  </div>
-
-                  <div className="w-full max-w-md mx-auto mt-auto mb-2">
-                    <div className="relative">
-                      <input
-                        type="text"
-                        placeholder="Type Your Query Here"
-                        className="w-full p-2 sm:p-3 pr-10 sm:pr-12 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#7067DC] focus:border-transparent text-xs sm:text-sm shadow-sm"
-                      />
-                      <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-50 rounded-full p-1.5 hover:bg-gray-100">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 10 18"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M6 1L9 9L6 17"
-                            stroke="#9CA3AF"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-                    </div>
+                  
+                  {/* Integrate the new ChatInterface component */}
+                  <div className="flex-1 overflow-hidden">
+                    <ChatInterface poem={quietNightPoem} />
                   </div>
                 </div>
 

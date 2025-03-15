@@ -11,6 +11,7 @@ interface VisualElementsSidebarProps {
   onDragStart: (e: React.DragEvent, elementId: number) => void;
   onDragEnd: () => void;
   onElementClick: (elementId: number) => void;
+  allowExpand?: boolean;
 }
 
 export function VisualElementsSidebar({
@@ -19,6 +20,7 @@ export function VisualElementsSidebar({
   onDragStart,
   onDragEnd,
   onElementClick,
+  allowExpand = false,
 }: VisualElementsSidebarProps) {
   // State for the sidebar toggle
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -27,7 +29,9 @@ export function VisualElementsSidebar({
   const availableElements = visualElements.filter(
     (element) => !usedElements.includes(element.id)
   );
-  const hasAvailableElements = availableElements.length > 0;
+  
+  // Elements are only considered available if they exist AND allowExpand is true
+  const hasAvailableElements = availableElements.length > 0 && allowExpand;
 
   // Effect to auto-close sidebar when no elements are available
   // Use a ref to track the last manual state change
@@ -103,7 +107,7 @@ export function VisualElementsSidebar({
       {/* Toggle button */}
       <button
         className={`absolute ${
-          sidebarOpen ? "left-[100px]" : "left-0"
+          sidebarOpen ? "left-[130px]" : "left-0"
         } top-1/2 transform -translate-y-1/2 z-30 
         ${
           sidebarOpen
@@ -178,21 +182,26 @@ export function VisualElementsSidebar({
       <div
         className={`absolute top-1/2 -translate-y-1/2 left-0 transition-all duration-300 bg-white rounded-2xl p-4 shadow-lg z-20 border border-gray-100 ${
           sidebarOpen && hasAvailableElements
-            ? "opacity-100 w-[100px] translate-x-0"
-            : "opacity-0 w-[100px] -translate-x-full pointer-events-none"
+            ? "opacity-100 w-[130px] translate-x-0"
+            : "opacity-0 w-[130px] -translate-x-full pointer-events-none"
         }`}
       >
         {hasAvailableElements && (
-          <div className="flex flex-col gap-3 items-center py-1">
+          <div className="flex flex-col gap-4 items-center py-1">
+            {/* Title at the top */}
+            <h3 className="text-base font-medium text-gray-700 w-full text-center border-b pb-2 mb-1">Symbols</h3>
+            
             {availableElements.map((element) => (
-              <DraggableVisualElement
-                key={element.id}
-                element={element}
-                isDragging={draggedElement === element.id}
-                onDragStart={onDragStart}
-                onDragEnd={onDragEnd}
-                onClick={onElementClick}
-              />
+              <div key={element.id} className="flex flex-col items-center gap-1">
+                <DraggableVisualElement
+                  element={element}
+                  isDragging={draggedElement === element.id}
+                  onDragStart={onDragStart}
+                  onDragEnd={onDragEnd}
+                  onClick={onElementClick}
+                />
+                <span className="text-[10px] text-gray-600 text-center">{element.title}</span>
+              </div>
             ))}
           </div>
         )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { GraphComponent } from "@/components/ui/graph";
@@ -29,6 +29,9 @@ export default function PoetryPage() {
   // Graph state management
   const [isMoving, setIsMoving] = useState(false);
   const [graphGenerated, setGraphGenerated] = useState(
+    Array(canvasCount).fill(false)
+  );
+  const [symbolsGenerated, setSymbolsGenerated] = useState(
     Array(canvasCount).fill(false)
   );
   const [canvasStates, setCanvasStates] = useState<
@@ -83,6 +86,37 @@ export default function PoetryPage() {
   const toggleMoveMode = () => {
     setIsMoving(!isMoving);
   };
+  
+  // Handle generate symbols
+  const handleGenerateSymbols = () => {
+    if (!graphGenerated[graphCanvasNumber - 1]) return;
+    
+    // 保存当前图表状态的备份
+    const currentNodes = [...canvasStates[graphCanvasNumber - 1]?.nodes || []];
+    const currentEdges = [...canvasStates[graphCanvasNumber - 1]?.edges || []];
+    
+    // Mark current canvas as symbols generated
+    const updatedSymbolsGenerated = [...symbolsGenerated];
+    updatedSymbolsGenerated[graphCanvasNumber - 1] = true;
+    setSymbolsGenerated(updatedSymbolsGenerated);
+    
+    // 确保图表状态不受影响 - 在下一个渲染周期检查并恢复
+    setTimeout(() => {
+      // 检查图表状态是否改变
+      const updatedStates = [...canvasStates];
+      const currentState = updatedStates[graphCanvasNumber - 1];
+      
+      // 如果节点丢失，恢复它们
+      if (currentState.nodes.length === 0 && currentNodes.length > 0) {
+        console.log("Restoring graph nodes after symbols generation");
+        updatedStates[graphCanvasNumber - 1] = {
+          nodes: currentNodes,
+          edges: currentEdges
+        };
+        setCanvasStates(updatedStates);
+      }
+    }, 0);
+  };
 
   const canvasElementsContext = useCanvasElements();
   const {
@@ -105,20 +139,32 @@ export default function PoetryPage() {
 
   // Handle left canvas navigation (poetry canvas)
   const nextCanvas = () => {
-    setActiveCanvas((prev) => (prev < canvasCount ? prev + 1 : 1));
+    const newValue = activeCanvas < canvasCount ? activeCanvas + 1 : 1;
+    setActiveCanvas(newValue);
+    if (activeTab === "graph") {
+      setGraphCanvasNumber(newValue);
+    }
   };
 
   const prevCanvas = () => {
-    setActiveCanvas((prev) => (prev > 1 ? prev - 1 : canvasCount));
+    const newValue = activeCanvas > 1 ? activeCanvas - 1 : canvasCount;
+    setActiveCanvas(newValue);
+    if (activeTab === "graph") {
+      setGraphCanvasNumber(newValue);
+    }
   };
 
   // Handle right canvas navigation (graph)
   const nextGraphCanvas = () => {
-    setGraphCanvasNumber((prev) => (prev < canvasCount ? prev + 1 : 1));
+    const newValue = graphCanvasNumber < canvasCount ? graphCanvasNumber + 1 : 1;
+    setGraphCanvasNumber(newValue);
+    setActiveCanvas(newValue);
   };
 
   const prevGraphCanvas = () => {
-    setGraphCanvasNumber((prev) => (prev > 1 ? prev - 1 : canvasCount));
+    const newValue = graphCanvasNumber > 1 ? graphCanvasNumber - 1 : canvasCount;
+    setGraphCanvasNumber(newValue);
+    setActiveCanvas(newValue);
   };
 
   // Ensure proper rendering when switching canvases
@@ -126,6 +172,24 @@ export default function PoetryPage() {
     // Reset move mode when switching canvases
     setIsMoving(false);
   }, [graphCanvasNumber]);
+  
+  // Synchronize canvas numbers when tab changes to graph
+  useEffect(() => {
+    if (activeTab === "graph") {
+      setGraphCanvasNumber(activeCanvas);
+    }
+  }, [activeTab, activeCanvas]);
+  
+  // 使用useRef避免循环更新
+  const prevSymbolsRef = useRef(symbolsGenerated);
+  
+  // 更新ref值，避免闭包问题
+  useEffect(() => {
+    prevSymbolsRef.current = symbolsGenerated;
+  }, [symbolsGenerated]);
+  
+  // 移除可能导致循环更新的useEffect
+  // 我们将在canvas切换时手动同步symbolsGenerated状态
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-50">
@@ -141,6 +205,7 @@ export default function PoetryPage() {
               onDragStart={handleDragStart}
               onDragEnd={handleDragEnd}
               onElementClick={addElementToCanvas}
+              allowExpand={symbolsGenerated[activeCanvas - 1]}
             />
           </div>
 
@@ -151,6 +216,7 @@ export default function PoetryPage() {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             onElementClick={addElementToCanvas}
+            allowDisplay={symbolsGenerated[activeCanvas - 1]}
           />
 
           {/* Middle Panel - Canvas Area */}
@@ -167,7 +233,10 @@ export default function PoetryPage() {
                 {/* Left navigation arrow - Display regardless of tab */}
                 <button
                   onClick={prevCanvas}
-                  className="left-7 top-1/2  z-10  h-24 flex items-center justify-center"
+                  disabled={activeCanvas === 1}
+                  className={`left-7 top-1/2 z-10 h-24 flex items-center justify-center ${
+                    activeCanvas === 1 ? "cursor-not-allowed" : "cursor-pointer"
+                  }`}
                 >
                   <svg
                     width="20"
@@ -178,7 +247,7 @@ export default function PoetryPage() {
                   >
                     <path
                       d="M4 1L1 9L4 17"
-                      stroke="#666"
+                      stroke={activeCanvas === 1 ? "#ccc" : "#666"}
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -202,7 +271,10 @@ export default function PoetryPage() {
                 {/* Right navigation arrow - Display regardless of tab */}
                 <button
                   onClick={nextCanvas}
-                  className=" -right-7 top-1/2 z-10 h-24 flex items-center justify-center"
+                  disabled={activeCanvas === canvasCount}
+                  className={`-right-7 top-1/2 z-10 h-24 flex items-center justify-center ${
+                    activeCanvas === canvasCount ? "cursor-not-allowed" : "cursor-pointer"
+                  }`}
                 >
                   <svg
                     width="20"
@@ -213,7 +285,7 @@ export default function PoetryPage() {
                   >
                     <path
                       d="M6 1L9 9L6 17"
-                      stroke="#666"
+                      stroke={activeCanvas === canvasCount ? "#ccc" : "#666"}
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -263,7 +335,10 @@ export default function PoetryPage() {
                     {/* Left navigation button - Fixed positioned outside of canvas */}
                     <button
                       onClick={prevGraphCanvas}
-                      className="w-10 h-24 flex items-center justify-center relative top-5"
+                      disabled={graphCanvasNumber === 1}
+                      className={`w-10 h-24 flex items-center justify-center relative top-5 ${
+                        graphCanvasNumber === 1 ? "cursor-not-allowed" : "cursor-pointer"
+                      }`}
                     >
                       <svg
                         width="25"
@@ -274,7 +349,7 @@ export default function PoetryPage() {
                       >
                         <path
                           d="M4 1L1 9L4 17"
-                          stroke="#666"
+                          stroke={graphCanvasNumber === 1 ? "#ccc" : "#666"}
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -316,7 +391,10 @@ export default function PoetryPage() {
                     {/* Right navigation button - Fixed positioned outside of canvas */}
                     <button
                       onClick={nextGraphCanvas}
-                      className="w-10 h-24 flex items-center justify-center relative top-5"
+                      disabled={graphCanvasNumber === canvasCount}
+                      className={`w-10 h-24 flex items-center justify-center relative top-5 ${
+                        graphCanvasNumber === canvasCount ? "cursor-not-allowed" : "cursor-pointer"
+                      }`}
                     >
                       <svg
                         width="25"
@@ -327,7 +405,7 @@ export default function PoetryPage() {
                       >
                         <path
                           d="M6 1L9 9L6 17"
-                          stroke="#666"
+                          stroke={graphCanvasNumber === canvasCount ? "#ccc" : "#666"}
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -378,12 +456,13 @@ export default function PoetryPage() {
                         variant="outline"
                         className={`rounded-full px-4 sm:px-6 py-1 sm:py-1.5 
                           ${
-                            !graphGenerated[graphCanvasNumber - 1]
+                            !graphGenerated[graphCanvasNumber - 1] || symbolsGenerated[graphCanvasNumber - 1]
                               ? "bg-white text-gray-400 cursor-not-allowed"
                               : "bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC]"
                           } 
                           border-none text-xs shadow-md w-[120px] h-[20px]`}
-                        disabled={!graphGenerated[graphCanvasNumber - 1]}
+                        onClick={handleGenerateSymbols}
+                        disabled={!graphGenerated[graphCanvasNumber - 1] || symbolsGenerated[graphCanvasNumber - 1]}
                       >
                         Generate Symbols
                       </Button>

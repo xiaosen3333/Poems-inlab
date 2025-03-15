@@ -109,10 +109,6 @@ export function GraphComponent({
       panning: {
         enabled: false,
       },
-      // Fixed size for consistent rendering
-      resizing: {
-        enabled: false,
-      },
       // Ensure content stays in view
       translating: {
         restrict: true,

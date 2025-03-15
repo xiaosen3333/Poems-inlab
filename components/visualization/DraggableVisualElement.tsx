@@ -33,7 +33,7 @@ export function DraggableVisualElement({
     <div 
       key={element.id}
       data-element-id={element.id}
-      className={`relative w-16 h-16 cursor-grab transition-all group active:cursor-grabbing hover:shadow-lg hover:scale-105 ${
+      className={`relative w-16 h-16 cursor-grab transition-all group active:cursor-grabbing hover:shadow-lg hover:scale-105 rounded-md ${
         isDragging ? 'opacity-50' : ''
       }`}
       draggable="true"

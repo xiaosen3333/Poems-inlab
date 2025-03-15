@@ -13,28 +13,85 @@ export interface CanvasElement {
 }
 
 export function useCanvasElements() {
-  // Canvas elements state
-  const [canvasElements, setCanvasElements] = useState<CanvasElement[]>([])
+  // Active canvas number
+  const [activeCanvas, setActiveCanvas] = useState<number>(1)
   
-  // Track which elements have been used (dragged to canvas)
-  const [usedElements, setUsedElements] = useState<number[]>([])
+  // Canvas elements state - separate for each canvas
+  const [canvasElements1, setCanvasElements1] = useState<CanvasElement[]>([])
+  const [canvasElements2, setCanvasElements2] = useState<CanvasElement[]>([])
+  const [canvasElements3, setCanvasElements3] = useState<CanvasElement[]>([])
+  const [canvasElements4, setCanvasElements4] = useState<CanvasElement[]>([])
+  
+  // Track which elements have been used (dragged to canvas) - separate for each canvas
+  const [usedElements1, setUsedElements1] = useState<number[]>([])
+  const [usedElements2, setUsedElements2] = useState<number[]>([])
+  const [usedElements3, setUsedElements3] = useState<number[]>([])
+  const [usedElements4, setUsedElements4] = useState<number[]>([])
   
   // Current dragging element
   const [draggedElement, setDraggedElement] = useState<number | null>(null)
   
   // Selected canvas element for moving or deleting
   const [selectedCanvasElement, setSelectedCanvasElement] = useState<string | null>(null)
+  
+  // Helper to get the current canvas elements and setters based on active canvas
+  const getCanvasData = useCallback(() => {
+    switch (activeCanvas) {
+      case 1:
+        return {
+          canvasElements: canvasElements1,
+          setCanvasElements: setCanvasElements1,
+          usedElements: usedElements1,
+          setUsedElements: setUsedElements1
+        }
+      case 2:
+        return {
+          canvasElements: canvasElements2,
+          setCanvasElements: setCanvasElements2,
+          usedElements: usedElements2,
+          setUsedElements: setUsedElements2
+        }
+      case 3:
+        return {
+          canvasElements: canvasElements3,
+          setCanvasElements: setCanvasElements3,
+          usedElements: usedElements3, 
+          setUsedElements: setUsedElements3
+        }
+      case 4:
+        return {
+          canvasElements: canvasElements4,
+          setCanvasElements: setCanvasElements4,
+          usedElements: usedElements4,
+          setUsedElements: setUsedElements4
+        }
+      default:
+        return {
+          canvasElements: canvasElements1,
+          setCanvasElements: setCanvasElements1,
+          usedElements: usedElements1,
+          setUsedElements: setUsedElements1
+        }
+    }
+  }, [
+    activeCanvas, 
+    canvasElements1, canvasElements2, canvasElements3, canvasElements4,
+    usedElements1, usedElements2, usedElements3, usedElements4
+  ])
 
   // Function to mark an element as used
   const markElementAsUsed = useCallback((elementId: number) => {
+    const { usedElements, setUsedElements } = getCanvasData();
     if (!usedElements.includes(elementId)) {
-      setUsedElements(prev => [...prev, elementId])
+      setUsedElements(prev => [...prev, elementId]);
     }
-  }, [usedElements])
+  }, [getCanvasData])
 
   // Function to add an element to the canvas
   const addElementToCanvas = useCallback((elementId: number, x?: number, y?: number) => {
-    console.log("Adding element to canvas:", elementId)
+    console.log("Adding element to canvas:", elementId, "to canvas:", activeCanvas);
+    
+    const { canvasElements, setCanvasElements } = getCanvasData();
     
     // Use predefined size based on element type or default to 100x100 if not found
     const size = elementSizes[elementId as keyof typeof elementSizes] || { width: 100, height: 100 }
@@ -68,7 +125,7 @@ export function useCanvasElements() {
     
     // Mark this element as used so it disappears from the sidebar
     markElementAsUsed(elementId)
-  }, [markElementAsUsed])
+  }, [activeCanvas, getCanvasData, markElementAsUsed])
 
   // Function to handle element drag start
   const handleDragStart = useCallback((e: React.DragEvent, elementId: number) => {
@@ -91,6 +148,8 @@ export function useCanvasElements() {
 
   // Function to remove element from canvas
   const removeCanvasElement = useCallback((elementId: string) => {
+    const { canvasElements, setCanvasElements, usedElements, setUsedElements } = getCanvasData();
+    
     // Get the element's original id before removing
     const element = canvasElements.find(el => el.id === elementId)
     if (element) {
@@ -100,17 +159,30 @@ export function useCanvasElements() {
       setCanvasElements(prev => prev.filter(el => el.id !== elementId))
       setSelectedCanvasElement(null)
     }
-  }, [canvasElements])
+  }, [getCanvasData])
+
+  // Computed values for current active canvas
+  const canvasElements = getCanvasData().canvasElements;
+  const setCanvasElements = getCanvasData().setCanvasElements;  
+  const usedElements = getCanvasData().usedElements;
+  const setUsedElements = getCanvasData().setUsedElements;
 
   return {
+    // Canvas data
+    activeCanvas,
+    setActiveCanvas,
     canvasElements,
     setCanvasElements,
     usedElements,
     setUsedElements,
+    
+    // Element interaction
     draggedElement,
     setDraggedElement,
     selectedCanvasElement,
     setSelectedCanvasElement,
+    
+    // Functions
     markElementAsUsed,
     addElementToCanvas,
     handleDragStart,

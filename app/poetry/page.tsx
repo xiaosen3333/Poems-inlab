@@ -24,20 +24,13 @@ export default function PoetryPage() {
   const [edges, setEdges] = useState(defaultSceneEdges)
   const [isMoving, setIsMoving] = useState(false)
   const [markedKeywords, setMarkedKeywords] = useState(false)
-  const [activeCanvas, setActiveCanvas] = useState(1)
   const [canvasCount] = useState(4)
-  
-  // Handle canvas navigation
-  const nextCanvas = () => {
-    setActiveCanvas(prev => prev < canvasCount ? prev + 1 : 1)
-  }
-  
-  const prevCanvas = () => {
-    setActiveCanvas(prev => prev > 1 ? prev - 1 : canvasCount)
-  }
+  const [graphCanvasNumber, setGraphCanvasNumber] = useState(1)
   
   const canvasElementsContext = useCanvasElements()
   const {
+    activeCanvas,
+    setActiveCanvas,
     canvasElements,
     setCanvasElements,
     usedElements,
@@ -52,6 +45,24 @@ export default function PoetryPage() {
     handleDragEnd,
     removeCanvasElement
   } = canvasElementsContext
+  
+  // Handle left canvas navigation (poetry canvas)
+  const nextCanvas = () => {
+    setActiveCanvas(prev => prev < canvasCount ? prev + 1 : 1)
+  }
+  
+  const prevCanvas = () => {
+    setActiveCanvas(prev => prev > 1 ? prev - 1 : canvasCount)
+  }
+  
+  // Handle right canvas navigation (graph)
+  const nextGraphCanvas = () => {
+    setGraphCanvasNumber(prev => prev < canvasCount ? prev + 1 : 1)
+  }
+  
+  const prevGraphCanvas = () => {
+    setGraphCanvasNumber(prev => prev > 1 ? prev - 1 : canvasCount)
+  }
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-50">
@@ -132,28 +143,30 @@ export default function PoetryPage() {
           {/* Right Panel - Content */}
           <div className="flex flex-col w-full">
             <Card className="p-5 sm:p-7 rounded-3xl shadow-sm bg-white overflow-hidden mb-4">
-              <div className="text-center mb-2">
+              <div className="text-center mb-4">
                 <h2 className="text-xl font-medium text-purple-600">Poetry Showcase</h2>
               </div>
               
-              <div className="flex-1 h-[420px] sm:h-[460px] md:h-[490px] relative">
+              <div className="flex-1 h-[500px] sm:h-[550px] md:h-[600px] relative">
                 {/* Poem Tab */}
                 <div className={`${activeTab === "poem" ? "block" : "hidden"} h-full`}>
-                  <PoemTab 
-                    poem={quietNightPoem} 
-                    markedKeywords={markedKeywords}
-                    toggleKeywords={() => setMarkedKeywords(!markedKeywords)}
-                  />
+                  <div className="h-full flex flex-col justify-center">
+                    <PoemTab 
+                      poem={quietNightPoem} 
+                      markedKeywords={markedKeywords}
+                      toggleKeywords={() => setMarkedKeywords(!markedKeywords)}
+                    />
+                  </div>
                 </div>
 
                 {/* Graph Tab */}
-                <div className={`${activeTab === "graph" ? "block" : "hidden"} h-full`}>
-                    <h2 className="text-lg sm:text-xl font-medium mb-3 sm:mb-4 text-center">Scene Graph</h2>
+                <div className={`${activeTab === "graph" ? "block" : "hidden"} h-full flex flex-col`}>
+                    <h2 className="text-lg sm:text-xl font-medium mb-5 sm:mb-6 text-center">Scene Graph</h2>
                     
-                    <div className="flex items-center justify-center mb-4 sm:mb-5">
+                    <div className="flex items-center justify-center mb-6 sm:mb-8 flex-1">
                       {/* Left navigation button - Fixed positioned outside of canvas */}
                       <button 
-                        onClick={prevCanvas}
+                        onClick={prevGraphCanvas}
                         className="bg-white w-10 h-16 sm:w-12 sm:h-20 rounded-full shadow-md flex items-center justify-center z-10 hover:bg-gray-50 transition-colors mr-3 sm:mr-4"
                       >
                         <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -162,15 +175,15 @@ export default function PoetryPage() {
                       </button>
                       
                       {/* Graph container with line title */}
-                      <div className="relative w-full max-w-[calc(100%-80px)] sm:max-w-[calc(100%-100px)] h-[180px] sm:h-[220px] md:h-[250px]">
+                      <div className="relative w-full max-w-[calc(100%-80px)] sm:max-w-[calc(100%-100px)] h-[280px] sm:h-[320px] md:h-[380px]">
                         {/* Line title for the graph canvas */}
                         <div className="absolute top-3 left-5 text-sm font-medium text-gray-500 z-10">
-                          Line {activeCanvas}
+                          Line {graphCanvasNumber}
                         </div>
                         
                         {/* Graph content */}
                         <div className="w-full h-full relative bg-white rounded-2xl p-4">
-                          {activeCanvas === 1 && (
+                          {graphCanvasNumber === 1 && (
                             <GraphComponent 
                               nodes={[
                                 { id: 'moon', x: 200, y: 100, label: 'Moon', color: '#86e1fc' },
@@ -194,7 +207,7 @@ export default function PoetryPage() {
                             />
                           )}
                           
-                          {activeCanvas === 2 && (
+                          {graphCanvasNumber === 2 && (
                             <GraphComponent 
                               nodes={[
                                 { id: 'person', x: 200, y: 200, label: 'Person', color: '#86e1fc' },
@@ -210,7 +223,7 @@ export default function PoetryPage() {
                             />
                           )}
                           
-                          {activeCanvas === 3 && (
+                          {graphCanvasNumber === 3 && (
                             <GraphComponent 
                               nodes={[
                                 { id: 'frost', x: 250, y: 150, label: 'Frost', color: '#86e1fc' },
@@ -226,7 +239,7 @@ export default function PoetryPage() {
                             />
                           )}
                           
-                          {activeCanvas === 4 && (
+                          {graphCanvasNumber === 4 && (
                             <GraphComponent 
                               nodes={[
                                 { id: 'night', x: 200, y: 150, label: 'Night', color: '#86e1fc' },
@@ -250,7 +263,7 @@ export default function PoetryPage() {
                       
                       {/* Right navigation button - Fixed positioned outside of canvas */}
                       <button 
-                        onClick={nextCanvas}
+                        onClick={nextGraphCanvas}
                         className="bg-white w-10 h-16 sm:w-12 sm:h-20 rounded-full shadow-md flex items-center justify-center z-10 hover:bg-gray-50 transition-colors ml-3 sm:ml-4"
                       >
                         <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -259,7 +272,7 @@ export default function PoetryPage() {
                       </button>
                     </div>
                     
-                    <div className="flex justify-center items-center gap-2 sm:gap-3">
+                    <div className="flex justify-center items-center gap-2 sm:gap-3 mt-auto">
                       <Button 
                         className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white text-xs px-4 py-1 w-auto shadow-sm"
                         onClick={() => {
@@ -277,22 +290,22 @@ export default function PoetryPage() {
                       </Button>
                     </div>
                     
-                    <div className="text-xs sm:text-sm text-gray-500 italic mt-3">
+                    <div className="text-xs sm:text-sm text-gray-500 italic mt-3 mb-2">
                       Click on nodes to move them
                     </div>
                 </div>
 
                 {/* QA Tab Content */}
-                <div className={`${activeTab === "qa" ? "block" : "hidden"} h-full`}>
-                    <h2 className="text-lg sm:text-xl font-medium mb-3 sm:mb-4 text-center">Poetic Doubt-solving Station</h2>
-                    <div className="mb-4 sm:mb-5 w-full">
-                      <div className="text-sm sm:text-base mb-2 sm:mb-3">What can I help you with?</div>
+                <div className={`${activeTab === "qa" ? "block" : "hidden"} h-full flex flex-col`}>
+                    <h2 className="text-lg sm:text-xl font-medium mb-5 sm:mb-6 text-center">Poetic Doubt-solving Station</h2>
+                    <div className="mb-6 sm:mb-8 w-full flex-1">
+                      <div className="text-sm sm:text-base mb-3 sm:mb-4">What can I help you with?</div>
 
-                      <div className="bg-purple-100 p-2 sm:p-3 rounded-xl mb-3 sm:mb-4 text-xs max-w-[90%] sm:max-w-[80%] ml-auto">
+                      <div className="bg-purple-100 p-3 sm:p-4 rounded-xl mb-4 sm:mb-5 text-xs sm:text-sm max-w-[90%] sm:max-w-[80%] ml-auto">
                         Who is the author of this poem, and what is its historical background of the era?
                       </div>
 
-                      <div className="space-y-2 sm:space-y-3 text-xs">
+                      <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm">
                         <p>
                           The <strong>author</strong> of <em>In The Quiet Night</em> is Li Bai, who lived in the Tang
                           Dynasty.
@@ -303,7 +316,7 @@ export default function PoetryPage() {
                       </div>
                     </div>
                     
-                    <div className="flex flex-wrap justify-center gap-2 mb-4 sm:mb-5 w-full">
+                    <div className="flex flex-wrap justify-center gap-3 mb-6 sm:mb-8 w-full">
                       <Button variant="outline" size="sm" className="bg-white hover:bg-gray-50 text-gray-700 border-gray-200 rounded-full px-3 sm:px-4 text-xs shadow-sm">
                         <span className="flex items-center gap-1">
                           <span className="bg-gray-100 w-4 h-4 rounded-full flex items-center justify-center mr-1">ⓘ</span>
@@ -330,12 +343,12 @@ export default function PoetryPage() {
                       </Button>
                     </div>
                     
-                    <div className="w-full max-w-md mx-auto mt-auto">
+                    <div className="w-full max-w-md mx-auto mt-auto mb-2">
                       <div className="relative">
                         <input
                           type="text"
                           placeholder="Type Your Query Here"
-                          className="w-full p-2 sm:p-2.5 pr-10 sm:pr-12 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#7067DC] focus:border-transparent text-xs shadow-sm"
+                          className="w-full p-2 sm:p-3 pr-10 sm:pr-12 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#7067DC] focus:border-transparent text-xs sm:text-sm shadow-sm"
                         />
                         <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-50 rounded-full p-1.5 hover:bg-gray-100">
                           <svg
@@ -359,26 +372,26 @@ export default function PoetryPage() {
                 </div>
 
                 {/* Color Analysis Tab */}
-                <div className={`${activeTab === "color" ? "block" : "hidden"} h-full`}>
-                    <h2 className="text-lg sm:text-xl font-medium mb-3 sm:mb-4 text-center">Analysis of Color and Emotion</h2>
+                <div className={`${activeTab === "color" ? "block" : "hidden"} h-full flex flex-col`}>
+                    <h2 className="text-lg sm:text-xl font-medium mb-5 sm:mb-6 text-center">Analysis of Color and Emotion</h2>
 
                     {/* Emotion Radar Chart Section */}
-                    <div className="mt-2 sm:mt-3 space-y-2 sm:space-y-3">
+                    <div className="mt-2 sm:mt-3 space-y-3 sm:space-y-4 flex-1">
                       <div className="flex flex-col sm:flex-row items-center sm:items-start">
-                        <div className="mb-2 sm:mb-0 sm:mr-4 mt-0 sm:mt-2 space-y-1 sm:space-y-2 flex sm:block gap-4 sm:gap-0">
+                        <div className="mb-3 sm:mb-0 sm:mr-6 mt-0 sm:mt-3 space-y-2 sm:space-y-3 flex sm:block gap-5 sm:gap-0">
                           <div className="flex items-center">
-                            <div className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 rounded bg-[#7b6cd9]"></div>
+                            <div className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 rounded bg-[#7b6cd9]"></div>
                             <span className="text-xs sm:text-sm text-gray-700">User Selected</span>
                           </div>
                           <div className="flex items-center">
-                            <div className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 rounded bg-[#e8a87c]"></div>
+                            <div className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 rounded bg-[#e8a87c]"></div>
                             <span className="text-xs sm:text-sm text-gray-700">Auto Analyzed</span>
                           </div>
                         </div>
 
                         <div className="flex-1 relative">
                           {/* Create a static version of the radar chart */}
-                          <div className="relative h-[130px] w-[130px] sm:h-[150px] sm:w-[150px] md:h-[170px] md:w-[170px] mx-auto">
+                          <div className="relative h-[150px] w-[150px] sm:h-[180px] sm:w-[180px] md:h-[200px] md:w-[200px] mx-auto">
                             {/* Radar grid */}
                             <div className="absolute inset-0 rounded-full border border-[#d8d4f2]"></div>
                             <div className="absolute inset-[20%] rounded-full border border-[#d8d4f2] border-dashed"></div>
@@ -445,50 +458,50 @@ export default function PoetryPage() {
                         </div>
                       </div>
 
-                      <div className="flex space-x-2 justify-center">
-                        <Button className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white px-4 py-1 text-xs shadow-sm">
+                      <div className="flex space-x-4 justify-center mt-5">
+                        <Button className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white px-4 py-1 text-xs sm:text-sm shadow-sm">
                           Select
                         </Button>
-                        <Button className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white px-4 py-1 text-xs shadow-sm">
+                        <Button className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white px-4 py-1 text-xs sm:text-sm shadow-sm">
                           Auto Analyze
                         </Button>
                       </div>
                     </div>
 
-                    <div className="my-2 sm:my-3 border-t border-dashed border-[#7067DC]"></div>
+                    <div className="my-4 sm:my-5 border-t border-dashed border-[#7067DC]"></div>
 
                     {/* Color wheel section */}
-                    <div className="mt-2 sm:mt-3 flex flex-col sm:flex-row items-center sm:items-start">
-                      <div className="mb-3 sm:mb-0 sm:mr-4 space-y-1 sm:space-y-2 grid grid-cols-3 sm:block gap-1 sm:gap-0">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start mt-4 sm:mt-5 mb-4">
+                      <div className="mb-4 sm:mb-0 sm:mr-6 space-y-2 sm:space-y-3 grid grid-cols-3 sm:block gap-2 sm:gap-0">
                         <div className="flex items-center">
-                          <div className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 rounded bg-[#e8a87c]"></div>
+                          <div className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 rounded bg-[#e8a87c]"></div>
                           <span className="text-xs sm:text-sm text-gray-700">Joy</span>
                         </div>
                         <div className="flex items-center">
-                          <div className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 rounded bg-[#f8ef86]"></div>
+                          <div className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 rounded bg-[#f8ef86]"></div>
                           <span className="text-xs sm:text-sm text-gray-700">Surprise</span>
                         </div>
                         <div className="flex items-center">
-                          <div className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 rounded bg-[#c1f486]"></div>
+                          <div className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 rounded bg-[#c1f486]"></div>
                           <span className="text-xs sm:text-sm text-gray-700">No Emotion</span>
                         </div>
                         <div className="flex items-center">
-                          <div className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 rounded bg-[#86b5f4]"></div>
+                          <div className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 rounded bg-[#86b5f4]"></div>
                           <span className="text-xs sm:text-sm text-gray-700">Sadness</span>
                         </div>
                         <div className="flex items-center">
-                          <div className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 rounded bg-[#c486f4]"></div>
+                          <div className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 rounded bg-[#c486f4]"></div>
                           <span className="text-xs sm:text-sm text-gray-700">Fear</span>
                         </div>
                         <div className="flex items-center">
-                          <div className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 rounded bg-[#f486a9]"></div>
+                          <div className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 rounded bg-[#f486a9]"></div>
                           <span className="text-xs sm:text-sm text-gray-700">Anger</span>
                         </div>
                       </div>
 
                       <div className="flex-1">
                         {/* Static color wheel */}
-                        <div className="relative h-[100px] w-[100px] sm:h-[130px] sm:w-[130px] md:h-[150px] md:w-[150px] mx-auto overflow-hidden">
+                        <div className="relative h-[120px] w-[120px] sm:h-[150px] sm:w-[150px] md:h-[180px] md:w-[180px] mx-auto overflow-hidden">
                           <div className="absolute inset-[0] rounded-full border-2 border-white">
                             <div className="absolute inset-0 bg-[#e8a87c]" style={{ clipPath: 'polygon(50% 50%, 100% 50%, 100% 0, 50% 0)' }}></div>
                             <div className="absolute inset-0 bg-[#f8ef86]" style={{ clipPath: 'polygon(50% 50%, 50% 0, 0 0, 0 50%)' }}></div>
@@ -507,12 +520,12 @@ export default function PoetryPage() {
                           </div>
                           
                           {/* Color tabs */}
-                          <div className="absolute top-1/4 right-0 w-4 sm:w-6 h-8 sm:h-10 bg-[#e8a87c] translate-x-1/2 rounded-r-sm"></div>
-                          <div className="absolute top-0 right-1/4 w-8 sm:w-10 h-4 sm:h-6 bg-[#f8ef86] -translate-y-1/2 rounded-t-sm"></div>
-                          <div className="absolute top-0 left-1/4 w-8 sm:w-10 h-4 sm:h-6 bg-[#c1f486] -translate-y-1/2 rounded-t-sm"></div>
-                          <div className="absolute top-1/4 left-0 w-4 sm:w-6 h-8 sm:h-10 bg-[#86b5f4] -translate-x-1/2 rounded-l-sm"></div>
-                          <div className="absolute bottom-1/4 left-0 w-4 sm:w-6 h-8 sm:h-10 bg-[#c486f4] -translate-x-1/2 rounded-l-sm"></div>
-                          <div className="absolute bottom-1/4 right-0 w-4 sm:w-6 h-8 sm:h-10 bg-[#f486a9] translate-x-1/2 rounded-r-sm"></div>
+                          <div className="absolute top-1/4 right-0 w-5 sm:w-7 h-10 sm:h-12 bg-[#e8a87c] translate-x-1/2 rounded-r-sm"></div>
+                          <div className="absolute top-0 right-1/4 w-10 sm:w-12 h-5 sm:h-7 bg-[#f8ef86] -translate-y-1/2 rounded-t-sm"></div>
+                          <div className="absolute top-0 left-1/4 w-10 sm:w-12 h-5 sm:h-7 bg-[#c1f486] -translate-y-1/2 rounded-t-sm"></div>
+                          <div className="absolute top-1/4 left-0 w-5 sm:w-7 h-10 sm:h-12 bg-[#86b5f4] -translate-x-1/2 rounded-l-sm"></div>
+                          <div className="absolute bottom-1/4 left-0 w-5 sm:w-7 h-10 sm:h-12 bg-[#c486f4] -translate-x-1/2 rounded-l-sm"></div>
+                          <div className="absolute bottom-1/4 right-0 w-5 sm:w-7 h-10 sm:h-12 bg-[#f486a9] translate-x-1/2 rounded-r-sm"></div>
                           
                           {/* Inner white circle */}
                           <div className="absolute inset-[30%] rounded-full bg-white border-2 border-white"></div>
@@ -520,8 +533,8 @@ export default function PoetryPage() {
                       </div>
                     </div>
 
-                    <div className="mt-2 sm:mt-3 flex justify-center">
-                      <Button className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white px-4 py-1 text-xs shadow-sm">
+                    <div className="mt-4 sm:mt-5 flex justify-center">
+                      <Button className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white px-4 py-1 text-xs sm:text-sm shadow-sm">
                         Auto Analyze
                       </Button>
                     </div>

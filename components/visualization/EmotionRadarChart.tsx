@@ -170,8 +170,8 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
     );
   };
 
-  // Handle click on a node
-  const handleClick = (e: React.MouseEvent<SVGElement>) => {
+  // Handle mouse events for dragging nodes
+  const handleMouseMove = (e: React.MouseEvent<SVGElement>) => {
     if (!isSelecting || activeNodeIndex === null) return;
 
     // Get SVG element and its bounding box
@@ -195,7 +195,15 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
     };
 
     setData(newData);
+  };
+
+  const handleMouseUp = () => {
     setActiveNodeIndex(null);
+  };
+
+  // Handle click on the chart (we're not using this anymore as we're using mouse events for dragging)
+  const handleClick = (e: React.MouseEvent<SVGElement>) => {
+    // This is kept for compatibility but functionality moved to mouse events
   };
 
   // Toggle selection mode on/off
@@ -260,7 +268,9 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
             ref={svgRef}
             viewBox={`0 0 ${svgWidth} ${svgHeight}`}
             className="w-full h-full"
-            onClick={handleClick}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
           >
             {/* Radar Grid with different colored layers and axis lines */}
             {generateRadarGrid()}
@@ -310,17 +320,28 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
                 (point.userValue / 100) * radius
               );
               return (
-                <circle
-                  key={`user-node-${index}`}
-                  cx={coords.x}
-                  cy={coords.y}
-                  r={5}
-                  fill="#7b6cd9"
-                  stroke="#fff"
-                  strokeWidth={2}
-                  className={isSelecting ? "cursor-pointer" : ""}
-                  onMouseDown={() => handleNodeMouseDown(index)}
-                />
+                <>
+                  <circle
+                    key={`user-node-${index}`}
+                    cx={coords.x}
+                    cy={coords.y}
+                    r={12}
+                    fill="transparent"
+                    stroke="transparent"
+                    className={isSelecting ? "cursor-pointer" : ""}
+                    onMouseDown={() => handleNodeMouseDown(index)}
+                  />
+                  <circle
+                    key={`user-node-visual-${index}`}
+                    cx={coords.x}
+                    cy={coords.y}
+                    r={8}
+                    fill="white"
+                    stroke="#7b6cd9"
+                    strokeWidth={2}
+                    pointerEvents="none"
+                  />
+                </>
               );
             })}
 
@@ -337,10 +358,11 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
                     key={`analysis-node-${index}`}
                     cx={coords.x}
                     cy={coords.y}
-                    r={5}
+                    r={8}
                     fill="#e8a87c"
                     stroke="#fff"
                     strokeWidth={2}
+                    pointerEvents="none"
                   />
                 );
               })}

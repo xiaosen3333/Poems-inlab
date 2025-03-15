@@ -138,6 +138,7 @@ export default function PoetryPage() {
                   addElementToCanvas={addElementToCanvas}
                   removeCanvasElement={removeCanvasElement}
                   visualElements={visualElements}
+                  onDragEnd={handleDragEnd}
                 />
 
                 {/* Right navigation arrow - Display regardless of tab */}

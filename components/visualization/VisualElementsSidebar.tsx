@@ -33,26 +33,53 @@ export function VisualElementsSidebar({
   // Use a ref to track the last manual state change
   const manualToggleRef = useRef(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const previousOpenStateRef = useRef(sidebarOpen);
 
-  // Auto toggle logic
+  // Effect to auto-collapse sidebar when dragging an element
+  useEffect(() => {
+    // Only handle state changes when draggedElement changes
+    if (draggedElement !== null) {
+      // When starting to drag, save current state and collapse
+      previousOpenStateRef.current = sidebarOpen;
+      setSidebarOpen(false);
+      console.log("Collapsing sidebar while dragging, saved state:", previousOpenStateRef.current);
+    } else if (previousOpenStateRef.current === true) {
+      // When drag ends and sidebar was previously open, expand it again
+      console.log("Expanding sidebar after drag completed");
+      setTimeout(() => {
+        setSidebarOpen(true);
+        // Reset the flag after restoring
+        previousOpenStateRef.current = false;
+      }, 100);
+    }
+  }, [draggedElement]);
+
+  // Auto toggle logic for elements availability
   useEffect(() => {
     // Clear any pending timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
+    // Skip this logic during drag operations
+    if (draggedElement !== null) {
+      return;
+    }
+
     // Only apply auto-logic if not recently manually toggled
     if (!manualToggleRef.current) {
+      // Auto close if no elements available and sidebar is open
       if (!hasAvailableElements && sidebarOpen) {
-        // Auto close when no elements
         setSidebarOpen(false);
         console.log("Auto-closing sidebar - no elements");
-      } else if (
-        hasAvailableElements &&
-        !sidebarOpen &&
+      } 
+      // Auto open if elements become available and sidebar is closed (not during drag)
+      else if (
+        hasAvailableElements && 
+        !sidebarOpen && 
+        !previousOpenStateRef.current && // Don't conflict with drag restore logic
         usedElements.length < visualElements.length
       ) {
-        // Auto open when elements become available again
         setSidebarOpen(true);
         console.log("Auto-opening sidebar - elements available");
       }
@@ -69,7 +96,7 @@ export function VisualElementsSidebar({
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [hasAvailableElements, sidebarOpen, usedElements.length]);
+  }, [hasAvailableElements, sidebarOpen, usedElements.length, draggedElement, previousOpenStateRef.current]);
 
   return (
     <div className="hidden md:block w-0 absolute left-0 top-0 h-full">
@@ -93,6 +120,9 @@ export function VisualElementsSidebar({
           e.stopPropagation();
           console.log("Button clicked, current state:", sidebarOpen);
 
+          // Reset the previousOpenStateRef when manually toggling
+          previousOpenStateRef.current = false;
+          
           // Always allow toggling when sidebar is open (closing)
           // Only allow opening if there are available elements
           if (sidebarOpen || hasAvailableElements) {

@@ -143,7 +143,11 @@ export function useCanvasElements() {
 
   // Function to handle element drag end
   const handleDragEnd = useCallback(() => {
-    setDraggedElement(null)
+    // Add a small delay to ensure the drop event completes first
+    setTimeout(() => {
+      setDraggedElement(null)
+      console.log("Drag ended, resetting draggedElement state")
+    }, 50)
   }, [])
 
   // Function to remove element from canvas

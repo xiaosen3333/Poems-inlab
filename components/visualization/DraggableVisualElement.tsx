@@ -18,6 +18,17 @@ export function DraggableVisualElement({
   onDragEnd,
   onClick
 }: DraggableVisualElementProps) {
+  const handleDragStart = (e: React.DragEvent) => {
+    // Set drag data with element ID
+    e.dataTransfer.setData("text/plain", JSON.stringify({ elementId: element.id }));
+    
+    // Set drag effect to copy
+    e.dataTransfer.effectAllowed = "copy";
+    
+    // Call parent component's drag start handler
+    onDragStart(e, element.id);
+  };
+  
   return (
     <div 
       key={element.id}
@@ -26,11 +37,11 @@ export function DraggableVisualElement({
         isDragging ? 'opacity-50' : ''
       }`}
       draggable="true"
-      onDragStart={(e) => {
-        e.dataTransfer.setData("text/plain", JSON.stringify({ elementId: element.id }));
-        onDragStart(e, element.id);
+      onDragStart={handleDragStart}
+      onDragEnd={() => {
+        // Call parent component's drag end handler
+        onDragEnd();
       }}
-      onDragEnd={onDragEnd}
       onClick={() => onClick(element.id)}
     >
       <Image

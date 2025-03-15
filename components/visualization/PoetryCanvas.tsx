@@ -14,6 +14,7 @@ interface PoetryCanvasProps {
   addElementToCanvas: (elementId: number, x: number, y: number) => void;
   removeCanvasElement: (id: string) => void;
   visualElements: VisualElement[];
+  onDragEnd?: () => void;
 }
 
 export function PoetryCanvas({
@@ -25,6 +26,7 @@ export function PoetryCanvas({
   addElementToCanvas,
   removeCanvasElement,
   visualElements,
+  onDragEnd,
 }: PoetryCanvasProps) {
   // Handle canvas mouse movement
   const handleCanvasElementDrag = useCallback(
@@ -105,6 +107,9 @@ export function PoetryCanvas({
           if (draggedElement) {
             // If we're tracking a dragged element
             addElementToCanvas(draggedElement, x, y);
+            
+            // Force end of drag immediately after drop
+            onDragEnd();
           } else {
             // Try to get data from the drop event
             const dataString = e.dataTransfer.getData("text/plain");

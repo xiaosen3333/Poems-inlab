@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { 
@@ -297,9 +297,8 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
                 (point.userValue / 100) * radius
               );
               return (
-                <>
+                <React.Fragment key={`user-node-container-${index}`}>
                   <circle
-                    key={`user-node-${index}`}
                     cx={coords.x}
                     cy={coords.y}
                     r={12}
@@ -309,7 +308,6 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
                     onMouseDown={() => handleNodeMouseDown(index)}
                   />
                   <circle
-                    key={`user-node-visual-${index}`}
                     cx={coords.x}
                     cy={coords.y}
                     r={8}
@@ -318,7 +316,7 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
                     strokeWidth={2}
                     pointerEvents="none"
                   />
-                </>
+                </React.Fragment>
               );
             })}
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { emotionColorWheelData, uiConstants } from "@/lib/config/appConfig";
 
 interface EmotionColorWheelProps {
   className?: string;
@@ -14,16 +15,6 @@ const EmotionColorWheel = ({
   className,
   onAutoAnalyze,
 }: EmotionColorWheelProps) => {
-  // Emotion color analysis data with percentages
-  const emotionAnalysisData = [
-    { emotion: "Joy", color: "#e8a87c", value: 75, degree: 0 },
-    { emotion: "Surprise", color: "#f8ef86", value: 45, degree: 60 },
-    { emotion: "No Emotion", color: "#c1f486", value: 30, degree: 120 },
-    { emotion: "Sadness", color: "#86b5f4", value: 60, degree: 180 },
-    { emotion: "Fear", color: "#c486f4", value: 25, degree: 240 },
-    { emotion: "Anger", color: "#f486a9", value: 50, degree: 300 },
-  ];
-
   const [showExtensions, setShowExtensions] = useState(false);
 
   // Handle auto analyze click
@@ -32,8 +23,8 @@ const EmotionColorWheel = ({
     if (onAutoAnalyze) onAutoAnalyze();
   };
 
-  // Calculate the max length for scaling the bars properly
-  const maxBarLength = 80; // maximum pixel length for a bar at 100% value
+  // Get the max bar length from configuration
+  const maxBarLength = uiConstants.colorWheel.maxBarLength;
 
   return (
     <div className={cn("flex flex-row justify-between pr-8 pl-8", className)}>
@@ -41,7 +32,7 @@ const EmotionColorWheel = ({
       <div className="flex flex-col justify-start">
         {/* Emotion color legend */}
         <div className="flex flex-col mb-6 px-4">
-          {emotionAnalysisData.map(({ emotion, color }) => (
+          {emotionColorWheelData.map(({ emotion, color }) => (
             <div key={emotion} className="flex items-center mb-1">
               <div
                 className="mr-2 h-3 w-3"
@@ -84,7 +75,7 @@ const EmotionColorWheel = ({
         {/* Color bars that appear after analysis */}
         {showExtensions && (
           <div className="absolute inset-0">
-            {emotionAnalysisData.map(({ emotion, color, value, degree }) => {
+            {emotionColorWheelData.map(({ emotion, color, value, degree }) => {
               // Calculate bar length based on value percentage
               const barLength = (value / 100) * maxBarLength;
               // Calculate position based on angle

@@ -1,9 +1,7 @@
 // API utilities for interacting with Deepseek AI model
+import { ChatMessage } from "@/lib/config/appConfig";
 
-export interface Message {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
-}
+export type Message = ChatMessage;
 
 export interface ChatRequest {
   model: string;
@@ -52,30 +50,6 @@ export async function chatWithAI(messages: Message[]): Promise<string> {
   }
 }
 
-// Predefined questions for poetry analysis
-export const predefinedQuestions = [
-  { 
-    id: 'background',
-    label: 'Background',
-    icon: 'ⓘ',
-    question: 'Please explain the historical background of this poem and its author.'
-  },
-  { 
-    id: 'techniques',
-    label: 'Techniques',
-    icon: 'T',
-    question: 'What poetic techniques are used in this poem?'
-  },
-  { 
-    id: 'theme',
-    label: 'Theme',
-    icon: '-',
-    question: 'What are the main themes of this poem?'
-  },
-  { 
-    id: 'more',
-    label: 'More',
-    icon: '+',
-    question: 'Please provide a deeper analysis of the imagery in this poem.'
-  }
-];
+// Predefined questions for poetry analysis - imported from config
+import { predefinedQuestions } from "@/lib/config/appConfig";
+export { predefinedQuestions };

@@ -3,48 +3,30 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-interface DataPoint {
-  emotion: string;
-  angle: number;
-  userValue: number;
-  analysisValue?: number;
-}
+import { 
+  RadarDataPoint, 
+  radarChartInitialData, 
+  radarChartAnalysisData, 
+  radarChartPurpleColors,
+  uiConstants 
+} from "@/lib/config/appConfig";
 
 interface EmotionRadarChartProps {
   className?: string;
 }
 
 const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
-  // SVG viewbox dimensions
-  const svgWidth = 500;
-  const svgHeight = 500;
+  // SVG viewbox dimensions from config
+  const svgWidth = uiConstants.radarChart.svgWidth;
+  const svgHeight = uiConstants.radarChart.svgHeight;
   const centerX = svgWidth / 2;
   const centerY = svgHeight / 2;
-  const radius = 180;
+  const radius = uiConstants.radarChart.radius;
 
   // SVG element ref for click handling
   const svgRef = useRef<SVGSVGElement>(null);
 
-  // Initial data for the radar chart - starting with all points at full
-  const initialData: DataPoint[] = [
-    { emotion: "Surprise", angle: -90, userValue: 100 }, // Top (12 o'clock)
-    { emotion: "Joy", angle: -18, userValue: 100 }, // Top right
-    { emotion: "Anger", angle: 54, userValue: 100 }, // Bottom right
-    { emotion: "Sadness", angle: 126, userValue: 100 }, // Bottom left
-    { emotion: "Fear", angle: 198, userValue: 100 }, // Top left
-  ];
-
-  // Analysis data that will be shown after "Auto Analyze"
-  const analysisData: DataPoint[] = [
-    { emotion: "Surprise", angle: -90, userValue: 100, analysisValue: 65 },
-    { emotion: "Joy", angle: -18, userValue: 100, analysisValue: 90 },
-    { emotion: "Anger", angle: 54, userValue: 100, analysisValue: 70 },
-    { emotion: "Sadness", angle: 126, userValue: 100, analysisValue: 85 },
-    { emotion: "Fear", angle: 198, userValue: 100, analysisValue: 60 },
-  ];
-
-  const [data, setData] = useState<DataPoint[]>(initialData);
+  const [data, setData] = useState<RadarDataPoint[]>(radarChartInitialData);
   const [isSelecting, setIsSelecting] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [activeNodeIndex, setActiveNodeIndex] = useState<number | null>(null);
@@ -52,15 +34,10 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
   // Generate radar grid with concentric circles using different purple background colors
   const generateRadarGrid = () => {
     const elements = [];
-    const circleCount = 4; // Number of concentric circles
+    const circleCount = uiConstants.radarChart.circleCount;
 
-    // Different purple colors for each circular layer - from darkest (innermost) to lightest (outermost)
-    const purpleColors = [
-      "#f2f0ff", // Lightest purple (outermost)
-      "#e5e2f8", // Light purple
-      "#dbd7f4", // Medium purple
-      "#d1cef0", // Darkest purple (innermost)
-    ];
+    // Different purple colors from config
+    const purpleColors = radarChartPurpleColors;
 
     // Create concentric circles with different purple background colors (from outermost to innermost)
     for (let i = circleCount; i >= 1; i--) {
@@ -214,7 +191,7 @@ const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
 
   // Show auto analysis results
   const handleAutoAnalyze = () => {
-    setData(analysisData);
+    setData(radarChartAnalysisData);
     setShowAnalysis(true);
     setIsSelecting(false);
   };

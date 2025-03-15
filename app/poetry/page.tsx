@@ -470,19 +470,27 @@ export default function PoetryPage() {
                   </div>
 
                   <div className="flex justify-center items-center gap-4 sm:gap-5 mb-4 mt-4">
-                    <Button
-                      className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white text-xs px-6 py-2 w-auto shadow-sm"
-                      onClick={() => {
-                        // Reset to default positions
-                        setNodes(defaultSceneNodes);
-                        setEdges(defaultSceneEdges);
-                      }}
-                    >
-                      Generate Graph
-                    </Button>
-                    <Button className="rounded-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs px-6 py-2 w-auto shadow-sm">
-                      Move
-                    </Button>
+                    <div className="relative inline-block">
+                      <Button
+                        variant="outline"
+                        className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[100px] h-[20px]"
+                        onClick={() => {
+                          // Reset to default positions
+                          setNodes(defaultSceneNodes);
+                          setEdges(defaultSceneEdges);
+                        }}
+                      >
+                        Generate Graph
+                      </Button>
+                    </div>
+                    <div className="relative inline-block">
+                      <Button
+                        variant="outline"
+                        className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[60px] h-[20px]"
+                      >
+                        Move
+                      </Button>
+                    </div>
                   </div>
                 </div>
 
@@ -610,12 +618,22 @@ export default function PoetryPage() {
                     </div>
 
                     <div className="flex space-x-4 justify-center mt-5">
-                      <Button className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white px-4 py-1 text-xs sm:text-sm shadow-sm">
-                        Select
-                      </Button>
-                      <Button className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white px-4 py-1 text-xs sm:text-sm shadow-sm">
-                        Auto Analyze
-                      </Button>
+                      <div className="relative inline-block">
+                        <Button
+                          variant="outline"
+                          className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[100px] h-[20px]"
+                        >
+                          Select
+                        </Button>
+                      </div>
+                      <div className="relative inline-block">
+                        <Button
+                          variant="outline"
+                          className="rrounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[100px] h-[20px]"
+                        >
+                          Auto Analyze
+                        </Button>
+                      </div>
                     </div>
                   </div>
 
@@ -732,9 +750,14 @@ export default function PoetryPage() {
                   </div>
 
                   <div className="mt-4 sm:mt-5 flex justify-center">
-                    <Button className="rounded-full bg-[#7067DC] hover:bg-[#5b54c0] text-white px-4 py-1 text-xs sm:text-sm shadow-sm">
-                      Auto Analyze
-                    </Button>
+                    <div className="relative inline-block">
+                      <Button
+                        variant="outline"
+                        className="rounded-full px-4 sm:px-6 py-1 sm:py-1.5 bg-white hover:bg-[#7067DC] hover:text-white text-[#7067DC] border-none text-xs shadow-md w-[100px] h-[20px]"
+                      >
+                        Auto Analyze
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>

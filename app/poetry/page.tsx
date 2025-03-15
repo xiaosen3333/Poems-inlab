@@ -165,7 +165,7 @@ export default function PoetryPage() {
             </Card>
 
             <div className="flex justify-center">
-              <Button className="bg-[#7067DC] h-[42px] w-full hover:bg-[#6058c8] text-white rounded-full px-6 text-base sm:text-lg font-medium shadow-sm">
+              <Button className="bg-[#FFFFFF] h-[42px] w-full hover:bg-[#6058c8] hover:text-white text-black rounded-full px-6 text-base sm:text-lg font-medium shadow-sm">
                 Poetry Visualization
               </Button>
             </div>
@@ -495,7 +495,7 @@ export default function PoetryPage() {
                   <h2 className="text-lg sm:text-xl font-medium mb-5 sm:mb-6 text-center">
                     Poetic Doubt-solving Station
                   </h2>
-                  
+
                   {/* Integrate the new ChatInterface component */}
                   <div className="flex-1 overflow-hidden">
                     <ChatInterface poem={quietNightPoem} />
@@ -744,7 +744,7 @@ export default function PoetryPage() {
               <div className="flex items-center gap-2 sm:gap-4 justify-between w-full text-sm sm:text-base">
                 <div
                   onClick={() => setActiveTab("poem")}
-                  className={`flex-1 text-center cursor-pointer py-2 px-3 sm:px-4 text-gray-600 ${
+                  className={`flex-1 text-center  cursor-pointer py-2 px-3 sm:px-4 text-gray-600 ${
                     activeTab === "poem" ? "font-bold" : ""
                   }`}
                 >

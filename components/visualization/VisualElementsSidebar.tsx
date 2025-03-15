@@ -85,7 +85,7 @@ export function VisualElementsSidebar({
             ? "bg-white text-gray-400 border border-gray-200"
             : "bg-white text-gray-300 border border-gray-200 opacity-70"
         } 
-        w-10 h-[150px] rounded-full flex items-center justify-center transition-all duration-300 shadow-lg 
+        w-8 h-[150px] rounded-full flex items-center justify-center transition-all duration-300 shadow-lg 
         ${!sidebarOpen && hasAvailableElements && "hover:text-[#7067DC]"}`}
         type="button"
         onClick={(e) => {
@@ -104,11 +104,44 @@ export function VisualElementsSidebar({
           }
         }}
       >
-        {sidebarOpen ? (
-          <ChevronLeft className="h-6 w-6" />
-        ) : (
-          <ChevronRight className="h-6 w-6" />
-        )}
+        <div className="flex items-center justify-center">
+          {sidebarOpen ? (
+            <svg
+              width="20"
+              height="35"
+              viewBox="0 0 10 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="relative left-1"
+            >
+              <path
+                d="M4 1L1 9L4 17"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          ) : (
+            <svg
+              width="20"
+              height="35"
+              viewBox="0 0 10 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="relative right-1"
+              style={{ transform: "scaleX(-1)" }}
+            >
+              <path
+                d="M4 1L1 9L4 17"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
+        </div>
       </button>
 
       {/* Sidebar content - Absolutely positioned to float over content */}

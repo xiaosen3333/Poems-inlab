@@ -61,7 +61,7 @@ export function CanvasElement({
       <div className="relative w-full h-full">
         <Image
           src={visualElement.src}
-          alt={visualElement.alt}
+          alt={visualElement.title}
           fill
           className="object-contain pointer-events-none"
         />

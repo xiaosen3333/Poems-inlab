@@ -25,8 +25,11 @@ export function VisualElementsSidebar({
   // State for the sidebar toggle
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  // Get elements for the current canvas - using canvas 1 for sidebar
+  const activeCanvasElements = visualElements[1] || [];
+  
   // Check if any elements are available to display
-  const availableElements = visualElements.filter(
+  const availableElements = activeCanvasElements.filter(
     (element) => !usedElements.includes(element.id)
   );
   
@@ -82,7 +85,7 @@ export function VisualElementsSidebar({
         hasAvailableElements && 
         !sidebarOpen && 
         !previousOpenStateRef.current && // Don't conflict with drag restore logic
-        usedElements.length < visualElements.length
+        usedElements.length < activeCanvasElements.length
       ) {
         setSidebarOpen(true);
         console.log("Auto-opening sidebar - elements available");

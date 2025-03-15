@@ -20,8 +20,11 @@ export function MobileVisualElements({
   onElementClick,
   allowDisplay = false
 }: MobileVisualElementsProps) {
+  // Get elements for the current canvas - using canvas 1 for mobile elements
+  const activeCanvasElements = visualElements[1] || [];
+  
   // Check if any elements are available to display
-  const availableElements = visualElements.filter(element => !usedElements.includes(element.id))
+  const availableElements = activeCanvasElements.filter(element => !usedElements.includes(element.id))
   const hasAvailableElements = availableElements.length > 0 && allowDisplay
   
   // Don't render if no elements are available or not allowed to display

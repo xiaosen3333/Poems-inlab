@@ -46,7 +46,7 @@ export function DraggableVisualElement({
     >
       <Image
         src={element.src}
-        alt={element.alt}
+        alt={element.title}
         fill
         className="object-contain p-1 pointer-events-none rounded-md"
       />

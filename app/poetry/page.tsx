@@ -264,7 +264,7 @@ export default function PoetryPage() {
                   setSelectedCanvasElement={setSelectedCanvasElement}
                   addElementToCanvas={addElementToCanvas}
                   removeCanvasElement={removeCanvasElement}
-                  visualElements={visualElements}
+                  visualElements={visualElements[activeCanvas] || []}
                   onDragEnd={handleDragEnd}
                 />
 

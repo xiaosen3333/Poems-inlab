@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback, useEffect } from "react"
-import { elementSizes } from "@/lib/data/visualElements"
+import { visualElements } from "@/lib/data/visualElements"
 import { uiConstants } from "@/lib/config/appConfig"
 
 export interface CanvasElement {
@@ -94,8 +94,12 @@ export function useCanvasElements() {
     
     const { canvasElements, setCanvasElements } = getCanvasData();
     
-    // Use predefined size based on element type or default to config values if not found
-    const size = elementSizes[elementId as keyof typeof elementSizes] || { 
+    // Get the current canvas's elements and find the specific element
+    const visualElementsForCanvas = visualElements[activeCanvas] || [];
+    const elementData = visualElementsForCanvas.find(el => el.id === elementId);
+    
+    // Use the element's size from config or default to config values if not found
+    const size = elementData?.size || { 
       width: uiConstants.canvasImage.defaultWidth, 
       height: uiConstants.canvasImage.defaultHeight 
     }

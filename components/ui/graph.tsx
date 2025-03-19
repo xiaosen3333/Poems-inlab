@@ -160,11 +160,31 @@ export function GraphComponent({
       entityStroke,
       relationFill,
       relationStroke,
+      modifierFill,
+      modifierStroke,
+      modifierText,
       borderRadius,
     } = uiConstants.graph;
 
     // Add nodes
     nodes.forEach((node) => {
+      // Determine fill, stroke, and text color based on node type
+      let fillColor, strokeColor, textColor;
+      
+      if (node.type === "entity") {
+        fillColor = entityFill;
+        strokeColor = entityStroke;
+        textColor = "#7067DD";
+      } else if (node.type === "relation") {
+        fillColor = relationFill;
+        strokeColor = relationStroke;
+        textColor = "#9AE3EB";
+      } else if (node.type === "modifier") {
+        fillColor = modifierFill;
+        strokeColor = modifierStroke;
+        textColor = modifierText;
+      }
+      
       const cell = graph.addNode({
         id: node.id,
         x: node.x,
@@ -173,14 +193,14 @@ export function GraphComponent({
         height: nodeHeight,
         attrs: {
           body: {
-            fill: node.type === "entity" ? entityFill : relationFill,
-            stroke: node.type === "entity" ? entityStroke : relationStroke,
+            fill: fillColor,
+            stroke: strokeColor,
             rx: borderRadius,
             ry: borderRadius,
           },
           label: {
             text: node.label,
-            fill: node.type === "entity" ? "#7067DD" : "#9AE3EB",
+            fill: textColor,
             fontSize: 16,
             fontFamily: "Arial, sans-serif",
           },

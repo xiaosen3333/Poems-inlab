@@ -397,7 +397,7 @@ export const predefinedQuestions: PredefinedQuestion[] = [
 /**
  * Node type definition
  */
-export type NodeType = 'entity' | 'relation';
+export type NodeType = 'entity' | 'relation' | 'modifier';
 
 /**
  * Node interfaces for graph visualization
@@ -513,8 +513,11 @@ export const uiConstants = {
     entityStroke: '#9AE3EB',
     relationFill: '#7165DA',
     relationStroke: '#7165DA',
+    modifierFill: '#C9D6E9',
+    modifierStroke: '#C9D6E9',
+    modifierText: '#66668A',
     edgeStroke: 'black',
-    borderRadius: 0,
+    borderRadius: 10,
   },
 
   // Canvas image size constants

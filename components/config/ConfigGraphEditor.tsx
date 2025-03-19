@@ -22,6 +22,9 @@ interface ConfigGraphEditorProps {
     entityStroke: string;
     relationFill: string;
     relationStroke: string;
+    modifierFill?: string;
+    modifierStroke?: string;
+    modifierText?: string;
     edgeStroke: string;
     borderRadius: number;
   };
@@ -145,8 +148,18 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
 
     // Add nodes
     nodes.forEach((node) => {
-      const fillColor = node.type === 'entity' ? uiConstants.entityFill : uiConstants.relationFill;
-      const strokeColor = node.type === 'entity' ? uiConstants.entityStroke : uiConstants.relationStroke;
+      let fillColor, strokeColor;
+      
+      if (node.type === 'entity') {
+        fillColor = uiConstants.entityFill;
+        strokeColor = uiConstants.entityStroke;
+      } else if (node.type === 'relation') {
+        fillColor = uiConstants.relationFill;
+        strokeColor = uiConstants.relationStroke;
+      } else if (node.type === 'modifier') {
+        fillColor = uiConstants.modifierFill || '#C9D6E9';
+        strokeColor = uiConstants.modifierStroke || '#C9D6E9';
+      }
 
       graph.addNode({
         id: node.id,
@@ -266,8 +279,19 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
         if (key === 'label') {
           node.setLabel(value as string);
         } else if (key === 'type') {
-          const fillColor = value === 'entity' ? uiConstants.entityFill : uiConstants.relationFill;
-          const strokeColor = value === 'entity' ? uiConstants.entityStroke : uiConstants.relationStroke;
+          let fillColor, strokeColor;
+          
+          if (value === 'entity') {
+            fillColor = uiConstants.entityFill;
+            strokeColor = uiConstants.entityStroke;
+          } else if (value === 'relation') {
+            fillColor = uiConstants.relationFill;
+            strokeColor = uiConstants.relationStroke;
+          } else if (value === 'modifier') {
+            fillColor = uiConstants.modifierFill || '#C9D6E9';
+            strokeColor = uiConstants.modifierStroke || '#C9D6E9';
+          }
+          
           node.setAttrByPath('body/fill', fillColor);
           node.setAttrByPath('body/stroke', strokeColor);
         }
@@ -315,10 +339,10 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 h-[400px] overflow-y-auto pr-2">
         {selectedNode && (
-          <Card>
-            <CardContent className="pt-6 space-y-4">
+          <Card className="overflow-visible">
+            <CardContent className="pt-6 space-y-4 overflow-visible">
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-semibold">Edit Node</h3>
                 <Button variant="destructive" size="sm" onClick={deleteNode}>
@@ -327,7 +351,7 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
               </div>
               
               {nodes.find(n => n.id === selectedNode) && (
-                <>
+                <div className="grid grid-cols-1 gap-4">
                   <div>
                     <Label htmlFor="node-id">ID</Label>
                     <Input
@@ -344,7 +368,7 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
                       onChange={(e) => updateNode(selectedNode, 'label', e.target.value)}
                     />
                   </div>
-                  <div>
+                  <div className="relative z-10 mb-12">
                     <Label htmlFor="node-type">Type</Label>
                     <Select
                       value={nodes.find(n => n.id === selectedNode)?.type || 'entity'}
@@ -353,9 +377,10 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
                       <SelectTrigger>
                         <SelectValue placeholder="Select node type" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-white border shadow-md">
                         <SelectItem value="entity">Entity</SelectItem>
                         <SelectItem value="relation">Relation</SelectItem>
+                        <SelectItem value="modifier">Modifier</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -377,15 +402,15 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
                       onChange={(e) => updateNode(selectedNode, 'y', parseInt(e.target.value) || 0)}
                     />
                   </div>
-                </>
+                </div>
               )}
             </CardContent>
           </Card>
         )}
 
         {selectedEdge && (
-          <Card>
-            <CardContent className="pt-6 space-y-4">
+          <Card className="overflow-visible">
+            <CardContent className="pt-6 space-y-4 overflow-visible">
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-semibold">Edit Edge</h3>
                 <Button variant="destructive" size="sm" onClick={deleteEdge}>
@@ -394,7 +419,7 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
               </div>
               
               {edges.find(e => e.id === selectedEdge) && (
-                <>
+                <div className="grid grid-cols-1 gap-4">
                   <div>
                     <Label htmlFor="edge-id">ID</Label>
                     <Input
@@ -403,7 +428,7 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
                       onChange={(e) => updateEdge(selectedEdge, 'id', e.target.value)}
                     />
                   </div>
-                  <div>
+                  <div className="relative z-10 mb-12">
                     <Label htmlFor="edge-source">Source</Label>
                     <Select
                       value={edges.find(e => e.id === selectedEdge)?.source || ''}
@@ -412,7 +437,7 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
                       <SelectTrigger>
                         <SelectValue placeholder="Select source node" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-white border shadow-md">
                         {nodes.map((node) => (
                           <SelectItem key={node.id} value={node.id}>
                             {node.label} ({node.id})
@@ -421,7 +446,7 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
                       </SelectContent>
                     </Select>
                   </div>
-                  <div>
+                  <div className="relative z-10 mb-12">
                     <Label htmlFor="edge-target">Target</Label>
                     <Select
                       value={edges.find(e => e.id === selectedEdge)?.target || ''}
@@ -430,7 +455,7 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
                       <SelectTrigger>
                         <SelectValue placeholder="Select target node" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-white border shadow-md">
                         {nodes.map((node) => (
                           <SelectItem key={node.id} value={node.id}>
                             {node.label} ({node.id})
@@ -447,7 +472,7 @@ export default function ConfigGraphEditor({ graphData, uiConstants, onChange }: 
                       onChange={(e) => updateEdge(selectedEdge, 'label', e.target.value)}
                     />
                   </div>
-                </>
+                </div>
               )}
             </CardContent>
           </Card>

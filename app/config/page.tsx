@@ -1760,6 +1760,81 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       </div>
                     </div>
                     <div>
+                      <Label htmlFor="graph-modifier-fill">Modifier Fill</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="graph-modifier-fill"
+                          value={config.uiConstants.graph.modifierFill || '#C9D6E9'}
+                          onChange={(e) => {
+                            setConfig({
+                              ...config,
+                              uiConstants: {
+                                ...config.uiConstants,
+                                graph: {
+                                  ...config.uiConstants.graph,
+                                  modifierFill: e.target.value,
+                                },
+                              },
+                            });
+                          }}
+                        />
+                        <div
+                          className="w-10 h-10 rounded border"
+                          style={{ backgroundColor: config.uiConstants.graph.modifierFill || '#C9D6E9' }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="graph-modifier-stroke">Modifier Stroke</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="graph-modifier-stroke"
+                          value={config.uiConstants.graph.modifierStroke || '#C9D6E9'}
+                          onChange={(e) => {
+                            setConfig({
+                              ...config,
+                              uiConstants: {
+                                ...config.uiConstants,
+                                graph: {
+                                  ...config.uiConstants.graph,
+                                  modifierStroke: e.target.value,
+                                },
+                              },
+                            });
+                          }}
+                        />
+                        <div
+                          className="w-10 h-10 rounded border"
+                          style={{ backgroundColor: config.uiConstants.graph.modifierStroke || '#C9D6E9' }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="graph-modifier-text">Modifier Text</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="graph-modifier-text"
+                          value={config.uiConstants.graph.modifierText || '#66668A'}
+                          onChange={(e) => {
+                            setConfig({
+                              ...config,
+                              uiConstants: {
+                                ...config.uiConstants,
+                                graph: {
+                                  ...config.uiConstants.graph,
+                                  modifierText: e.target.value,
+                                },
+                              },
+                            });
+                          }}
+                        />
+                        <div
+                          className="w-10 h-10 rounded border"
+                          style={{ backgroundColor: config.uiConstants.graph.modifierText || '#66668A' }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div>
                       <Label htmlFor="graph-edge-stroke">Edge Stroke</Label>
                       <div className="flex gap-2">
                         <Input

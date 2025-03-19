@@ -2,7 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,14 +17,32 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, Trash, Download, FileJson, UploadCloud } from "lucide-react";
 import { Graph } from "@antv/x6";
 import * as appConfig from "@/lib/config/appConfig";
 import ConfigGraphEditor from "@/components/config/ConfigGraphEditor";
 import ColorPicker from "@/components/config/ColorPicker";
-
+{
+  /*后面根据url换文件*/
+}
 // ImgBB API Key
 const IMGBB_API_KEY = "7310033e928db829771cad56fc098222";
 const IMGBB_EXPIRATION = "15552000"; // in seconds (180 days)
@@ -33,14 +57,26 @@ export default function ConfigPage() {
   useEffect(() => {
     const initialConfig = {
       visualElements: JSON.parse(JSON.stringify(appConfig.visualElements)),
-      emotionColorWheelLegend: JSON.parse(JSON.stringify(appConfig.emotionColorWheelLegend)),
-      emotionColorWheelData: JSON.parse(JSON.stringify(appConfig.emotionColorWheelData)),
-      radarChartInitialData: JSON.parse(JSON.stringify(appConfig.radarChartInitialData)),
-      radarChartAnalysisData: JSON.parse(JSON.stringify(appConfig.radarChartAnalysisData)),
-      radarChartPurpleColors: JSON.parse(JSON.stringify(appConfig.radarChartPurpleColors)),
+      emotionColorWheelLegend: JSON.parse(
+        JSON.stringify(appConfig.emotionColorWheelLegend)
+      ),
+      emotionColorWheelData: JSON.parse(
+        JSON.stringify(appConfig.emotionColorWheelData)
+      ),
+      radarChartInitialData: JSON.parse(
+        JSON.stringify(appConfig.radarChartInitialData)
+      ),
+      radarChartAnalysisData: JSON.parse(
+        JSON.stringify(appConfig.radarChartAnalysisData)
+      ),
+      radarChartPurpleColors: JSON.parse(
+        JSON.stringify(appConfig.radarChartPurpleColors)
+      ),
       keywordsMap: JSON.parse(JSON.stringify(appConfig.keywordsMap)),
       quietNightPoem: JSON.parse(JSON.stringify(appConfig.quietNightPoem)),
-      predefinedQuestions: JSON.parse(JSON.stringify(appConfig.predefinedQuestions)),
+      predefinedQuestions: JSON.parse(
+        JSON.stringify(appConfig.predefinedQuestions)
+      ),
       graphCanvasData: JSON.parse(JSON.stringify(appConfig.graphCanvasData)),
       uiConstants: JSON.parse(JSON.stringify(appConfig.uiConstants)),
     };
@@ -76,7 +112,9 @@ export default function ConfigPage() {
     } catch (error) {
       toast({
         title: "Error",
-        description: `Failed to upload image: ${error instanceof Error ? error.message : String(error)}`,
+        description: `Failed to upload image: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
         variant: "destructive",
       });
       setIsLoading(false);
@@ -113,16 +151,28 @@ export interface VisualElement {
 /**
  * Visual elements for each canvas
  */
-export const visualElements: { [key: number]: VisualElement[] } = ${JSON.stringify(config.visualElements, null, 2)};
+export const visualElements: { [key: number]: VisualElement[] } = ${JSON.stringify(
+      config.visualElements,
+      null,
+      2
+    )};
 
 // ========== EMOTION ANALYSIS CONFIG ==========
 
 /**
  * Emotion color wheel data configuration
  */
-export const emotionColorWheelLegend = ${JSON.stringify(config.emotionColorWheelLegend, null, 2)};
+export const emotionColorWheelLegend = ${JSON.stringify(
+      config.emotionColorWheelLegend,
+      null,
+      2
+    )};
 
-export const emotionColorWheelData = ${JSON.stringify(config.emotionColorWheelData, null, 2)};
+export const emotionColorWheelData = ${JSON.stringify(
+      config.emotionColorWheelData,
+      null,
+      2
+    )};
 
 /**
  * Interface for radar chart data points
@@ -137,17 +187,29 @@ export interface RadarDataPoint {
 /**
  * Initial data for the radar chart
  */
-export const radarChartInitialData: RadarDataPoint[] = ${JSON.stringify(config.radarChartInitialData, null, 2)};
+export const radarChartInitialData: RadarDataPoint[] = ${JSON.stringify(
+      config.radarChartInitialData,
+      null,
+      2
+    )};
 
 /**
  * Analysis data for the radar chart
  */
-export const radarChartAnalysisData: RadarDataPoint[] = ${JSON.stringify(config.radarChartAnalysisData, null, 2)};
+export const radarChartAnalysisData: RadarDataPoint[] = ${JSON.stringify(
+      config.radarChartAnalysisData,
+      null,
+      2
+    )};
 
 /**
  * Purple colors for radar chart background layers
  */
-export const radarChartPurpleColors = ${JSON.stringify(config.radarChartPurpleColors, null, 2)};
+export const radarChartPurpleColors = ${JSON.stringify(
+      config.radarChartPurpleColors,
+      null,
+      2
+    )};
 
 // ========== POEM DATA CONFIG ==========
 
@@ -184,12 +246,20 @@ export interface PoemData {
 /**
  * Keywords to highlight in the poem
  */
-export const keywordsMap: PoemKeyword = ${JSON.stringify(config.keywordsMap, null, 2)};
+export const keywordsMap: PoemKeyword = ${JSON.stringify(
+      config.keywordsMap,
+      null,
+      2
+    )};
 
 /**
  * Li Bai's "Quiet Night Thoughts" poem
  */
-export const quietNightPoem: PoemData = ${JSON.stringify(config.quietNightPoem, null, 2)};
+export const quietNightPoem: PoemData = ${JSON.stringify(
+      config.quietNightPoem,
+      null,
+      2
+    )};
 
 // ========== AI CHAT CONFIG ==========
 
@@ -214,7 +284,11 @@ export interface PredefinedQuestion {
 /**
  * Predefined questions for poetry analysis
  */
-export const predefinedQuestions: PredefinedQuestion[] = ${JSON.stringify(config.predefinedQuestions, null, 2)};
+export const predefinedQuestions: PredefinedQuestion[] = ${JSON.stringify(
+      config.predefinedQuestions,
+      null,
+      2
+    )};
 
 // ========== GRAPH VISUALIZATION CONFIG ==========
 
@@ -247,7 +321,11 @@ export interface SceneEdge {
 /**
  * Graph data for each canvas (1-4)
  */
-export const graphCanvasData = ${JSON.stringify(config.graphCanvasData, null, 2)};
+export const graphCanvasData = ${JSON.stringify(
+      config.graphCanvasData,
+      null,
+      2
+    )};
 
 // ========== UI CONSTANTS ==========
 
@@ -263,7 +341,7 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
   const downloadConfigFile = () => {
     const content = generateConfigFile();
     setFileContent(content);
-    
+
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -281,14 +359,22 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
   };
 
   if (!config) {
-    return <div className="flex items-center justify-center min-h-screen">Loading configuration...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading configuration...
+      </div>
+    );
   }
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-6">Configuration Editor</h1>
       <div className="flex justify-between mb-6">
-        <Button onClick={downloadConfigFile} variant="default" className="flex items-center gap-2">
+        <Button
+          onClick={downloadConfigFile}
+          variant="default"
+          className="flex items-center gap-2"
+        >
           <Download size={16} />
           Download Config
         </Button>
@@ -307,11 +393,15 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
               </AlertDialogDescription>
             </AlertDialogHeader>
             <ScrollArea className="h-[50vh] border rounded-md p-4 bg-gray-50 dark:bg-gray-900">
-              <pre className="whitespace-pre-wrap text-sm">{generateConfigFile()}</pre>
+              <pre className="whitespace-pre-wrap text-sm">
+                {generateConfigFile()}
+              </pre>
             </ScrollArea>
             <AlertDialogFooter>
               <AlertDialogCancel>Close</AlertDialogCancel>
-              <AlertDialogAction onClick={downloadConfigFile}>Download</AlertDialogAction>
+              <AlertDialogAction onClick={downloadConfigFile}>
+                Download
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
@@ -333,7 +423,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
           <Card>
             <CardHeader>
               <CardTitle>Visual Elements Configuration</CardTitle>
-              <CardDescription>Manage visual elements for each canvas</CardDescription>
+              <CardDescription>
+                Manage visual elements for each canvas
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="1" className="w-full">
@@ -345,19 +437,26 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                 </TabsList>
 
                 {Object.keys(config.visualElements).map((canvasId) => (
-                  <TabsContent key={canvasId} value={canvasId} className="space-y-4">
+                  <TabsContent
+                    key={canvasId}
+                    value={canvasId}
+                    className="space-y-4"
+                  >
                     <div className="flex justify-end mb-4">
                       <Button
                         onClick={() => {
-                          const newElements = [...config.visualElements[Number(canvasId)]];
-                          const newId = Math.max(...newElements.map((e) => e.id), 0) + 1;
+                          const newElements = [
+                            ...config.visualElements[Number(canvasId)],
+                          ];
+                          const newId =
+                            Math.max(...newElements.map((e) => e.id), 0) + 1;
                           newElements.push({
                             id: newId,
                             src: "/placeholder.svg",
                             title: `New Element ${newId}`,
                             size: { width: 100, height: 100 },
                           });
-                          
+
                           setConfig({
                             ...config,
                             visualElements: {
@@ -374,159 +473,205 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       </Button>
                     </div>
 
-                    {config.visualElements[Number(canvasId)].map((element, idx) => (
-                      <Card key={idx} className="mb-4">
-                        <CardHeader className="pb-2">
-                          <div className="flex justify-between items-center">
-                            <CardTitle className="text-lg">Element {element.id}</CardTitle>
-                            <Button
-                              onClick={() => {
-                                const newElements = config.visualElements[Number(canvasId)].filter(
-                                  (_, i) => i !== idx
-                                );
-                                setConfig({
-                                  ...config,
-                                  visualElements: {
-                                    ...config.visualElements,
-                                    [Number(canvasId)]: newElements,
-                                  },
-                                });
-                              }}
-                              variant="destructive"
-                              size="sm"
-                            >
-                              <Trash size={16} />
-                            </Button>
-                          </div>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div className="grid grid-cols-[1fr_2fr] gap-4 items-start">
-                            <div className="space-y-4">
-                              <div>
-                                <Label htmlFor={`visual-element-${canvasId}-${idx}-title`}>Title</Label>
-                                <Input
-                                  id={`visual-element-${canvasId}-${idx}-title`}
-                                  value={element.title}
-                                  onChange={(e) => {
-                                    const newElements = [...config.visualElements[Number(canvasId)]];
-                                    newElements[idx] = {
-                                      ...newElements[idx],
-                                      title: e.target.value,
-                                    };
-                                    setConfig({
-                                      ...config,
-                                      visualElements: {
-                                        ...config.visualElements,
-                                        [Number(canvasId)]: newElements,
-                                      },
-                                    });
-                                  }}
-                                />
-                              </div>
-                              <div>
-                                <Label htmlFor={`visual-element-${canvasId}-${idx}-width`}>Width</Label>
-                                <Input
-                                  id={`visual-element-${canvasId}-${idx}-width`}
-                                  type="number"
-                                  value={element.size.width}
-                                  onChange={(e) => {
-                                    const newElements = [...config.visualElements[Number(canvasId)]];
-                                    newElements[idx] = {
-                                      ...newElements[idx],
-                                      size: {
-                                        ...newElements[idx].size,
-                                        width: parseInt(e.target.value, 10) || 0,
-                                      },
-                                    };
-                                    setConfig({
-                                      ...config,
-                                      visualElements: {
-                                        ...config.visualElements,
-                                        [Number(canvasId)]: newElements,
-                                      },
-                                    });
-                                  }}
-                                />
-                              </div>
-                              <div>
-                                <Label htmlFor={`visual-element-${canvasId}-${idx}-height`}>Height</Label>
-                                <Input
-                                  id={`visual-element-${canvasId}-${idx}-height`}
-                                  type="number"
-                                  value={element.size.height}
-                                  onChange={(e) => {
-                                    const newElements = [...config.visualElements[Number(canvasId)]];
-                                    newElements[idx] = {
-                                      ...newElements[idx],
-                                      size: {
-                                        ...newElements[idx].size,
-                                        height: parseInt(e.target.value, 10) || 0,
-                                      },
-                                    };
-                                    setConfig({
-                                      ...config,
-                                      visualElements: {
-                                        ...config.visualElements,
-                                        [Number(canvasId)]: newElements,
-                                      },
-                                    });
-                                  }}
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <Label>Image Upload</Label>
-                                <div className="flex items-center space-x-2">
+                    {config.visualElements[Number(canvasId)].map(
+                      (element, idx) => (
+                        <Card key={idx} className="mb-4">
+                          <CardHeader className="pb-2">
+                            <div className="flex justify-between items-center">
+                              <CardTitle className="text-lg">
+                                Element {element.id}
+                              </CardTitle>
+                              <Button
+                                onClick={() => {
+                                  const newElements = config.visualElements[
+                                    Number(canvasId)
+                                  ].filter((_, i) => i !== idx);
+                                  setConfig({
+                                    ...config,
+                                    visualElements: {
+                                      ...config.visualElements,
+                                      [Number(canvasId)]: newElements,
+                                    },
+                                  });
+                                }}
+                                variant="destructive"
+                                size="sm"
+                              >
+                                <Trash size={16} />
+                              </Button>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="space-y-4">
+                            <div className="grid grid-cols-[1fr_2fr] gap-4 items-start">
+                              <div className="space-y-4">
+                                <div>
+                                  <Label
+                                    htmlFor={`visual-element-${canvasId}-${idx}-title`}
+                                  >
+                                    Title
+                                  </Label>
                                   <Input
-                                    id={`visual-element-${canvasId}-${idx}-image`}
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={async (e) => {
-                                      if (e.target.files && e.target.files[0]) {
-                                        const file = e.target.files[0];
-                                        const url = await uploadImage(file);
-                                        if (url) {
-                                          const newElements = [...config.visualElements[Number(canvasId)]];
-                                          newElements[idx] = {
-                                            ...newElements[idx],
-                                            src: url,
-                                          };
-                                          setConfig({
-                                            ...config,
-                                            visualElements: {
-                                              ...config.visualElements,
-                                              [Number(canvasId)]: newElements,
-                                            },
-                                          });
-                                        }
-                                      }
+                                    id={`visual-element-${canvasId}-${idx}-title`}
+                                    value={element.title}
+                                    onChange={(e) => {
+                                      const newElements = [
+                                        ...config.visualElements[
+                                          Number(canvasId)
+                                        ],
+                                      ];
+                                      newElements[idx] = {
+                                        ...newElements[idx],
+                                        title: e.target.value,
+                                      };
+                                      setConfig({
+                                        ...config,
+                                        visualElements: {
+                                          ...config.visualElements,
+                                          [Number(canvasId)]: newElements,
+                                        },
+                                      });
                                     }}
-                                    className="max-w-sm"
                                   />
-                                  <Button variant="secondary" disabled={isLoading} size="sm">
-                                    {isLoading ? "Uploading..." : <UploadCloud size={16} />}
-                                  </Button>
+                                </div>
+                                <div>
+                                  <Label
+                                    htmlFor={`visual-element-${canvasId}-${idx}-width`}
+                                  >
+                                    Width
+                                  </Label>
+                                  <Input
+                                    id={`visual-element-${canvasId}-${idx}-width`}
+                                    type="number"
+                                    value={element.size.width}
+                                    onChange={(e) => {
+                                      const newElements = [
+                                        ...config.visualElements[
+                                          Number(canvasId)
+                                        ],
+                                      ];
+                                      newElements[idx] = {
+                                        ...newElements[idx],
+                                        size: {
+                                          ...newElements[idx].size,
+                                          width:
+                                            parseInt(e.target.value, 10) || 0,
+                                        },
+                                      };
+                                      setConfig({
+                                        ...config,
+                                        visualElements: {
+                                          ...config.visualElements,
+                                          [Number(canvasId)]: newElements,
+                                        },
+                                      });
+                                    }}
+                                  />
+                                </div>
+                                <div>
+                                  <Label
+                                    htmlFor={`visual-element-${canvasId}-${idx}-height`}
+                                  >
+                                    Height
+                                  </Label>
+                                  <Input
+                                    id={`visual-element-${canvasId}-${idx}-height`}
+                                    type="number"
+                                    value={element.size.height}
+                                    onChange={(e) => {
+                                      const newElements = [
+                                        ...config.visualElements[
+                                          Number(canvasId)
+                                        ],
+                                      ];
+                                      newElements[idx] = {
+                                        ...newElements[idx],
+                                        size: {
+                                          ...newElements[idx].size,
+                                          height:
+                                            parseInt(e.target.value, 10) || 0,
+                                        },
+                                      };
+                                      setConfig({
+                                        ...config,
+                                        visualElements: {
+                                          ...config.visualElements,
+                                          [Number(canvasId)]: newElements,
+                                        },
+                                      });
+                                    }}
+                                  />
+                                </div>
+                                <div className="space-y-2">
+                                  <Label>Image Upload</Label>
+                                  <div className="flex items-center space-x-2">
+                                    <Input
+                                      id={`visual-element-${canvasId}-${idx}-image`}
+                                      type="file"
+                                      accept="image/*"
+                                      onChange={async (e) => {
+                                        if (
+                                          e.target.files &&
+                                          e.target.files[0]
+                                        ) {
+                                          const file = e.target.files[0];
+                                          const url = await uploadImage(file);
+                                          if (url) {
+                                            const newElements = [
+                                              ...config.visualElements[
+                                                Number(canvasId)
+                                              ],
+                                            ];
+                                            newElements[idx] = {
+                                              ...newElements[idx],
+                                              src: url,
+                                            };
+                                            setConfig({
+                                              ...config,
+                                              visualElements: {
+                                                ...config.visualElements,
+                                                [Number(canvasId)]: newElements,
+                                              },
+                                            });
+                                          }
+                                        }
+                                      }}
+                                      className="max-w-sm"
+                                    />
+                                    <Button
+                                      variant="secondary"
+                                      disabled={isLoading}
+                                      size="sm"
+                                    >
+                                      {isLoading ? (
+                                        "Uploading..."
+                                      ) : (
+                                        <UploadCloud size={16} />
+                                      )}
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="border rounded p-4 flex items-center justify-center overflow-hidden">
+                                <div className="text-center">
+                                  <img
+                                    src={element.src}
+                                    alt={element.title}
+                                    className="max-h-32 mx-auto object-contain mb-2"
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).src =
+                                        "/placeholder.svg";
+                                    }}
+                                  />
+                                  <div className="text-sm text-gray-500 break-all">
+                                    {element.src}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <div className="border rounded p-4 flex items-center justify-center overflow-hidden">
-                              <div className="text-center">
-                                <img
-                                  src={element.src}
-                                  alt={element.title}
-                                  className="max-h-32 mx-auto object-contain mb-2"
-                                  onError={(e) => {
-                                    (e.target as HTMLImageElement).src = "/placeholder.svg";
-                                  }}
-                                />
-                                <div className="text-sm text-gray-500 break-all">
-                                  {element.src}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                          </CardContent>
+                        </Card>
+                      )
+                    )}
                   </TabsContent>
                 ))}
               </Tabs>
@@ -539,7 +684,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
           <Card>
             <CardHeader>
               <CardTitle>Emotion Color Wheel Configuration</CardTitle>
-              <CardDescription>Configure the emotion color wheel legend and data</CardDescription>
+              <CardDescription>
+                Configure the emotion color wheel legend and data
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="wheel-data" className="w-full">
@@ -554,12 +701,15 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                   <div className="flex justify-end mb-4">
                     <Button
                       onClick={() => {
-                        const newData = [...config.emotionColorWheelData, {
-                          emotion: "New Emotion",
-                          color: "#cccccc",
-                          value: 20,
-                          degree: 0,
-                        }];
+                        const newData = [
+                          ...config.emotionColorWheelData,
+                          {
+                            emotion: "New Emotion",
+                            color: "#cccccc",
+                            value: 20,
+                            degree: 0,
+                          },
+                        ];
                         setConfig({
                           ...config,
                           emotionColorWheelData: newData,
@@ -577,10 +727,15 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                     <Card key={idx} className="mb-4">
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-center">
-                          <CardTitle className="text-lg">{item.emotion}</CardTitle>
+                          <CardTitle className="text-lg">
+                            {item.emotion}
+                          </CardTitle>
                           <Button
                             onClick={() => {
-                              const newData = config.emotionColorWheelData.filter((_, i) => i !== idx);
+                              const newData =
+                                config.emotionColorWheelData.filter(
+                                  (_, i) => i !== idx
+                                );
                               setConfig({
                                 ...config,
                                 emotionColorWheelData: newData,
@@ -595,27 +750,47 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       </CardHeader>
                       <CardContent className="grid grid-cols-2 gap-4">
                         <div>
-                          <Label htmlFor={`emotion-legend-${idx}-name`}>Emotion Name</Label>
+                          <Label htmlFor={`emotion-legend-${idx}-name`}>
+                            Emotion Name
+                          </Label>
                           <Input
                             id={`emotion-legend-${idx}-name`}
                             value={item.emotion}
                             onChange={(e) => {
-                              const newLegend = [...config.emotionColorWheelLegend];
-                              newLegend[idx] = { ...newLegend[idx], emotion: e.target.value };
-                              setConfig({ ...config, emotionColorWheelLegend: newLegend });
+                              const newLegend = [
+                                ...config.emotionColorWheelLegend,
+                              ];
+                              newLegend[idx] = {
+                                ...newLegend[idx],
+                                emotion: e.target.value,
+                              };
+                              setConfig({
+                                ...config,
+                                emotionColorWheelLegend: newLegend,
+                              });
                             }}
                           />
                         </div>
                         <div>
-                          <Label htmlFor={`emotion-legend-${idx}-color`}>Color</Label>
+                          <Label htmlFor={`emotion-legend-${idx}-color`}>
+                            Color
+                          </Label>
                           <div className="flex gap-2">
                             <Input
                               id={`emotion-legend-${idx}-color`}
                               value={item.color}
                               onChange={(e) => {
-                                const newLegend = [...config.emotionColorWheelLegend];
-                                newLegend[idx] = { ...newLegend[idx], color: e.target.value };
-                                setConfig({ ...config, emotionColorWheelLegend: newLegend });
+                                const newLegend = [
+                                  ...config.emotionColorWheelLegend,
+                                ];
+                                newLegend[idx] = {
+                                  ...newLegend[idx],
+                                  color: e.target.value,
+                                };
+                                setConfig({
+                                  ...config,
+                                  emotionColorWheelLegend: newLegend,
+                                });
                               }}
                             />
                             <div
@@ -625,28 +800,48 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                           </div>
                         </div>
                         <div>
-                          <Label htmlFor={`emotion-legend-${idx}-value`}>Value</Label>
+                          <Label htmlFor={`emotion-legend-${idx}-value`}>
+                            Value
+                          </Label>
                           <Input
                             id={`emotion-legend-${idx}-value`}
                             type="number"
                             value={item.value}
                             onChange={(e) => {
-                              const newLegend = [...config.emotionColorWheelLegend];
-                              newLegend[idx] = { ...newLegend[idx], value: parseInt(e.target.value, 10) || 0 };
-                              setConfig({ ...config, emotionColorWheelLegend: newLegend });
+                              const newLegend = [
+                                ...config.emotionColorWheelLegend,
+                              ];
+                              newLegend[idx] = {
+                                ...newLegend[idx],
+                                value: parseInt(e.target.value, 10) || 0,
+                              };
+                              setConfig({
+                                ...config,
+                                emotionColorWheelLegend: newLegend,
+                              });
                             }}
                           />
                         </div>
                         <div>
-                          <Label htmlFor={`emotion-legend-${idx}-degree`}>Degree</Label>
+                          <Label htmlFor={`emotion-legend-${idx}-degree`}>
+                            Degree
+                          </Label>
                           <Input
                             id={`emotion-legend-${idx}-degree`}
                             type="number"
                             value={item.degree}
                             onChange={(e) => {
-                              const newLegend = [...config.emotionColorWheelLegend];
-                              newLegend[idx] = { ...newLegend[idx], degree: parseInt(e.target.value, 10) || 0 };
-                              setConfig({ ...config, emotionColorWheelLegend: newLegend });
+                              const newLegend = [
+                                ...config.emotionColorWheelLegend,
+                              ];
+                              newLegend[idx] = {
+                                ...newLegend[idx],
+                                degree: parseInt(e.target.value, 10) || 0,
+                              };
+                              setConfig({
+                                ...config,
+                                emotionColorWheelLegend: newLegend,
+                              });
                             }}
                           />
                         </div>
@@ -660,12 +855,15 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                   <div className="flex justify-end mb-4">
                     <Button
                       onClick={() => {
-                        const newData = [...config.emotionColorWheelData, {
-                          emotion: "New Emotion",
-                          color: "#cccccc",
-                          value: 20,
-                          degree: 0,
-                        }];
+                        const newData = [
+                          ...config.emotionColorWheelData,
+                          {
+                            emotion: "New Emotion",
+                            color: "#cccccc",
+                            value: 20,
+                            degree: 0,
+                          },
+                        ];
                         setConfig({
                           ...config,
                           emotionColorWheelData: newData,
@@ -684,10 +882,15 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       <Card key={idx} className="mb-4">
                         <CardHeader className="pb-2">
                           <div className="flex justify-between items-center">
-                            <CardTitle className="text-lg">{item.emotion}</CardTitle>
+                            <CardTitle className="text-lg">
+                              {item.emotion}
+                            </CardTitle>
                             <Button
                               onClick={() => {
-                                const newData = config.emotionColorWheelData.filter((_, i) => i !== idx);
+                                const newData =
+                                  config.emotionColorWheelData.filter(
+                                    (_, i) => i !== idx
+                                  );
                                 setConfig({
                                   ...config,
                                   emotionColorWheelData: newData,
@@ -702,27 +905,47 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         </CardHeader>
                         <CardContent className="grid grid-cols-2 gap-4">
                           <div>
-                            <Label htmlFor={`emotion-data-${idx}-name`}>Emotion Name</Label>
+                            <Label htmlFor={`emotion-data-${idx}-name`}>
+                              Emotion Name
+                            </Label>
                             <Input
                               id={`emotion-data-${idx}-name`}
                               value={item.emotion}
                               onChange={(e) => {
-                                const newData = [...config.emotionColorWheelData];
-                                newData[idx] = { ...newData[idx], emotion: e.target.value };
-                                setConfig({ ...config, emotionColorWheelData: newData });
+                                const newData = [
+                                  ...config.emotionColorWheelData,
+                                ];
+                                newData[idx] = {
+                                  ...newData[idx],
+                                  emotion: e.target.value,
+                                };
+                                setConfig({
+                                  ...config,
+                                  emotionColorWheelData: newData,
+                                });
                               }}
                             />
                           </div>
                           <div>
-                            <Label htmlFor={`emotion-data-${idx}-color`}>Color</Label>
+                            <Label htmlFor={`emotion-data-${idx}-color`}>
+                              Color
+                            </Label>
                             <div className="flex gap-2">
                               <Input
                                 id={`emotion-data-${idx}-color`}
                                 value={item.color}
                                 onChange={(e) => {
-                                  const newData = [...config.emotionColorWheelData];
-                                  newData[idx] = { ...newData[idx], color: e.target.value };
-                                  setConfig({ ...config, emotionColorWheelData: newData });
+                                  const newData = [
+                                    ...config.emotionColorWheelData,
+                                  ];
+                                  newData[idx] = {
+                                    ...newData[idx],
+                                    color: e.target.value,
+                                  };
+                                  setConfig({
+                                    ...config,
+                                    emotionColorWheelData: newData,
+                                  });
                                 }}
                               />
                               <div
@@ -732,28 +955,48 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                             </div>
                           </div>
                           <div>
-                            <Label htmlFor={`emotion-data-${idx}-value`}>Value</Label>
+                            <Label htmlFor={`emotion-data-${idx}-value`}>
+                              Value
+                            </Label>
                             <Input
                               id={`emotion-data-${idx}-value`}
                               type="number"
                               value={item.value}
                               onChange={(e) => {
-                                const newData = [...config.emotionColorWheelData];
-                                newData[idx] = { ...newData[idx], value: parseInt(e.target.value, 10) || 0 };
-                                setConfig({ ...config, emotionColorWheelData: newData });
+                                const newData = [
+                                  ...config.emotionColorWheelData,
+                                ];
+                                newData[idx] = {
+                                  ...newData[idx],
+                                  value: parseInt(e.target.value, 10) || 0,
+                                };
+                                setConfig({
+                                  ...config,
+                                  emotionColorWheelData: newData,
+                                });
                               }}
                             />
                           </div>
                           <div>
-                            <Label htmlFor={`emotion-data-${idx}-degree`}>Degree</Label>
+                            <Label htmlFor={`emotion-data-${idx}-degree`}>
+                              Degree
+                            </Label>
                             <Input
                               id={`emotion-data-${idx}-degree`}
                               type="number"
                               value={item.degree}
                               onChange={(e) => {
-                                const newData = [...config.emotionColorWheelData];
-                                newData[idx] = { ...newData[idx], degree: parseInt(e.target.value, 10) || 0 };
-                                setConfig({ ...config, emotionColorWheelData: newData });
+                                const newData = [
+                                  ...config.emotionColorWheelData,
+                                ];
+                                newData[idx] = {
+                                  ...newData[idx],
+                                  degree: parseInt(e.target.value, 10) || 0,
+                                };
+                                setConfig({
+                                  ...config,
+                                  emotionColorWheelData: newData,
+                                });
                               }}
                             />
                           </div>
@@ -769,47 +1012,83 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                   <Card>
                     <CardHeader>
                       <CardTitle>Radar Chart Initial Data</CardTitle>
-                      <CardDescription>Configure the initial data for the radar chart</CardDescription>
+                      <CardDescription>
+                        Configure the initial data for the radar chart
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
                         {config.radarChartInitialData.map((item, idx) => (
-                          <div key={idx} className="grid grid-cols-3 gap-4 items-center">
+                          <div
+                            key={idx}
+                            className="grid grid-cols-3 gap-4 items-center"
+                          >
                             <div>
-                              <Label htmlFor={`radar-initial-${idx}-emotion`}>Emotion</Label>
+                              <Label htmlFor={`radar-initial-${idx}-emotion`}>
+                                Emotion
+                              </Label>
                               <Input
                                 id={`radar-initial-${idx}-emotion`}
                                 value={item.emotion}
                                 onChange={(e) => {
-                                  const newData = [...config.radarChartInitialData];
-                                  newData[idx] = { ...newData[idx], emotion: e.target.value };
-                                  setConfig({ ...config, radarChartInitialData: newData });
+                                  const newData = [
+                                    ...config.radarChartInitialData,
+                                  ];
+                                  newData[idx] = {
+                                    ...newData[idx],
+                                    emotion: e.target.value,
+                                  };
+                                  setConfig({
+                                    ...config,
+                                    radarChartInitialData: newData,
+                                  });
                                 }}
                               />
                             </div>
                             <div>
-                              <Label htmlFor={`radar-initial-${idx}-angle`}>Angle</Label>
+                              <Label htmlFor={`radar-initial-${idx}-angle`}>
+                                Angle
+                              </Label>
                               <Input
                                 id={`radar-initial-${idx}-angle`}
                                 type="number"
                                 value={item.angle}
                                 onChange={(e) => {
-                                  const newData = [...config.radarChartInitialData];
-                                  newData[idx] = { ...newData[idx], angle: parseInt(e.target.value, 10) || 0 };
-                                  setConfig({ ...config, radarChartInitialData: newData });
+                                  const newData = [
+                                    ...config.radarChartInitialData,
+                                  ];
+                                  newData[idx] = {
+                                    ...newData[idx],
+                                    angle: parseInt(e.target.value, 10) || 0,
+                                  };
+                                  setConfig({
+                                    ...config,
+                                    radarChartInitialData: newData,
+                                  });
                                 }}
                               />
                             </div>
                             <div>
-                              <Label htmlFor={`radar-initial-${idx}-value`}>User Value</Label>
+                              <Label htmlFor={`radar-initial-${idx}-value`}>
+                                User Value
+                              </Label>
                               <Input
                                 id={`radar-initial-${idx}-value`}
                                 type="number"
                                 value={item.userValue}
                                 onChange={(e) => {
-                                  const newData = [...config.radarChartInitialData];
-                                  newData[idx] = { ...newData[idx], userValue: parseInt(e.target.value, 10) || 0 };
-                                  setConfig({ ...config, radarChartInitialData: newData });
+                                  const newData = [
+                                    ...config.radarChartInitialData,
+                                  ];
+                                  newData[idx] = {
+                                    ...newData[idx],
+                                    userValue:
+                                      parseInt(e.target.value, 10) || 0,
+                                  };
+                                  setConfig({
+                                    ...config,
+                                    radarChartInitialData: newData,
+                                  });
                                 }}
                               />
                             </div>
@@ -823,60 +1102,111 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                   <Card>
                     <CardHeader>
                       <CardTitle>Radar Chart Analysis Data</CardTitle>
-                      <CardDescription>Configure the analysis data for the radar chart</CardDescription>
+                      <CardDescription>
+                        Configure the analysis data for the radar chart
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
                         {config.radarChartAnalysisData.map((item, idx) => (
-                          <div key={idx} className="grid grid-cols-4 gap-4 items-center">
+                          <div
+                            key={idx}
+                            className="grid grid-cols-4 gap-4 items-center"
+                          >
                             <div>
-                              <Label htmlFor={`radar-analysis-${idx}-emotion`}>Emotion</Label>
+                              <Label htmlFor={`radar-analysis-${idx}-emotion`}>
+                                Emotion
+                              </Label>
                               <Input
                                 id={`radar-analysis-${idx}-emotion`}
                                 value={item.emotion}
                                 onChange={(e) => {
-                                  const newData = [...config.radarChartAnalysisData];
-                                  newData[idx] = { ...newData[idx], emotion: e.target.value };
-                                  setConfig({ ...config, radarChartAnalysisData: newData });
+                                  const newData = [
+                                    ...config.radarChartAnalysisData,
+                                  ];
+                                  newData[idx] = {
+                                    ...newData[idx],
+                                    emotion: e.target.value,
+                                  };
+                                  setConfig({
+                                    ...config,
+                                    radarChartAnalysisData: newData,
+                                  });
                                 }}
                               />
                             </div>
                             <div>
-                              <Label htmlFor={`radar-analysis-${idx}-angle`}>Angle</Label>
+                              <Label htmlFor={`radar-analysis-${idx}-angle`}>
+                                Angle
+                              </Label>
                               <Input
                                 id={`radar-analysis-${idx}-angle`}
                                 type="number"
                                 value={item.angle}
                                 onChange={(e) => {
-                                  const newData = [...config.radarChartAnalysisData];
-                                  newData[idx] = { ...newData[idx], angle: parseInt(e.target.value, 10) || 0 };
-                                  setConfig({ ...config, radarChartAnalysisData: newData });
+                                  const newData = [
+                                    ...config.radarChartAnalysisData,
+                                  ];
+                                  newData[idx] = {
+                                    ...newData[idx],
+                                    angle: parseInt(e.target.value, 10) || 0,
+                                  };
+                                  setConfig({
+                                    ...config,
+                                    radarChartAnalysisData: newData,
+                                  });
                                 }}
                               />
                             </div>
                             <div>
-                              <Label htmlFor={`radar-analysis-${idx}-user-value`}>User Value</Label>
+                              <Label
+                                htmlFor={`radar-analysis-${idx}-user-value`}
+                              >
+                                User Value
+                              </Label>
                               <Input
                                 id={`radar-analysis-${idx}-user-value`}
                                 type="number"
                                 value={item.userValue}
                                 onChange={(e) => {
-                                  const newData = [...config.radarChartAnalysisData];
-                                  newData[idx] = { ...newData[idx], userValue: parseInt(e.target.value, 10) || 0 };
-                                  setConfig({ ...config, radarChartAnalysisData: newData });
+                                  const newData = [
+                                    ...config.radarChartAnalysisData,
+                                  ];
+                                  newData[idx] = {
+                                    ...newData[idx],
+                                    userValue:
+                                      parseInt(e.target.value, 10) || 0,
+                                  };
+                                  setConfig({
+                                    ...config,
+                                    radarChartAnalysisData: newData,
+                                  });
                                 }}
                               />
                             </div>
                             <div>
-                              <Label htmlFor={`radar-analysis-${idx}-analysis-value`}>Analysis Value</Label>
+                              <Label
+                                htmlFor={`radar-analysis-${idx}-analysis-value`}
+                              >
+                                Analysis Value
+                              </Label>
                               <Input
                                 id={`radar-analysis-${idx}-analysis-value`}
                                 type="number"
                                 value={item.analysisValue}
                                 onChange={(e) => {
-                                  const newData = [...config.radarChartAnalysisData];
-                                  newData[idx] = { ...newData[idx], analysisValue: parseInt(e.target.value, 10) || 0 };
-                                  setConfig({ ...config, radarChartAnalysisData: newData });
+                                  const newData = [
+                                    ...config.radarChartAnalysisData,
+                                  ];
+                                  newData[idx] = {
+                                    ...newData[idx],
+                                    analysisValue:
+                                      parseInt(e.target.value, 10) || 0,
+                                  };
+                                  setConfig({
+                                    ...config,
+                                    radarChartAnalysisData: newData,
+                                  });
                                 }}
                               />
                             </div>
@@ -890,20 +1220,31 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                   <Card>
                     <CardHeader>
                       <CardTitle>Radar Chart Background Colors</CardTitle>
-                      <CardDescription>Configure the purple background colors for the radar chart</CardDescription>
+                      <CardDescription>
+                        Configure the purple background colors for the radar
+                        chart
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
                         {config.radarChartPurpleColors.map((color, idx) => (
-                          <div key={idx} className="flex items-center space-x-4">
+                          <div
+                            key={idx}
+                            className="flex items-center space-x-4"
+                          >
                             <div className="flex-1">
                               <Input
                                 id={`radar-color-${idx}`}
                                 value={color}
                                 onChange={(e) => {
-                                  const newColors = [...config.radarChartPurpleColors];
+                                  const newColors = [
+                                    ...config.radarChartPurpleColors,
+                                  ];
                                   newColors[idx] = e.target.value;
-                                  setConfig({ ...config, radarChartPurpleColors: newColors });
+                                  setConfig({
+                                    ...config,
+                                    radarChartPurpleColors: newColors,
+                                  });
                                 }}
                               />
                             </div>
@@ -913,7 +1254,10 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                             ></div>
                             <Button
                               onClick={() => {
-                                const newColors = config.radarChartPurpleColors.filter((_, i) => i !== idx);
+                                const newColors =
+                                  config.radarChartPurpleColors.filter(
+                                    (_, i) => i !== idx
+                                  );
                                 setConfig({
                                   ...config,
                                   radarChartPurpleColors: newColors,
@@ -928,7 +1272,10 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         ))}
                         <Button
                           onClick={() => {
-                            const newColors = [...config.radarChartPurpleColors, "#f2f0ff"];
+                            const newColors = [
+                              ...config.radarChartPurpleColors,
+                              "#f2f0ff",
+                            ];
                             setConfig({
                               ...config,
                               radarChartPurpleColors: newColors,
@@ -954,7 +1301,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
           <Card>
             <CardHeader>
               <CardTitle>Poem Data Configuration</CardTitle>
-              <CardDescription>Configure poem data and keywords</CardDescription>
+              <CardDescription>
+                Configure poem data and keywords
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="poem" className="w-full">
@@ -971,7 +1320,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                     </CardHeader>
                     <CardContent className="grid grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="poem-title-original">Original Title</Label>
+                        <Label htmlFor="poem-title-original">
+                          Original Title
+                        </Label>
                         <Input
                           id="poem-title-original"
                           value={config.quietNightPoem.title.original}
@@ -990,7 +1341,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         />
                       </div>
                       <div>
-                        <Label htmlFor="poem-title-translated">Translated Title</Label>
+                        <Label htmlFor="poem-title-translated">
+                          Translated Title
+                        </Label>
                         <Input
                           id="poem-title-translated"
                           value={config.quietNightPoem.title.translated}
@@ -1066,10 +1419,15 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         <Card key={idx} className="mb-4">
                           <CardHeader className="pb-2">
                             <div className="flex justify-between items-center">
-                              <CardTitle className="text-lg">Verse {idx + 1}</CardTitle>
+                              <CardTitle className="text-lg">
+                                Verse {idx + 1}
+                              </CardTitle>
                               <Button
                                 onClick={() => {
-                                  const newVerses = config.quietNightPoem.verses.filter((_, i) => i !== idx);
+                                  const newVerses =
+                                    config.quietNightPoem.verses.filter(
+                                      (_, i) => i !== idx
+                                    );
                                   setConfig({
                                     ...config,
                                     quietNightPoem: {
@@ -1087,12 +1445,16 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                           </CardHeader>
                           <CardContent className="space-y-4">
                             <div>
-                              <Label htmlFor={`verse-${idx}-original`}>Original</Label>
+                              <Label htmlFor={`verse-${idx}-original`}>
+                                Original
+                              </Label>
                               <Input
                                 id={`verse-${idx}-original`}
                                 value={verse.original}
                                 onChange={(e) => {
-                                  const newVerses = [...config.quietNightPoem.verses];
+                                  const newVerses = [
+                                    ...config.quietNightPoem.verses,
+                                  ];
                                   newVerses[idx] = {
                                     ...newVerses[idx],
                                     original: e.target.value,
@@ -1108,12 +1470,16 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                               />
                             </div>
                             <div>
-                              <Label htmlFor={`verse-${idx}-translated`}>Translated</Label>
+                              <Label htmlFor={`verse-${idx}-translated`}>
+                                Translated
+                              </Label>
                               <Input
                                 id={`verse-${idx}-translated`}
                                 value={verse.translated}
                                 onChange={(e) => {
-                                  const newVerses = [...config.quietNightPoem.verses];
+                                  const newVerses = [
+                                    ...config.quietNightPoem.verses,
+                                  ];
                                   newVerses[idx] = {
                                     ...newVerses[idx],
                                     translated: e.target.value,
@@ -1131,12 +1497,19 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                             <div>
                               <Label>Keywords</Label>
                               {verse.keywords?.map((keyword, keywordIdx) => (
-                                <div key={keywordIdx} className="grid grid-cols-[1fr_1fr_auto] gap-2 mt-2">
+                                <div
+                                  key={keywordIdx}
+                                  className="grid grid-cols-[1fr_1fr_auto] gap-2 mt-2"
+                                >
                                   <Input
                                     value={keyword.original}
                                     onChange={(e) => {
-                                      const newVerses = [...config.quietNightPoem.verses];
-                                      const newKeywords = [...(newVerses[idx].keywords || [])];
+                                      const newVerses = [
+                                        ...config.quietNightPoem.verses,
+                                      ];
+                                      const newKeywords = [
+                                        ...(newVerses[idx].keywords || []),
+                                      ];
                                       newKeywords[keywordIdx] = {
                                         ...newKeywords[keywordIdx],
                                         original: e.target.value,
@@ -1158,8 +1531,12 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                                   <Input
                                     value={keyword.translated}
                                     onChange={(e) => {
-                                      const newVerses = [...config.quietNightPoem.verses];
-                                      const newKeywords = [...(newVerses[idx].keywords || [])];
+                                      const newVerses = [
+                                        ...config.quietNightPoem.verses,
+                                      ];
+                                      const newKeywords = [
+                                        ...(newVerses[idx].keywords || []),
+                                      ];
                                       newKeywords[keywordIdx] = {
                                         ...newKeywords[keywordIdx],
                                         translated: e.target.value,
@@ -1182,10 +1559,12 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                                     variant="destructive"
                                     size="sm"
                                     onClick={() => {
-                                      const newVerses = [...config.quietNightPoem.verses];
-                                      const newKeywords = (newVerses[idx].keywords || []).filter(
-                                        (_, i) => i !== keywordIdx
-                                      );
+                                      const newVerses = [
+                                        ...config.quietNightPoem.verses,
+                                      ];
+                                      const newKeywords = (
+                                        newVerses[idx].keywords || []
+                                      ).filter((_, i) => i !== keywordIdx);
                                       newVerses[idx] = {
                                         ...newVerses[idx],
                                         keywords: newKeywords,
@@ -1208,8 +1587,13 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                                 size="sm"
                                 className="mt-2"
                                 onClick={() => {
-                                  const newVerses = [...config.quietNightPoem.verses];
-                                  const newKeywords = [...(newVerses[idx].keywords || []), { original: "", translated: "" }];
+                                  const newVerses = [
+                                    ...config.quietNightPoem.verses,
+                                  ];
+                                  const newKeywords = [
+                                    ...(newVerses[idx].keywords || []),
+                                    { original: "", translated: "" },
+                                  ];
                                   newVerses[idx] = {
                                     ...newVerses[idx],
                                     keywords: newKeywords,
@@ -1232,11 +1616,14 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       <Button
                         variant="outline"
                         onClick={() => {
-                          const newVerses = [...config.quietNightPoem.verses, {
-                            original: "",
-                            translated: "",
-                            keywords: [],
-                          }];
+                          const newVerses = [
+                            ...config.quietNightPoem.verses,
+                            {
+                              original: "",
+                              translated: "",
+                              keywords: [],
+                            },
+                          ];
                           setConfig({
                             ...config,
                             quietNightPoem: {
@@ -1279,50 +1666,78 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                   <Card>
                     <CardHeader>
                       <CardTitle>Keywords Mapping</CardTitle>
-                      <CardDescription>Configure the keywords to highlight in the poem</CardDescription>
+                      <CardDescription>
+                        Configure the keywords to highlight in the poem
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        {Object.entries(config.keywordsMap).map(([key, value], idx) => (
-                          <div key={idx} className="grid grid-cols-[1fr_1fr_auto] gap-4 items-center">
-                            <Input
-                              value={key}
-                              onChange={(e) => {
-                                const newKeywordsMap = { ...config.keywordsMap };
-                                const val = newKeywordsMap[key];
-                                delete newKeywordsMap[key];
-                                newKeywordsMap[e.target.value] = val;
-                                setConfig({ ...config, keywordsMap: newKeywordsMap });
-                              }}
-                              placeholder="Original keyword"
-                            />
-                            <Input
-                              value={value as string}
-                              onChange={(e) => {
-                                const newKeywordsMap = { ...config.keywordsMap };
-                                newKeywordsMap[key] = e.target.value;
-                                setConfig({ ...config, keywordsMap: newKeywordsMap });
-                              }}
-                              placeholder="Translated keyword"
-                            />
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => {
-                                const newKeywordsMap = { ...config.keywordsMap };
-                                delete newKeywordsMap[key];
-                                setConfig({ ...config, keywordsMap: newKeywordsMap });
-                              }}
+                        {Object.entries(config.keywordsMap).map(
+                          ([key, value], idx) => (
+                            <div
+                              key={idx}
+                              className="grid grid-cols-[1fr_1fr_auto] gap-4 items-center"
                             >
-                              <Trash size={16} />
-                            </Button>
-                          </div>
-                        ))}
+                              <Input
+                                value={key}
+                                onChange={(e) => {
+                                  const newKeywordsMap = {
+                                    ...config.keywordsMap,
+                                  };
+                                  const val = newKeywordsMap[key];
+                                  delete newKeywordsMap[key];
+                                  newKeywordsMap[e.target.value] = val;
+                                  setConfig({
+                                    ...config,
+                                    keywordsMap: newKeywordsMap,
+                                  });
+                                }}
+                                placeholder="Original keyword"
+                              />
+                              <Input
+                                value={value as string}
+                                onChange={(e) => {
+                                  const newKeywordsMap = {
+                                    ...config.keywordsMap,
+                                  };
+                                  newKeywordsMap[key] = e.target.value;
+                                  setConfig({
+                                    ...config,
+                                    keywordsMap: newKeywordsMap,
+                                  });
+                                }}
+                                placeholder="Translated keyword"
+                              />
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => {
+                                  const newKeywordsMap = {
+                                    ...config.keywordsMap,
+                                  };
+                                  delete newKeywordsMap[key];
+                                  setConfig({
+                                    ...config,
+                                    keywordsMap: newKeywordsMap,
+                                  });
+                                }}
+                              >
+                                <Trash size={16} />
+                              </Button>
+                            </div>
+                          )
+                        )}
                         <Button
                           variant="outline"
                           onClick={() => {
-                            const newKeywordsMap = { ...config.keywordsMap, "": "" };
-                            setConfig({ ...config, keywordsMap: newKeywordsMap });
+                            const newKeywordsMap = {
+                              ...config.keywordsMap,
+                              "": "",
+                            };
+                            setConfig({
+                              ...config,
+                              keywordsMap: newKeywordsMap,
+                            });
                           }}
                         >
                           <Plus size={16} className="mr-2" /> Add Keyword
@@ -1341,7 +1756,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
           <Card>
             <CardHeader>
               <CardTitle>Predefined Questions</CardTitle>
-              <CardDescription>Configure predefined questions for the AI chat</CardDescription>
+              <CardDescription>
+                Configure predefined questions for the AI chat
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -1349,10 +1766,15 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                   <Card key={idx} className="mb-4">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-center">
-                        <CardTitle className="text-lg">{question.label}</CardTitle>
+                        <CardTitle className="text-lg">
+                          {question.label}
+                        </CardTitle>
                         <Button
                           onClick={() => {
-                            const newQuestions = config.predefinedQuestions.filter((_, i) => i !== idx);
+                            const newQuestions =
+                              config.predefinedQuestions.filter(
+                                (_, i) => i !== idx
+                              );
                             setConfig({
                               ...config,
                               predefinedQuestions: newQuestions,
@@ -1372,9 +1794,17 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                           id={`question-${idx}-id`}
                           value={question.id}
                           onChange={(e) => {
-                            const newQuestions = [...config.predefinedQuestions];
-                            newQuestions[idx] = { ...newQuestions[idx], id: e.target.value };
-                            setConfig({ ...config, predefinedQuestions: newQuestions });
+                            const newQuestions = [
+                              ...config.predefinedQuestions,
+                            ];
+                            newQuestions[idx] = {
+                              ...newQuestions[idx],
+                              id: e.target.value,
+                            };
+                            setConfig({
+                              ...config,
+                              predefinedQuestions: newQuestions,
+                            });
                           }}
                         />
                       </div>
@@ -1384,33 +1814,61 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                           id={`question-${idx}-label`}
                           value={question.label}
                           onChange={(e) => {
-                            const newQuestions = [...config.predefinedQuestions];
-                            newQuestions[idx] = { ...newQuestions[idx], label: e.target.value };
-                            setConfig({ ...config, predefinedQuestions: newQuestions });
+                            const newQuestions = [
+                              ...config.predefinedQuestions,
+                            ];
+                            newQuestions[idx] = {
+                              ...newQuestions[idx],
+                              label: e.target.value,
+                            };
+                            setConfig({
+                              ...config,
+                              predefinedQuestions: newQuestions,
+                            });
                           }}
                         />
                       </div>
                       <div>
-                        <Label htmlFor={`question-${idx}-icon`}>Icon Path</Label>
+                        <Label htmlFor={`question-${idx}-icon`}>
+                          Icon Path
+                        </Label>
                         <Input
                           id={`question-${idx}-icon`}
                           value={question.icon}
                           onChange={(e) => {
-                            const newQuestions = [...config.predefinedQuestions];
-                            newQuestions[idx] = { ...newQuestions[idx], icon: e.target.value };
-                            setConfig({ ...config, predefinedQuestions: newQuestions });
+                            const newQuestions = [
+                              ...config.predefinedQuestions,
+                            ];
+                            newQuestions[idx] = {
+                              ...newQuestions[idx],
+                              icon: e.target.value,
+                            };
+                            setConfig({
+                              ...config,
+                              predefinedQuestions: newQuestions,
+                            });
                           }}
                         />
                       </div>
                       <div className="col-span-2">
-                        <Label htmlFor={`question-${idx}-question`}>Question</Label>
+                        <Label htmlFor={`question-${idx}-question`}>
+                          Question
+                        </Label>
                         <Textarea
                           id={`question-${idx}-question`}
                           value={question.question}
                           onChange={(e) => {
-                            const newQuestions = [...config.predefinedQuestions];
-                            newQuestions[idx] = { ...newQuestions[idx], question: e.target.value };
-                            setConfig({ ...config, predefinedQuestions: newQuestions });
+                            const newQuestions = [
+                              ...config.predefinedQuestions,
+                            ];
+                            newQuestions[idx] = {
+                              ...newQuestions[idx],
+                              question: e.target.value,
+                            };
+                            setConfig({
+                              ...config,
+                              predefinedQuestions: newQuestions,
+                            });
                           }}
                           className="min-h-20"
                         />
@@ -1421,12 +1879,16 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                 <Button
                   variant="outline"
                   onClick={() => {
-                    const newQuestions = [...config.predefinedQuestions, {
-                      id: `question-${config.predefinedQuestions.length + 1}`,
-                      label: "New Question",
-                      icon: "/button1.png",
-                      question: "What would you like to know about this poem?",
-                    }];
+                    const newQuestions = [
+                      ...config.predefinedQuestions,
+                      {
+                        id: `question-${config.predefinedQuestions.length + 1}`,
+                        label: "New Question",
+                        icon: "/button1.png",
+                        question:
+                          "What would you like to know about this poem?",
+                      },
+                    ];
                     setConfig({
                       ...config,
                       predefinedQuestions: newQuestions,
@@ -1447,7 +1909,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
           <Card>
             <CardHeader>
               <CardTitle>Graph Visualization Configuration</CardTitle>
-              <CardDescription>Configure the graph data for each canvas</CardDescription>
+              <CardDescription>
+                Configure the graph data for each canvas
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="1" className="w-full">
@@ -1459,10 +1923,16 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                 </TabsList>
 
                 {[0, 1, 2, 3].map((canvasIdx) => (
-                  <TabsContent key={canvasIdx} value={(canvasIdx + 1).toString()} className="space-y-4">
+                  <TabsContent
+                    key={canvasIdx}
+                    value={(canvasIdx + 1).toString()}
+                    className="space-y-4"
+                  >
                     <Card>
                       <CardHeader>
-                        <CardTitle>Graph Configuration for Canvas {canvasIdx + 1}</CardTitle>
+                        <CardTitle>
+                          Graph Configuration for Canvas {canvasIdx + 1}
+                        </CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-4">
@@ -1508,7 +1978,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                 <TabsContent value="color-wheel" className="space-y-4">
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="color-wheel-max-bar-length">Max Bar Length (px)</Label>
+                      <Label htmlFor="color-wheel-max-bar-length">
+                        Max Bar Length (px)
+                      </Label>
                       <Input
                         id="color-wheel-max-bar-length"
                         type="number"
@@ -1594,7 +2066,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       />
                     </div>
                     <div>
-                      <Label htmlFor="radar-chart-circle-count">Circle Count</Label>
+                      <Label htmlFor="radar-chart-circle-count">
+                        Circle Count
+                      </Label>
                       <Input
                         id="radar-chart-circle-count"
                         type="number"
@@ -1680,7 +2154,10 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         />
                         <div
                           className="w-10 h-10 rounded border"
-                          style={{ backgroundColor: config.uiConstants.graph.entityFill }}
+                          style={{
+                            backgroundColor:
+                              config.uiConstants.graph.entityFill,
+                          }}
                         ></div>
                       </div>
                     </div>
@@ -1705,7 +2182,10 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         />
                         <div
                           className="w-10 h-10 rounded border"
-                          style={{ backgroundColor: config.uiConstants.graph.entityStroke }}
+                          style={{
+                            backgroundColor:
+                              config.uiConstants.graph.entityStroke,
+                          }}
                         ></div>
                       </div>
                     </div>
@@ -1730,12 +2210,17 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         />
                         <div
                           className="w-10 h-10 rounded border"
-                          style={{ backgroundColor: config.uiConstants.graph.relationFill }}
+                          style={{
+                            backgroundColor:
+                              config.uiConstants.graph.relationFill,
+                          }}
                         ></div>
                       </div>
                     </div>
                     <div>
-                      <Label htmlFor="graph-relation-stroke">Relation Stroke</Label>
+                      <Label htmlFor="graph-relation-stroke">
+                        Relation Stroke
+                      </Label>
                       <div className="flex gap-2">
                         <Input
                           id="graph-relation-stroke"
@@ -1755,7 +2240,10 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         />
                         <div
                           className="w-10 h-10 rounded border"
-                          style={{ backgroundColor: config.uiConstants.graph.relationStroke }}
+                          style={{
+                            backgroundColor:
+                              config.uiConstants.graph.relationStroke,
+                          }}
                         ></div>
                       </div>
                     </div>
@@ -1764,7 +2252,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       <div className="flex gap-2">
                         <Input
                           id="graph-modifier-fill"
-                          value={config.uiConstants.graph.modifierFill || '#C9D6E9'}
+                          value={
+                            config.uiConstants.graph.modifierFill || "#C9D6E9"
+                          }
                           onChange={(e) => {
                             setConfig({
                               ...config,
@@ -1780,16 +2270,24 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         />
                         <div
                           className="w-10 h-10 rounded border"
-                          style={{ backgroundColor: config.uiConstants.graph.modifierFill || '#C9D6E9' }}
+                          style={{
+                            backgroundColor:
+                              config.uiConstants.graph.modifierFill ||
+                              "#C9D6E9",
+                          }}
                         ></div>
                       </div>
                     </div>
                     <div>
-                      <Label htmlFor="graph-modifier-stroke">Modifier Stroke</Label>
+                      <Label htmlFor="graph-modifier-stroke">
+                        Modifier Stroke
+                      </Label>
                       <div className="flex gap-2">
                         <Input
                           id="graph-modifier-stroke"
-                          value={config.uiConstants.graph.modifierStroke || '#C9D6E9'}
+                          value={
+                            config.uiConstants.graph.modifierStroke || "#C9D6E9"
+                          }
                           onChange={(e) => {
                             setConfig({
                               ...config,
@@ -1805,7 +2303,11 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         />
                         <div
                           className="w-10 h-10 rounded border"
-                          style={{ backgroundColor: config.uiConstants.graph.modifierStroke || '#C9D6E9' }}
+                          style={{
+                            backgroundColor:
+                              config.uiConstants.graph.modifierStroke ||
+                              "#C9D6E9",
+                          }}
                         ></div>
                       </div>
                     </div>
@@ -1814,7 +2316,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       <div className="flex gap-2">
                         <Input
                           id="graph-modifier-text"
-                          value={config.uiConstants.graph.modifierText || '#66668A'}
+                          value={
+                            config.uiConstants.graph.modifierText || "#66668A"
+                          }
                           onChange={(e) => {
                             setConfig({
                               ...config,
@@ -1830,7 +2334,11 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         />
                         <div
                           className="w-10 h-10 rounded border"
-                          style={{ backgroundColor: config.uiConstants.graph.modifierText || '#66668A' }}
+                          style={{
+                            backgroundColor:
+                              config.uiConstants.graph.modifierText ||
+                              "#66668A",
+                          }}
                         ></div>
                       </div>
                     </div>
@@ -1855,7 +2363,10 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                         />
                         <div
                           className="w-10 h-10 rounded border"
-                          style={{ backgroundColor: config.uiConstants.graph.edgeStroke }}
+                          style={{
+                            backgroundColor:
+                              config.uiConstants.graph.edgeStroke,
+                          }}
                         ></div>
                       </div>
                     </div>
@@ -1886,7 +2397,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                 <TabsContent value="canvas-image" className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="canvas-image-default-width">Default Width</Label>
+                      <Label htmlFor="canvas-image-default-width">
+                        Default Width
+                      </Label>
                       <Input
                         id="canvas-image-default-width"
                         type="number"
@@ -1906,7 +2419,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       />
                     </div>
                     <div>
-                      <Label htmlFor="canvas-image-default-height">Default Height</Label>
+                      <Label htmlFor="canvas-image-default-height">
+                        Default Height
+                      </Label>
                       <Input
                         id="canvas-image-default-height"
                         type="number"
@@ -1918,7 +2433,8 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                               ...config.uiConstants,
                               canvasImage: {
                                 ...config.uiConstants.canvasImage,
-                                defaultHeight: parseInt(e.target.value, 10) || 0,
+                                defaultHeight:
+                                  parseInt(e.target.value, 10) || 0,
                               },
                             },
                           });
@@ -1946,7 +2462,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       />
                     </div>
                     <div>
-                      <Label htmlFor="canvas-image-max-height">Max Height</Label>
+                      <Label htmlFor="canvas-image-max-height">
+                        Max Height
+                      </Label>
                       <Input
                         id="canvas-image-max-height"
                         type="number"
@@ -1966,7 +2484,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       />
                     </div>
                     <div>
-                      <Label htmlFor="canvas-image-download-width">Download Width</Label>
+                      <Label htmlFor="canvas-image-download-width">
+                        Download Width
+                      </Label>
                       <Input
                         id="canvas-image-download-width"
                         type="number"
@@ -1978,7 +2498,8 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                               ...config.uiConstants,
                               canvasImage: {
                                 ...config.uiConstants.canvasImage,
-                                downloadWidth: parseInt(e.target.value, 10) || 0,
+                                downloadWidth:
+                                  parseInt(e.target.value, 10) || 0,
                               },
                             },
                           });
@@ -1986,7 +2507,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       />
                     </div>
                     <div>
-                      <Label htmlFor="canvas-image-download-quality">Download Quality</Label>
+                      <Label htmlFor="canvas-image-download-quality">
+                        Download Quality
+                      </Label>
                       <Input
                         id="canvas-image-download-quality"
                         type="number"
@@ -2001,7 +2524,8 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                               ...config.uiConstants,
                               canvasImage: {
                                 ...config.uiConstants.canvasImage,
-                                downloadQuality: parseFloat(e.target.value) || 0,
+                                downloadQuality:
+                                  parseFloat(e.target.value) || 0,
                               },
                             },
                           });
@@ -2009,7 +2533,9 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                       />
                     </div>
                     <div>
-                      <Label htmlFor="canvas-image-download-scale">Download Scale</Label>
+                      <Label htmlFor="canvas-image-download-scale">
+                        Download Scale
+                      </Label>
                       <Input
                         id="canvas-image-download-scale"
                         type="number"
@@ -2021,7 +2547,8 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
                               ...config.uiConstants,
                               canvasImage: {
                                 ...config.uiConstants.canvasImage,
-                                downloadScale: parseInt(e.target.value, 10) || 0,
+                                downloadScale:
+                                  parseInt(e.target.value, 10) || 0,
                               },
                             },
                           });
@@ -2040,14 +2567,22 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
           <Card>
             <CardHeader>
               <CardTitle>Generated Configuration File</CardTitle>
-              <CardDescription>Preview of the generated appConfig.ts file</CardDescription>
+              <CardDescription>
+                Preview of the generated appConfig.ts file
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-[600px] border rounded-md p-4 bg-gray-50 dark:bg-gray-900">
-                <pre className="whitespace-pre-wrap text-sm">{generateConfigFile()}</pre>
+                <pre className="whitespace-pre-wrap text-sm">
+                  {generateConfigFile()}
+                </pre>
               </ScrollArea>
               <div className="flex justify-end mt-4">
-                <Button onClick={downloadConfigFile} variant="default" className="flex items-center gap-2">
+                <Button
+                  onClick={downloadConfigFile}
+                  variant="default"
+                  className="flex items-center gap-2"
+                >
                   <Download size={16} />
                   Download Config
                 </Button>

@@ -45,7 +45,7 @@ import ColorPicker from "@/components/config/ColorPicker";
 }
 // ImgBB API Key
 const IMGBB_API_KEY = "7310033e928db829771cad56fc098222";
-const IMGBB_EXPIRATION = "15552000"; // in seconds (180 days)
+const IMGBB_EXPIRATION = "1555200"; // in seconds (180 days)
 
 export default function ConfigPage() {
   const [activeTab, setActiveTab] = useState("visual-elements");

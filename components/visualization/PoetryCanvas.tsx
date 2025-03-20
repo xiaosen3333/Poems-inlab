@@ -79,12 +79,11 @@ export function PoetryCanvas({
   return (
     <div
       className="relative flex-1 border border-dashed border-blue-200 rounded-2xl bg-white overflow-visible min-h-[440px] sm:min-h-[490px] md:min-h-[520px] h-full w-full"
-      style={{ 
-        aspectRatio: "4/3", 
-        minWidth: "100%",
-        maxWidth: "800px", 
-        maxHeight: "600px",
-        margin: "0 auto"
+      style={{
+        aspectRatio: "1/1",
+        width: "540px",
+        height: "540px",
+        margin: "0 auto",
       }}
       onDragOver={(e) => {
         e.preventDefault();

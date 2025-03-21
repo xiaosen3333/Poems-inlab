@@ -35,6 +35,11 @@ export function useCanvasElements() {
   // Selected canvas element for moving or deleting
   const [selectedCanvasElement, setSelectedCanvasElement] = useState<string | null>(null)
   
+  // Helper function to check if a canvas has active visual elements defined
+  const hasActiveVisualElements = useCallback((canvasNumber: number): boolean => {
+    return (visualElements[canvasNumber] || []).length > 0
+  }, [])
+  
   // Helper to get the current canvas elements and setters based on active canvas
   const getCanvasData = useCallback(() => {
     switch (activeCanvas) {
@@ -199,6 +204,7 @@ export function useCanvasElements() {
     addElementToCanvas,
     handleDragStart,
     handleDragEnd,
-    removeCanvasElement
+    removeCanvasElement,
+    hasActiveVisualElements
   }
 }

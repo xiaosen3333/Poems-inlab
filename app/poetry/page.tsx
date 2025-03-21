@@ -151,11 +151,52 @@ export default function PoetryPage() {
     handleDragStart,
     handleDragEnd,
     removeCanvasElement,
+    hasActiveVisualElements,
   } = canvasElementsContext;
 
   // Handle left canvas navigation (poetry canvas)
+  // 获取下一个有可用元素的画布索引
+  const getNextAvailableCanvas = (current: number) => {
+    // 如果只有1号画布有元素，直接返回1
+    if (visualElements[1].length > 0 && 
+        visualElements[2].length === 0 && 
+        visualElements[3].length === 0 && 
+        visualElements[4].length === 0) {
+      return 1;
+    }
+    
+    let next = current;
+    do {
+      next = next < canvasCount ? next + 1 : 1;
+      if (hasActiveVisualElements(next)) {
+        return next;
+      }
+    } while (next !== current);
+    return current;
+  };
+
+  // 获取前一个有可用元素的画布索引
+  const getPrevAvailableCanvas = (current: number) => {
+    // 如果只有1号画布有元素，直接返回1
+    if (visualElements[1].length > 0 && 
+        visualElements[2].length === 0 && 
+        visualElements[3].length === 0 && 
+        visualElements[4].length === 0) {
+      return 1;
+    }
+    
+    let prev = current;
+    do {
+      prev = prev > 1 ? prev - 1 : canvasCount;
+      if (hasActiveVisualElements(prev)) {
+        return prev;
+      }
+    } while (prev !== current);
+    return current;
+  };
+
   const nextCanvas = () => {
-    const newValue = activeCanvas < canvasCount ? activeCanvas + 1 : 1;
+    const newValue = getNextAvailableCanvas(activeCanvas);
     setActiveCanvas(newValue);
     if (activeTab === "graph") {
       setGraphCanvasNumber(newValue);
@@ -163,7 +204,7 @@ export default function PoetryPage() {
   };
 
   const prevCanvas = () => {
-    const newValue = activeCanvas > 1 ? activeCanvas - 1 : canvasCount;
+    const newValue = getPrevAvailableCanvas(activeCanvas);
     setActiveCanvas(newValue);
     if (activeTab === "graph") {
       setGraphCanvasNumber(newValue);
@@ -172,15 +213,13 @@ export default function PoetryPage() {
 
   // Handle right canvas navigation (graph)
   const nextGraphCanvas = () => {
-    const newValue =
-      graphCanvasNumber < canvasCount ? graphCanvasNumber + 1 : 1;
+    const newValue = getNextAvailableCanvas(graphCanvasNumber);
     setGraphCanvasNumber(newValue);
     setActiveCanvas(newValue);
   };
 
   const prevGraphCanvas = () => {
-    const newValue =
-      graphCanvasNumber > 1 ? graphCanvasNumber - 1 : canvasCount;
+    const newValue = getPrevAvailableCanvas(graphCanvasNumber);
     setGraphCanvasNumber(newValue);
     setActiveCanvas(newValue);
   };
@@ -368,8 +407,19 @@ export default function PoetryPage() {
                 {/* Left navigation arrow - Display regardless of tab */}
                 <button
                   onClick={prevCanvas}
-                  disabled={activeCanvas === 1}
+                  disabled={
+                    // 如果只有1号画布有元素，或者当前已经是第1个画布，则禁用
+                    (visualElements[1].length > 0 && 
+                    visualElements[2].length === 0 && 
+                    visualElements[3].length === 0 && 
+                    visualElements[4].length === 0) || 
+                    activeCanvas === 1
+                  }
                   className={`relative left-2 z-10 h-24 flex items-center justify-center ${
+                    (visualElements[1].length > 0 && 
+                    visualElements[2].length === 0 && 
+                    visualElements[3].length === 0 && 
+                    visualElements[4].length === 0) || 
                     activeCanvas === 1 ? "cursor-not-allowed" : "cursor-pointer"
                   }`}
                 >
@@ -382,7 +432,13 @@ export default function PoetryPage() {
                   >
                     <path
                       d="M4 1L1 9L4 17"
-                      stroke={activeCanvas === 1 ? "#ccc" : "#666"}
+                      stroke={
+                        (visualElements[1].length > 0 && 
+                        visualElements[2].length === 0 && 
+                        visualElements[3].length === 0 && 
+                        visualElements[4].length === 0) || 
+                        activeCanvas === 1 ? "#ccc" : "#666"
+                      }
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -413,8 +469,19 @@ export default function PoetryPage() {
                 {/* Right navigation arrow - Display regardless of tab */}
                 <button
                   onClick={nextCanvas}
-                  disabled={activeCanvas === canvasCount}
+                  disabled={
+                    // 如果只有1号画布有元素，或者当前已经是最后一个画布，则禁用
+                    (visualElements[1].length > 0 && 
+                    visualElements[2].length === 0 && 
+                    visualElements[3].length === 0 && 
+                    visualElements[4].length === 0) || 
+                    activeCanvas === canvasCount
+                  }
                   className={`relative right-2 z-10 h-24 flex items-center justify-center ${
+                    (visualElements[1].length > 0 && 
+                    visualElements[2].length === 0 && 
+                    visualElements[3].length === 0 && 
+                    visualElements[4].length === 0) || 
                     activeCanvas === canvasCount
                       ? "cursor-not-allowed"
                       : "cursor-pointer"
@@ -429,7 +496,13 @@ export default function PoetryPage() {
                   >
                     <path
                       d="M6 1L9 9L6 17"
-                      stroke={activeCanvas === canvasCount ? "#ccc" : "#666"}
+                      stroke={
+                        (visualElements[1].length > 0 && 
+                        visualElements[2].length === 0 && 
+                        visualElements[3].length === 0 && 
+                        visualElements[4].length === 0) || 
+                        activeCanvas === canvasCount ? "#ccc" : "#666"
+                      }
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -482,8 +555,19 @@ export default function PoetryPage() {
                     {/* Left navigation button - Fixed positioned outside of canvas */}
                     <button
                       onClick={prevGraphCanvas}
-                      disabled={graphCanvasNumber === 1}
+                      disabled={
+                        // 如果只有1号画布有元素，或者当前已经是第1个画布，则禁用
+                        (visualElements[1].length > 0 && 
+                        visualElements[2].length === 0 && 
+                        visualElements[3].length === 0 && 
+                        visualElements[4].length === 0) || 
+                        graphCanvasNumber === 1
+                      }
                       className={`w-10 h-24 flex items-center justify-center relative top-5 ${
+                        (visualElements[1].length > 0 && 
+                        visualElements[2].length === 0 && 
+                        visualElements[3].length === 0 && 
+                        visualElements[4].length === 0) || 
                         graphCanvasNumber === 1
                           ? "cursor-not-allowed"
                           : "cursor-pointer"
@@ -498,7 +582,13 @@ export default function PoetryPage() {
                       >
                         <path
                           d="M4 1L1 9L4 17"
-                          stroke={graphCanvasNumber === 1 ? "#ccc" : "#666"}
+                          stroke={
+                            (visualElements[1].length > 0 && 
+                            visualElements[2].length === 0 && 
+                            visualElements[3].length === 0 && 
+                            visualElements[4].length === 0) || 
+                            graphCanvasNumber === 1 ? "#ccc" : "#666"
+                          }
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -540,8 +630,19 @@ export default function PoetryPage() {
                     {/* Right navigation button - Fixed positioned outside of canvas */}
                     <button
                       onClick={nextGraphCanvas}
-                      disabled={graphCanvasNumber === canvasCount}
+                      disabled={
+                        // 如果只有1号画布有元素，或者当前已经是最后一个画布，则禁用
+                        (visualElements[1].length > 0 && 
+                        visualElements[2].length === 0 && 
+                        visualElements[3].length === 0 && 
+                        visualElements[4].length === 0) || 
+                        graphCanvasNumber === canvasCount
+                      }
                       className={`w-10 h-24 flex items-center justify-center relative top-5 ${
+                        (visualElements[1].length > 0 && 
+                        visualElements[2].length === 0 && 
+                        visualElements[3].length === 0 && 
+                        visualElements[4].length === 0) || 
                         graphCanvasNumber === canvasCount
                           ? "cursor-not-allowed"
                           : "cursor-pointer"
@@ -557,6 +658,10 @@ export default function PoetryPage() {
                         <path
                           d="M6 1L9 9L6 17"
                           stroke={
+                            (visualElements[1].length > 0 && 
+                            visualElements[2].length === 0 && 
+                            visualElements[3].length === 0 && 
+                            visualElements[4].length === 0) || 
                             graphCanvasNumber === canvasCount ? "#ccc" : "#666"
                           }
                           strokeWidth="1.5"

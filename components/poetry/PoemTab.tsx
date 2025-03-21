@@ -16,20 +16,25 @@ export function PoemTab({
   toggleKeywords,
 }: PoemTabProps) {
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-start py-2 w-full overflow-y-auto opacity-100 visible">
+    <div className="absolute inset-0 flex flex-col items-center justify-center py-2 w-full overflow-y-auto opacity-100 visible">
       <h2 className="text-xl sm:text-2xl font-medium mb-5 sm:mb-6 text-center">
         Poetry Showcase
       </h2>
-      <div className="mb-2 sm:mb-3 text-center">
-        <div className="text-lg sm:text-xl mb-0.5">«{poem.title.original}»</div>
-        <div className="text-base sm:text-lg">{poem.title.translated}</div>
-      </div>
+      {poem.title.original ? (
+        <div className="mb-2 sm:mb-3 text-center">
+          <div className="text-lg sm:text-xl mb-0.5">
+            «{poem.title.original}»
+          </div>
+          <div className="text-base sm:text-lg">{poem.title.translated}</div>
+        </div>
+      ) : (
+        <></>
+      )}
 
       <div className="mb-2 sm:mb-3 text-xs text-gray-600 text-center">
         <div>
           {poem.author.dynasty} · {poem.author.name}
         </div>
-        <div>Li Bai</div>
       </div>
 
       <div className="space-y-3 sm:space-y-4">

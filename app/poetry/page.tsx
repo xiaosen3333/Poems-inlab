@@ -158,13 +158,15 @@ export default function PoetryPage() {
   // 获取下一个有可用元素的画布索引
   const getNextAvailableCanvas = (current: number) => {
     // 如果只有1号画布有元素，直接返回1
-    if (visualElements[1].length > 0 && 
-        visualElements[2].length === 0 && 
-        visualElements[3].length === 0 && 
-        visualElements[4].length === 0) {
+    if (
+      visualElements[1].length > 0 &&
+      visualElements[2].length === 0 &&
+      visualElements[3].length === 0 &&
+      visualElements[4].length === 0
+    ) {
       return 1;
     }
-    
+
     let next = current;
     do {
       next = next < canvasCount ? next + 1 : 1;
@@ -178,13 +180,15 @@ export default function PoetryPage() {
   // 获取前一个有可用元素的画布索引
   const getPrevAvailableCanvas = (current: number) => {
     // 如果只有1号画布有元素，直接返回1
-    if (visualElements[1].length > 0 && 
-        visualElements[2].length === 0 && 
-        visualElements[3].length === 0 && 
-        visualElements[4].length === 0) {
+    if (
+      visualElements[1].length > 0 &&
+      visualElements[2].length === 0 &&
+      visualElements[3].length === 0 &&
+      visualElements[4].length === 0
+    ) {
       return 1;
     }
-    
+
     let prev = current;
     do {
       prev = prev > 1 ? prev - 1 : canvasCount;
@@ -394,8 +398,8 @@ export default function PoetryPage() {
           />
 
           {/* Middle Panel - Canvas Area */}
-          <div className="relative flex flex-col w-[680px] h-[620px] gap-4">
-            <Card className="p-3 sm:p-4 rounded-3xl shadow-sm bg-white overflow-hidden flex-1 w-full h-full">
+          <div className="relative flex flex-col w-[680px] h-[680px] gap-4">
+            <Card className="p-2 sm:p-2 rounded-3xl shadow-sm bg-white overflow-hidden flex-1 w-full h-full">
               <div className="relative flex flex-row justify-center items-center h-full">
                 {/* Canvas Title - Only show in Graph tab - Commented out for now */}
                 {/* {activeTab === "graph" && (
@@ -409,18 +413,20 @@ export default function PoetryPage() {
                   onClick={prevCanvas}
                   disabled={
                     // 如果只有1号画布有元素，或者当前已经是第1个画布，则禁用
-                    (visualElements[1].length > 0 && 
-                    visualElements[2].length === 0 && 
-                    visualElements[3].length === 0 && 
-                    visualElements[4].length === 0) || 
+                    (visualElements[1].length > 0 &&
+                      visualElements[2].length === 0 &&
+                      visualElements[3].length === 0 &&
+                      visualElements[4].length === 0) ||
                     activeCanvas === 1
                   }
                   className={`relative left-2 z-10 h-24 flex items-center justify-center ${
-                    (visualElements[1].length > 0 && 
-                    visualElements[2].length === 0 && 
-                    visualElements[3].length === 0 && 
-                    visualElements[4].length === 0) || 
-                    activeCanvas === 1 ? "cursor-not-allowed" : "cursor-pointer"
+                    (visualElements[1].length > 0 &&
+                      visualElements[2].length === 0 &&
+                      visualElements[3].length === 0 &&
+                      visualElements[4].length === 0) ||
+                    activeCanvas === 1
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
                   }`}
                 >
                   <svg
@@ -433,11 +439,13 @@ export default function PoetryPage() {
                     <path
                       d="M4 1L1 9L4 17"
                       stroke={
-                        (visualElements[1].length > 0 && 
-                        visualElements[2].length === 0 && 
-                        visualElements[3].length === 0 && 
-                        visualElements[4].length === 0) || 
-                        activeCanvas === 1 ? "#ccc" : "#666"
+                        (visualElements[1].length > 0 &&
+                          visualElements[2].length === 0 &&
+                          visualElements[3].length === 0 &&
+                          visualElements[4].length === 0) ||
+                        activeCanvas === 1
+                          ? "#ccc"
+                          : "#666"
                       }
                       strokeWidth="1.5"
                       strokeLinecap="round"
@@ -471,17 +479,17 @@ export default function PoetryPage() {
                   onClick={nextCanvas}
                   disabled={
                     // 如果只有1号画布有元素，或者当前已经是最后一个画布，则禁用
-                    (visualElements[1].length > 0 && 
-                    visualElements[2].length === 0 && 
-                    visualElements[3].length === 0 && 
-                    visualElements[4].length === 0) || 
+                    (visualElements[1].length > 0 &&
+                      visualElements[2].length === 0 &&
+                      visualElements[3].length === 0 &&
+                      visualElements[4].length === 0) ||
                     activeCanvas === canvasCount
                   }
                   className={`relative right-2 z-10 h-24 flex items-center justify-center ${
-                    (visualElements[1].length > 0 && 
-                    visualElements[2].length === 0 && 
-                    visualElements[3].length === 0 && 
-                    visualElements[4].length === 0) || 
+                    (visualElements[1].length > 0 &&
+                      visualElements[2].length === 0 &&
+                      visualElements[3].length === 0 &&
+                      visualElements[4].length === 0) ||
                     activeCanvas === canvasCount
                       ? "cursor-not-allowed"
                       : "cursor-pointer"
@@ -497,11 +505,13 @@ export default function PoetryPage() {
                     <path
                       d="M6 1L9 9L6 17"
                       stroke={
-                        (visualElements[1].length > 0 && 
-                        visualElements[2].length === 0 && 
-                        visualElements[3].length === 0 && 
-                        visualElements[4].length === 0) || 
-                        activeCanvas === canvasCount ? "#ccc" : "#666"
+                        (visualElements[1].length > 0 &&
+                          visualElements[2].length === 0 &&
+                          visualElements[3].length === 0 &&
+                          visualElements[4].length === 0) ||
+                        activeCanvas === canvasCount
+                          ? "#ccc"
+                          : "#666"
                       }
                       strokeWidth="1.5"
                       strokeLinecap="round"
@@ -523,8 +533,8 @@ export default function PoetryPage() {
           </div>
 
           {/* Right Panel - Content */}
-          <div className="relative flex flex-col w-full h-[620px]">
-            <Card className="p-3 sm:p-4 rounded-3xl shadow-sm bg-white overflow-hidden mb-4 h-full">
+          <div className="relative flex flex-col w-full h-[680px]">
+            <Card className="p-2 sm:p-2 rounded-3xl shadow-sm bg-white overflow-hidden mb-4 h-full">
               <div className="flex-1 h-full relative flex flex-col">
                 {/* Poem Tab */}
                 <div
@@ -557,17 +567,17 @@ export default function PoetryPage() {
                       onClick={prevGraphCanvas}
                       disabled={
                         // 如果只有1号画布有元素，或者当前已经是第1个画布，则禁用
-                        (visualElements[1].length > 0 && 
-                        visualElements[2].length === 0 && 
-                        visualElements[3].length === 0 && 
-                        visualElements[4].length === 0) || 
+                        (visualElements[1].length > 0 &&
+                          visualElements[2].length === 0 &&
+                          visualElements[3].length === 0 &&
+                          visualElements[4].length === 0) ||
                         graphCanvasNumber === 1
                       }
                       className={`w-10 h-24 flex items-center justify-center relative top-5 ${
-                        (visualElements[1].length > 0 && 
-                        visualElements[2].length === 0 && 
-                        visualElements[3].length === 0 && 
-                        visualElements[4].length === 0) || 
+                        (visualElements[1].length > 0 &&
+                          visualElements[2].length === 0 &&
+                          visualElements[3].length === 0 &&
+                          visualElements[4].length === 0) ||
                         graphCanvasNumber === 1
                           ? "cursor-not-allowed"
                           : "cursor-pointer"
@@ -583,11 +593,13 @@ export default function PoetryPage() {
                         <path
                           d="M4 1L1 9L4 17"
                           stroke={
-                            (visualElements[1].length > 0 && 
-                            visualElements[2].length === 0 && 
-                            visualElements[3].length === 0 && 
-                            visualElements[4].length === 0) || 
-                            graphCanvasNumber === 1 ? "#ccc" : "#666"
+                            (visualElements[1].length > 0 &&
+                              visualElements[2].length === 0 &&
+                              visualElements[3].length === 0 &&
+                              visualElements[4].length === 0) ||
+                            graphCanvasNumber === 1
+                              ? "#ccc"
+                              : "#666"
                           }
                           strokeWidth="1.5"
                           strokeLinecap="round"
@@ -632,17 +644,17 @@ export default function PoetryPage() {
                       onClick={nextGraphCanvas}
                       disabled={
                         // 如果只有1号画布有元素，或者当前已经是最后一个画布，则禁用
-                        (visualElements[1].length > 0 && 
-                        visualElements[2].length === 0 && 
-                        visualElements[3].length === 0 && 
-                        visualElements[4].length === 0) || 
+                        (visualElements[1].length > 0 &&
+                          visualElements[2].length === 0 &&
+                          visualElements[3].length === 0 &&
+                          visualElements[4].length === 0) ||
                         graphCanvasNumber === canvasCount
                       }
                       className={`w-10 h-24 flex items-center justify-center relative top-5 ${
-                        (visualElements[1].length > 0 && 
-                        visualElements[2].length === 0 && 
-                        visualElements[3].length === 0 && 
-                        visualElements[4].length === 0) || 
+                        (visualElements[1].length > 0 &&
+                          visualElements[2].length === 0 &&
+                          visualElements[3].length === 0 &&
+                          visualElements[4].length === 0) ||
                         graphCanvasNumber === canvasCount
                           ? "cursor-not-allowed"
                           : "cursor-pointer"
@@ -658,11 +670,13 @@ export default function PoetryPage() {
                         <path
                           d="M6 1L9 9L6 17"
                           stroke={
-                            (visualElements[1].length > 0 && 
-                            visualElements[2].length === 0 && 
-                            visualElements[3].length === 0 && 
-                            visualElements[4].length === 0) || 
-                            graphCanvasNumber === canvasCount ? "#ccc" : "#666"
+                            (visualElements[1].length > 0 &&
+                              visualElements[2].length === 0 &&
+                              visualElements[3].length === 0 &&
+                              visualElements[4].length === 0) ||
+                            graphCanvasNumber === canvasCount
+                              ? "#ccc"
+                              : "#666"
                           }
                           strokeWidth="1.5"
                           strokeLinecap="round"
@@ -759,7 +773,7 @@ export default function PoetryPage() {
               </div>
             </Card>
 
-            <div className="h-[42px] flex items-center justify-between py-1 px-2 bg-gray-50 rounded-full overflow-hidden shadow-sm">
+            <div className="h-[45px] flex items-center justify-between py-1 px-2 bg-gray-50 rounded-full overflow-hidden shadow-sm">
               <div className="flex items-center gap-2 sm:gap-4 justify-between w-full text-sm sm:text-base">
                 <div
                   onClick={() => setActiveTab("poem")}

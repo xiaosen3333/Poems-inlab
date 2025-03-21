@@ -81,8 +81,8 @@ export function PoetryCanvas({
       className="relative flex-1 border border-dashed border-blue-200 rounded-2xl bg-white overflow-visible min-h-[440px] sm:min-h-[490px] md:min-h-[520px] h-full w-full"
       style={{
         aspectRatio: "1/1",
-        width: "540px",
-        height: "540px",
+        width: "602px",
+        height: "602px",
         margin: "0 auto",
       }}
       onDragOver={(e) => {

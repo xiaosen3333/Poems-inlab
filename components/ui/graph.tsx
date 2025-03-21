@@ -185,11 +185,20 @@ export function GraphComponent({
         textColor = modifierText;
       }
       
+      // 根据标签文本长度动态计算宽度（每个中文字符或英文字符的宽度不同）
+      // 假设每个中文字符宽度约18px，英文字符宽度约9px
+      const chineseCharCount = (node.label.match(/[\u4e00-\u9fa5]/g) || []).length;
+      const otherCharCount = node.label.length - chineseCharCount;
+      const estimatedWidth = Math.max(
+        nodeWidth, // 最小宽度
+        chineseCharCount * 18 + otherCharCount * 9 + 20 // 额外20px作为内边距
+      );
+      
       const cell = graph.addNode({
         id: node.id,
         x: node.x,
         y: node.y,
-        width: nodeWidth,
+        width: estimatedWidth,
         height: nodeHeight,
         attrs: {
           body: {

@@ -507,8 +507,8 @@ export const uiConstants = {
 
   // Graph visualization constants
   graph: {
-    nodeWidth: 90,  // 增加节点宽度
-    nodeHeight: 35,  // 增加节点高度
+    nodeWidth: 90,  // 最小节点宽度（实际宽度会根据文本长度自动调整）
+    nodeHeight: 35,  // 节点高度
     entityFill: '#9AE3EB',
     entityStroke: '#9AE3EB',
     relationFill: '#7165DA',

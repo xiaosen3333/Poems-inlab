@@ -24,141 +24,38 @@ export interface VisualElement {
  * Visual elements for each canvas
  */
 export const visualElements: { [key: number]: VisualElement[] } = {
-  // Canvas 1 elements
-  1: [
+  "1": [
     {
-      id: 1,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%204-pMO9HhFeGb1bYc2xe2uy36RlZ9CWYf.png",
-      title: "Scholar's Writing Desk",
-      size: { width: 120, height: 1 }
+      "id": 1,
+      "src": "https://i.ibb.co/Kp2Qy6C8/4-3.png",
+      "title": "Field",
+      "size": {
+        "width": 600,
+        "height": 450
+      }
     },
     {
-      id: 2,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%202-HhSUNvkc0TZeOSThRSFexIEwfwG7Jp.png",
-      title: "Person",
-      size: { width: 81, height: 133 }
+      "id": 2,
+      "src": "https://i.ibb.co/YB68916r/600-132.png",
+      "title": "Moon",
+      "size": {
+        "width": 600,
+        "height": 132
+      }
     },
     {
-      id: 3,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%203-6a6siEhYhoTUL7khkSwE7pfl3KHbTz.png",
-      title: "Meditation Table",
-      size: { width: 100, height: 60 }
-    },
-    {
-      id: 4,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%205-kgDMq8r8Am4aXxfVZCzE86DMPvf2SN.png",
-      title: "Moon Reflection",
-      size: { width: 80, height: 80 }
-    },
-    {
-      id: 5,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%206-DHXMof6UZgLPlu4oZfmiHUFeoC9GQn.png",
-      title: "Scholar's Lantern",
-      size: { width: 60, height: 100 }
-    },
+      "id": 3,
+      "src": "https://i.ibb.co/RpbwQyHT/1-478-174.png",
+      "title": "Sun",
+      "size": {
+        "width": 478,
+        "height": 174
+      }
+    }
   ],
-
-  // Canvas 2 elements - same elements but can be customized per canvas
-  2: [
-    {
-      id: 1,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%204-pMO9HhFeGb1bYc2xe2uy36RlZ9CWYf.png",
-      title: "Scholar's Writing Desk",
-      size: { width: 120, height: 120 }
-    },
-    {
-      id: 2,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%202-HhSUNvkc0TZeOSThRSFexIEwfwG7Jp.png",
-      title: "Person",
-      size: { width: 120, height: 80 }
-    },
-    {
-      id: 3,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%203-6a6siEhYhoTUL7khkSwE7pfl3KHbTz.png",
-      title: "Meditation Table",
-      size: { width: 100, height: 60 }
-    },
-    {
-      id: 4,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%205-kgDMq8r8Am4aXxfVZCzE86DMPvf2SN.png",
-      title: "Moon Reflection",
-      size: { width: 80, height: 80 }
-    },
-    {
-      id: 5,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%206-DHXMof6UZgLPlu4oZfmiHUFeoC9GQn.png",
-      title: "Scholar's Lantern",
-      size: { width: 60, height: 100 }
-    },
-  ],
-
-  // Canvas 3 elements
-  3: [
-    {
-      id: 1,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%204-pMO9HhFeGb1bYc2xe2uy36RlZ9CWYf.png",
-      title: "Scholar's Writing Desk",
-      size: { width: 120, height: 120 }
-    },
-    {
-      id: 2,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%202-HhSUNvkc0TZeOSThRSFexIEwfwG7Jp.png",
-      title: "Person",
-      size: { width: 120, height: 80 }
-    },
-    {
-      id: 3,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%203-6a6siEhYhoTUL7khkSwE7pfl3KHbTz.png",
-      title: "Meditation Table",
-      size: { width: 100, height: 60 }
-    },
-    {
-      id: 4,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%205-kgDMq8r8Am4aXxfVZCzE86DMPvf2SN.png",
-      title: "Moon Reflection",
-      size: { width: 80, height: 80 }
-    },
-    {
-      id: 5,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%206-DHXMof6UZgLPlu4oZfmiHUFeoC9GQn.png",
-      title: "Scholar's Lantern",
-      size: { width: 60, height: 100 }
-    },
-  ],
-
-  // Canvas 4 elements
-  4: [
-    {
-      id: 1,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%204-pMO9HhFeGb1bYc2xe2uy36RlZ9CWYf.png",
-      title: "Scholar's Writing Desk",
-      size: { width: 120, height: 120 }
-    },
-    {
-      id: 2,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%202-HhSUNvkc0TZeOSThRSFexIEwfwG7Jp.png",
-      title: "Person",
-      size: { width: 120, height: 80 }
-    },
-    {
-      id: 3,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%203-6a6siEhYhoTUL7khkSwE7pfl3KHbTz.png",
-      title: "Meditation Table",
-      size: { width: 100, height: 60 }
-    },
-    {
-      id: 4,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%205-kgDMq8r8Am4aXxfVZCzE86DMPvf2SN.png",
-      title: "Moon Reflection",
-      size: { width: 80, height: 80 }
-    },
-    {
-      id: 5,
-      src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%206-DHXMof6UZgLPlu4oZfmiHUFeoC9GQn.png",
-      title: "Scholar's Lantern",
-      size: { width: 60, height: 100 }
-    },
-  ]
+  "2": [],
+  "3": [],
+  "4": []
 };
 
 // ========== EMOTION ANALYSIS CONFIG ==========
@@ -167,42 +64,198 @@ export const visualElements: { [key: number]: VisualElement[] } = {
  * Emotion color wheel data configuration
  */
 export const emotionColorWheelLegend = [
-  { emotion: "Joy", color: "#e8a87c", value: 75, degree: 0 },
-  { emotion: "Surprise", color: "#f8ef86", value: 45, degree: 60 },
-  { emotion: "No Emotion", color: "#c1f486", value: 30, degree: 120 },
-  { emotion: "Sadness", color: "#86b5f4", value: 60, degree: 180 },
-  { emotion: "Fear", color: "#c486f4", value: 25, degree: 240 },
-  { emotion: "Anger", color: "#f486a9", value: 50, degree: 300 },
+  {
+    "emotion": "Joy",
+    "color": "#e8a87c",
+    "value": 19,
+    "degree": 0
+  },
+  {
+    "emotion": "Surprise",
+    "color": "#f8ef86",
+    "value": 19,
+    "degree": 60
+  },
+  {
+    "emotion": "No Emotion",
+    "color": "#c1f486",
+    "value": 19,
+    "degree": 120
+  },
+  {
+    "emotion": "Sadness",
+    "color": "#86b5f4",
+    "value": 19,
+    "degree": 180
+  },
+  {
+    "emotion": "Fear",
+    "color": "#c486f4",
+    "value": 19,
+    "degree": 240
+  },
+  {
+    "emotion": "Anger",
+    "color": "#f486a9",
+    "value": 19,
+    "degree": 300
+  },
+  {
+    "value": 19
+  },
+  {
+    "value": 19
+  },
+  {
+    "value": 19
+  }
 ];
 
 export const emotionColorWheelData = [
-  { emotion: "Joy", color: "#85F614", value: 20, degree: -7.5 },
-  { emotion: "Delight", color: "#4AEB27", value: 20, degree: 7.5 },
-  { emotion: "Happiness", color: "#00D613", value: 20, degree: 22.5 },
-  { emotion: "Elation", color: "#00C246", value: 20, degree: 37.5 },
-  { emotion: "Surprise", color: "#06A865", value: 20, degree: 52.5 },
-  { emotion: "Wonder", color: "#008C64", value: 20, degree: 67.5 },
-  { emotion: "Amazement", color: "#019293", value: 20, degree: 82.5 },
-
-  { emotion: "Curiosity", color: "#107A9A", value: 20, degree: 97.5 },
-  { emotion: "Calmness", color: "#2566CA", value: 20, degree: 112.5 },
-  { emotion: "Serenity", color: "#4558CD", value: 20, degree: 127.5 },
-  { emotion: "Tranquility", color: "#3200C4", value: 20, degree: 142.5 },
-  { emotion: "Melancholy", color: "#3B00AF", value: 20, degree: 157.5 },
-  { emotion: "Sadness", color: "#500096", value: 20, degree: 172.5 },
-  { emotion: "Grief", color: "#590C6C", value: 20, degree: 187.5 },
-
-  { emotion: "Sorrow", color: "#691B71", value: 20, degree: 202.5 },
-  { emotion: "Anxiety", color: "#54003B", value: 20, degree: 217.5 },
-
-  { emotion: "Fear", color: "#860445", value: 20, degree: 232.5 },
-  { emotion: "Dread", color: "#A30B2F", value: 20, degree: 247.5 },
-  { emotion: "Shock", color: "#CC1715", value: 20, degree: 262.5 },
-  { emotion: "Disgust", color: "#DA4518", value: 20, degree: 277.5 },
-  { emotion: "Anger", color: "#EA8217", value: 20, degree: 292.5 },
-  { emotion: "Rage", color: "#EDB71C", value: 20, degree: 307.5 },
-  { emotion: "Frustration", color: "#E7F513", value: 20, degree: 322.5 },
-  { emotion: "Irritation", color: "#BDF61A", value: 20, degree: 337.5 },
+  {
+    "emotion": "Joy",
+    "color": "#85F614",
+    "value": 20,
+    "degree": -7.5
+  },
+  {
+    "emotion": "Delight",
+    "color": "#4AEB27",
+    "value": 20,
+    "degree": 7.5
+  },
+  {
+    "emotion": "Happiness",
+    "color": "#00D613",
+    "value": 20,
+    "degree": 22.5
+  },
+  {
+    "emotion": "Elation",
+    "color": "#00C246",
+    "value": 20,
+    "degree": 37.5
+  },
+  {
+    "emotion": "Surprise",
+    "color": "#06A865",
+    "value": 20,
+    "degree": 52.5
+  },
+  {
+    "emotion": "Wonder",
+    "color": "#008C64",
+    "value": 20,
+    "degree": 67.5
+  },
+  {
+    "emotion": "Amazement",
+    "color": "#019293",
+    "value": 20,
+    "degree": 82.5
+  },
+  {
+    "emotion": "Curiosity",
+    "color": "#107A9A",
+    "value": 20,
+    "degree": 97.5
+  },
+  {
+    "emotion": "Calmness",
+    "color": "#2566CA",
+    "value": 20,
+    "degree": 112.5
+  },
+  {
+    "emotion": "Serenity",
+    "color": "#4558CD",
+    "value": 20,
+    "degree": 127.5
+  },
+  {
+    "emotion": "Tranquility",
+    "color": "#3200C4",
+    "value": 20,
+    "degree": 142.5
+  },
+  {
+    "emotion": "Melancholy",
+    "color": "#3B00AF",
+    "value": 20,
+    "degree": 157.5
+  },
+  {
+    "emotion": "Sadness",
+    "color": "#500096",
+    "value": 20,
+    "degree": 172.5
+  },
+  {
+    "emotion": "Grief",
+    "color": "#590C6C",
+    "value": 20,
+    "degree": 187.5
+  },
+  {
+    "emotion": "Sorrow",
+    "color": "#691B71",
+    "value": 20,
+    "degree": 202.5
+  },
+  {
+    "emotion": "Anxiety",
+    "color": "#54003B",
+    "value": 20,
+    "degree": 217.5
+  },
+  {
+    "emotion": "Fear",
+    "color": "#860445",
+    "value": 20,
+    "degree": 232.5
+  },
+  {
+    "emotion": "Dread",
+    "color": "#A30B2F",
+    "value": 20,
+    "degree": 247.5
+  },
+  {
+    "emotion": "Shock",
+    "color": "#CC1715",
+    "value": 20,
+    "degree": 262.5
+  },
+  {
+    "emotion": "Disgust",
+    "color": "#DA4518",
+    "value": 20,
+    "degree": 277.5
+  },
+  {
+    "emotion": "Anger",
+    "color": "#EA8217",
+    "value": 20,
+    "degree": 292.5
+  },
+  {
+    "emotion": "Rage",
+    "color": "#EDB71C",
+    "value": 20,
+    "degree": 307.5
+  },
+  {
+    "emotion": "Frustration",
+    "color": "#E7F513",
+    "value": 20,
+    "degree": 322.5
+  },
+  {
+    "emotion": "Irritation",
+    "color": "#BDF61A",
+    "value": 20,
+    "degree": 337.5
+  }
 ];
 
 /**
@@ -219,32 +272,77 @@ export interface RadarDataPoint {
  * Initial data for the radar chart
  */
 export const radarChartInitialData: RadarDataPoint[] = [
-  { emotion: "Surprise", angle: -90, userValue: 100 }, // Top (12 o'clock)
-  { emotion: "Joy", angle: -18, userValue: 100 }, // Top right
-  { emotion: "Anger", angle: 54, userValue: 100 }, // Bottom right
-  { emotion: "Sadness", angle: 126, userValue: 100 }, // Bottom left
-  { emotion: "Fear", angle: 198, userValue: 100 }, // Top left
+  {
+    "emotion": "Surprise",
+    "angle": -90,
+    "userValue": 100
+  },
+  {
+    "emotion": "Joy",
+    "angle": -18,
+    "userValue": 100
+  },
+  {
+    "emotion": "Anger",
+    "angle": 54,
+    "userValue": 100
+  },
+  {
+    "emotion": "Sadness",
+    "angle": 126,
+    "userValue": 100
+  },
+  {
+    "emotion": "Fear",
+    "angle": 198,
+    "userValue": 100
+  }
 ];
 
 /**
  * Analysis data for the radar chart
  */
 export const radarChartAnalysisData: RadarDataPoint[] = [
-  { emotion: "Surprise", angle: -90, userValue: 100, analysisValue: 65 },
-  { emotion: "Joy", angle: -18, userValue: 100, analysisValue: 90 },
-  { emotion: "Anger", angle: 54, userValue: 100, analysisValue: 70 },
-  { emotion: "Sadness", angle: 126, userValue: 100, analysisValue: 85 },
-  { emotion: "Fear", angle: 198, userValue: 100, analysisValue: 60 },
+  {
+    "emotion": "Surprise",
+    "angle": -90,
+    "userValue": 100,
+    "analysisValue": 6
+  },
+  {
+    "emotion": "Joy",
+    "angle": -18,
+    "userValue": 100,
+    "analysisValue": 20
+  },
+  {
+    "emotion": "Anger",
+    "angle": 54,
+    "userValue": 100,
+    "analysisValue": 0
+  },
+  {
+    "emotion": "Sadness",
+    "angle": 126,
+    "userValue": 100,
+    "analysisValue": 60
+  },
+  {
+    "emotion": "Fear",
+    "angle": 198,
+    "userValue": 100,
+    "analysisValue": 15
+  }
 ];
 
 /**
  * Purple colors for radar chart background layers
  */
 export const radarChartPurpleColors = [
-  "#f2f0ff", // Lightest purple (outermost)
-  "#e5e2f8", // Light purple
-  "#dbd7f4", // Medium purple
-  "#d1cef0", // Darkest purple (innermost)
+  "#f2f0ff",
+  "#e5e2f8",
+  "#dbd7f4",
+  "#d1cef0"
 ];
 
 // ========== POEM DATA CONFIG ==========
@@ -283,63 +381,56 @@ export interface PoemData {
  * Keywords to highlight in the poem
  */
 export const keywordsMap: PoemKeyword = {
-  "床前": "bed",
-  "明月光": "moonlight",
-  "地上霜": "frost",
-  "举头": "looking up",
-  "望明月": "see the moon",
-  "低头": "bowing",
-  "思故乡": "missing hometown"
+  "菜の花や": "rapeseed flower fields",
+  "月": "moon",
+  "日": "sun"
 };
 
 /**
  * Li Bai's "Quiet Night Thoughts" poem
  */
 export const quietNightPoem: PoemData = {
-  title: {
-    original: "静夜思",
-    translated: "In the Quiet Night"
+  "title": {
+    "original": "",
+    "translated": ""
   },
-  author: {
-    name: "李白",
-    dynasty: "唐"
+  "author": {
+    "name": "与謝蕪村",
+    "dynasty": "Edo"
   },
-  verses: [
+  "verses": [
     {
-      original: "床前明月光，",
-      translated: "Beside my bed a silver light,",
-      keywords: [
-        { original: "床前", translated: "bed" },
-        { original: "明月光", translated: "light" }
+      "original": "菜の花や",
+      "translated": "A sea of rapeseed flower fields as far as one can see.",
+      "keywords": [
+        {
+          "original": "菜の花や",
+          "translated": "rapeseed flower fields"
+        }
       ]
     },
     {
-      original: "疑是地上霜。",
-      translated: "I wonder if it's frost aground.",
-      keywords: [
-        { original: "地上霜", translated: "frost" },
-        { original: "地上", translated: "aground" }
+      "original": "月は東に",
+      "translated": "The moon begins to rise from the eastern sky,",
+      "keywords": [
+        {
+          "original": "月",
+          "translated": "moon"
+        }
       ]
     },
     {
-      original: "举头望明月，",
-      translated: "Looking up, I see the moon so bright;",
-      keywords: [
-        { original: "举头", translated: "Looking up" },
-        { original: "望", translated: "see" },
-        { original: "明月", translated: "moon" }
-      ]
-    },
-    {
-      original: "低头思故乡。",
-      translated: "Bowing, I'm missing my hometown.",
-      keywords: [
-        { original: "低头", translated: "Bowing" },
-        { original: "思故乡", translated: "missing my hometown" }
+      "original": "日は西に",
+      "translated": "and the sun is setting in the west.",
+      "keywords": [
+        {
+          "original": "日",
+          "translated": "sun"
+        }
       ]
     }
   ],
-  background: "This poem was likely written during Li Bai's travels. It reflects the loneliness and homesickness of a traveler in a foreign land under the moonlight, against the backdrop of the relatively open and prosperous cultural and social environment of the Tang Dynasty."
+  "background": "The haiku \"菜の花や 月は東に 日は西に\" (translated as \"The rape blossoms! The moon in the east, the sun in the west\") was written by Yosa Buson.\nYosa Buson was a renowned haiku poet and painter in the Edo period of Japan. He was one of the leading figures of the Edo school of haiku. During the Edo period, haiku emerged as a popular form of poetry, and many poets were inspired by the natural beauty and the simple pleasures of life."
 };
 
 // ========== AI CHAT CONFIG ==========
@@ -367,28 +458,28 @@ export interface PredefinedQuestion {
  */
 export const predefinedQuestions: PredefinedQuestion[] = [
   {
-    id: 'background',
-    label: 'Background',
-    icon: '/button1.png',
-    question: 'Please explain the historical background of this poem and its author.'
+    "id": "background",
+    "label": "Background",
+    "icon": "/button1.png",
+    "question": "Please explain the historical background of this poem and its author."
   },
   {
-    id: 'techniques',
-    label: 'Techniques',
-    icon: '/button2.png',
-    question: 'What poetic techniques are used in this poem?'
+    "id": "techniques",
+    "label": "Techniques",
+    "icon": "/button2.png",
+    "question": "What poetic techniques are used in this poem?"
   },
   {
-    id: 'theme',
-    label: 'Theme',
-    icon: '/button3.png',
-    question: 'What are the main themes of this poem?'
+    "id": "theme",
+    "label": "Theme",
+    "icon": "/button3.png",
+    "question": "What are the main themes of this poem?"
   },
   {
-    id: 'more',
-    label: 'More',
-    icon: '/button4.png',
-    question: 'Please provide a deeper analysis of the imagery in this poem.'
+    "id": "more",
+    "label": "More",
+    "icon": "/button4.png",
+    "question": "Please provide a deeper analysis of the imagery in this poem."
   }
 ];
 
@@ -397,7 +488,7 @@ export const predefinedQuestions: PredefinedQuestion[] = [
 /**
  * Node type definition
  */
-export type NodeType = 'entity' | 'relation' | 'modifier';
+export type NodeType = 'entity' | 'relation';
 
 /**
  * Node interfaces for graph visualization
@@ -424,65 +515,150 @@ export interface SceneEdge {
  * Graph data for each canvas (1-4)
  */
 export const graphCanvasData = [
-  // Canvas 1 - Bedside moonlight scene
   {
-    nodes: [
-      { id: "moon", label: "Moon", type: "entity", x: 60, y: 50 },
-      { id: "moonlight", label: "Moonlight", type: "entity", x: 120, y: 100 },
-      { id: "bed", label: "Bed", type: "entity", x: 180, y: 100 },
-      { id: "inside1", label: "Inside", type: "relation", x: 150, y: 150 },
-      { id: "room", label: "Room", type: "entity", x: 180, y: 200 },
-      { id: "inside2", label: "Inside", type: "relation", x: 120, y: 150 },
-      { id: "near", label: "Near", type: "relation", x: 90, y: 200 },
+    "nodes": [
+      {
+        "id": "node-1742477063075",
+        "label": "Fields",
+        "type": "entity",
+        "x": 190,
+        "y": 270
+      },
+      {
+        "id": "node-1742477084934",
+        "label": "Moon",
+        "type": "entity",
+        "x": 260,
+        "y": 120
+      },
+      {
+        "id": "node-1742477099311",
+        "label": "Sun",
+        "type": "entity",
+        "x": 140,
+        "y": 120
+      },
+      {
+        "id": "node-1742477378017",
+        "label": "above",
+        "type": "relation",
+        "x": 140,
+        "y": 190
+      },
+      {
+        "id": "node-1742477565840",
+        "label": "above",
+        "type": "relation",
+        "x": 260,
+        "y": 190
+      },
+      {
+        "id": "node-1742477628526",
+        "label": "setting",
+        "type": "modifier",
+        "x": 40,
+        "y": 60
+      },
+      {
+        "id": "node-1742477669836",
+        "label": "from west",
+        "type": "modifier",
+        "x": 140,
+        "y": 20
+      },
+      {
+        "id": "node-1742477713035",
+        "label": "rising",
+        "type": "modifier",
+        "x": 360,
+        "y": 60
+      },
+      {
+        "id": "node-1742477734850",
+        "label": "from east",
+        "type": "modifier",
+        "x": 260,
+        "y": 20
+      },
+      {
+        "id": "node-1742477759446",
+        "label": "rapeseed flower's",
+        "type": "modifier",
+        "x": 130,
+        "y": 330
+      },
+      {
+        "id": "node-1742477803127",
+        "label": "a sea of",
+        "type": "modifier",
+        "x": 260,
+        "y": 330
+      }
     ],
-    edges: [
-      { id: "e1", source: "moon", target: "moonlight" },
-      { id: "e2", source: "moonlight", target: "bed" },
-      { id: "e3", source: "moonlight", target: "inside1" },
-      { id: "e4", source: "inside1", target: "room" },
-      { id: "e5", source: "moonlight", target: "inside2" },
-      { id: "e6", source: "inside2", target: "near" },
+    "edges": [
+      {
+        "id": "edge-1742477390400",
+        "source": "node-1742477565840",
+        "target": "node-1742477063075"
+      },
+      {
+        "id": "edge-1742477396296",
+        "source": "node-1742477378017",
+        "target": "node-1742477063075"
+      },
+      {
+        "id": "edge-1742477397068",
+        "source": "node-1742477099311",
+        "target": "node-1742477378017"
+      },
+      {
+        "id": "edge-1742477599047",
+        "source": "node-1742477084934",
+        "target": "node-1742477565840"
+      },
+      {
+        "id": "edge-1742477652660",
+        "source": "node-1742477628526",
+        "target": "node-1742477099311"
+      },
+      {
+        "id": "edge-1742477697638",
+        "source": "node-1742477669836",
+        "target": "node-1742477099311"
+      },
+      {
+        "id": "edge-1742477727211",
+        "source": "node-1742477713035",
+        "target": "node-1742477084934"
+      },
+      {
+        "id": "edge-1742477751086",
+        "source": "node-1742477734850",
+        "target": "node-1742477084934"
+      },
+      {
+        "id": "edge-1742477793276",
+        "source": "node-1742477759446",
+        "target": "node-1742477063075"
+      },
+      {
+        "id": "edge-1742477819797",
+        "source": "node-1742477803127",
+        "target": "node-1742477063075"
+      }
     ]
   },
-  // Canvas 2 - Person standing scene
   {
-    nodes: [
-      { id: "person", label: "Person", type: "entity", x: 100, y: 70 },
-      { id: "standing", label: "Standing on", type: "relation", x: 130, y: 130 },
-      { id: "ground", label: "Ground", type: "entity", x: 160, y: 190 },
-    ],
-    edges: [
-      { id: "e1", source: "person", target: "standing" },
-      { id: "e2", source: "standing", target: "ground" },
-    ]
+    "nodes": [],
+    "edges": []
   },
-  // Canvas 3 - Frost and wonder scene
   {
-    nodes: [
-      { id: "frost", label: "Frost", type: "entity", x: 130, y: 90 },
-      { id: "wonder", label: "Wonder", type: "relation", x: 80, y: 150 },
-      { id: "looking", label: "Looking", type: "relation", x: 180, y: 150 },
-    ],
-    edges: [
-      { id: "e1", source: "wonder", target: "frost" },
-      { id: "e2", source: "looking", target: "frost" },
-    ]
+    "nodes": [],
+    "edges": []
   },
-  // Canvas 4 - Homesickness scene
   {
-    nodes: [
-      { id: "night", label: "Night", type: "entity", x: 80, y: 50 },
-      { id: "homesick", label: "Homesick", type: "relation", x: 130, y: 110 },
-      { id: "bowing", label: "Bowing", type: "relation", x: 80, y: 170 },
-      { id: "missing", label: "Missing", type: "relation", x: 180, y: 170 },
-      { id: "hometown", label: "Hometown", type: "entity", x: 230, y: 220 },
-    ],
-    edges: [
-      { id: "e1", source: "homesick", target: "night" },
-      { id: "e2", source: "homesick", target: "bowing" },
-      { id: "e3", source: "homesick", target: "missing" },
-      { id: "e4", source: "missing", target: "hometown" },
-    ]
+    "nodes": [],
+    "edges": []
   }
 ];
 
@@ -492,43 +668,35 @@ export const graphCanvasData = [
  * UI constant values
  */
 export const uiConstants = {
-  // EmotionColorWheel constants
-  colorWheel: {
-    maxBarLength: 80,  // maximum pixel length for a bar at 100% value
+  "colorWheel": {
+    "maxBarLength": 80
   },
-
-  // EmotionRadarChart constants
-  radarChart: {
-    svgWidth: 500,
-    svgHeight: 500,
-    radius: 180,
-    circleCount: 4,  // Number of concentric circles
+  "radarChart": {
+    "svgWidth": 500,
+    "svgHeight": 500,
+    "radius": 180,
+    "circleCount": 4
   },
-
-  // Graph visualization constants
-  graph: {
-    nodeWidth: 90,  // 最小节点宽度（实际宽度会根据文本长度自动调整）
-    nodeHeight: 35,  // 节点高度
-    entityFill: '#9AE3EB',
-    entityStroke: '#9AE3EB',
-    relationFill: '#7165DA',
-    relationStroke: '#7165DA',
-    modifierFill: '#C9D6E9',
-    modifierStroke: '#C9D6E9',
-    modifierText: '#66668A',
-    edgeStroke: 'black',
-    borderRadius: 10,
+  "graph": {
+    "nodeWidth": 90,
+    "nodeHeight": 35,
+    "entityFill": "#9AE3EB",
+    "entityStroke": "#9AE3EB",
+    "relationFill": "#7165DA",
+    "relationStroke": "#7165DA",
+    "modifierFill": "#C9D6E9",
+    "modifierStroke": "#C9D6E9",
+    "modifierText": "#66668A",
+    "edgeStroke": "black",
+    "borderRadius": 10
   },
-
-  // Canvas image size constants
-  canvasImage: {
-    defaultWidth: 120,
-    defaultHeight: 120,
-    maxWidth: 240,
-    maxHeight: 240,
-    // 设置下载图片的尺寸配置
-    downloadWidth: 1200,  // 下载画布的固定宽度
-    downloadQuality: 1.0, // 下载图片的质量 (0.0-1.0)
-    downloadScale: 2,     // 下载时的缩放因子，提高分辨率
+  "canvasImage": {
+    "defaultWidth": 120,
+    "defaultHeight": 120,
+    "maxWidth": 240,
+    "maxHeight": 240,
+    "downloadWidth": 1200,
+    "downloadQuality": 1,
+    "downloadScale": 2
   }
 };

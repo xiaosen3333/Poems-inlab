@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -48,7 +48,8 @@ import ColorPicker from "@/components/config/ColorPicker";
 const IMGBB_API_KEY = "7310033e928db829771cad56fc098222";
 const IMGBB_EXPIRATION = "1555200"; // in seconds (180 days)
 
-export default function ConfigPage() {
+// Main content component that uses searchParams
+function ConfigPageContent() {
   const [activeTab, setActiveTab] = useState("visual-elements");
   const [config, setConfig] = useState<any>(null);
   const [fileContent, setFileContent] = useState("");
@@ -2483,5 +2484,26 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
         </TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+// Loading fallback for Suspense
+function ConfigPageLoading() {
+  return (
+    <div className="min-h-screen p-6 bg-gradient-to-br from-blue-50 via-purple-50 to-blue-50 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-xl shadow-xl max-w-md text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto mb-6"></div>
+        <p className="text-lg font-medium text-gray-800">Loading configuration page...</p>
+      </div>
+    </div>
+  );
+}
+
+// Export the main page component with Suspense
+export default function ConfigPage() {
+  return (
+    <Suspense fallback={<ConfigPageLoading />}>
+      <ConfigPageContent />
+    </Suspense>
   );
 }

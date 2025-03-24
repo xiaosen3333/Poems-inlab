@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -42,7 +42,8 @@ function LoadingOverlay({ message }: { message: string }) {
   );
 }
 
-export default function PoetryPage() {
+// Wrapper component that uses searchParams
+function PoetryPageContent() {
   const [activeTab, setActiveTab] = useState("poem");
   const [markedKeywords, setMarkedKeywords] = useState(false);
   const [canvasCount] = useState(4);
@@ -488,7 +489,7 @@ export default function PoetryPage() {
       }
 
       // 获取当前配置中的generatePrompt
-      const configParam = searchParams.get("config") || "default";
+      const configParam = searchParams ? searchParams.get("config") || "default" : "default";
       const loadedConfig = getConfig(configParam);
       const generateConfig = (loadedConfig as any).generateConfig;
 
@@ -500,25 +501,28 @@ export default function PoetryPage() {
 
       // 确保图像数量与提示词数量一致
       const promptCount = generateConfig.prompt.length;
+      let processedImagesBase64 = [...imagesBase64];
+      
       // 如果图像少于提示词，复制最后一张图片直到数量匹配
-      while (imagesBase64.length < promptCount) {
-        const lastImage = imagesBase64.length > 0 
-          ? imagesBase64[imagesBase64.length - 1] 
+      while (processedImagesBase64.length < promptCount) {
+        const lastImage = processedImagesBase64.length > 0 
+          ? processedImagesBase64[processedImagesBase64.length - 1] 
           : imageBase64;
-        imagesBase64.push(lastImage);
+        processedImagesBase64.push(lastImage);
       }
+      
       // 如果图像多于提示词，截取需要的部分
-      if (imagesBase64.length > promptCount) {
-        imagesBase64 = imagesBase64.slice(0, promptCount);
+      if (processedImagesBase64.length > promptCount) {
+        processedImagesBase64 = processedImagesBase64.slice(0, promptCount);
       }
 
-      console.log(`Sending ${imagesBase64.length} images to match ${promptCount} prompts`);
+      console.log(`Sending ${processedImagesBase64.length} images to match ${promptCount} prompts`);
 
       // 创建请求数据
       const requestData = {
         lora: generateConfig.lora,
         prompts: generateConfig.prompt,
-        images_base64: imagesBase64,
+        images_base64: processedImagesBase64,
       };
 
       // 发送请求到后端
@@ -1133,5 +1137,26 @@ export default function PoetryPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+// Loading fallback for Suspense
+function PoetryPageLoading() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-50 flex items-center justify-center">
+      <div className="bg-white p-6 rounded-xl shadow-xl max-w-md text-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-500 mx-auto mb-4"></div>
+        <p className="text-lg font-medium text-gray-800">Loading poetry page...</p>
+      </div>
+    </div>
+  );
+}
+
+// Export the main page component
+export default function PoetryPage() {
+  return (
+    <Suspense fallback={<PoetryPageLoading />}>
+      <PoetryPageContent />
+    </Suspense>
   );
 }

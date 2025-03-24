@@ -61,12 +61,13 @@ export function useCanvasElements(visualElementsConfig?: any) {
   // 使用传入的visualElements或者默认值
   const [localVisualElements, setLocalVisualElements] = useState(visualElementsConfig || visualElements);
   
-  // 当visualElementsConfig变化时更新
+  // 当visualElementsConfig变化或activeCanvas变化时更新
   useEffect(() => {
     if (visualElementsConfig) {
+      console.log("Updating localVisualElements due to config change or canvas switch");
       setLocalVisualElements(visualElementsConfig);
     }
-  }, [visualElementsConfig]);
+  }, [visualElementsConfig, activeCanvas]);
   
   // Helper function to check if a canvas has active visual elements defined
   const hasActiveVisualElements = useCallback((canvasNumber: number): boolean => {

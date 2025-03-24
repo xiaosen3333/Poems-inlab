@@ -451,6 +451,7 @@ export default function PoetryPage() {
               onDragEnd={handleDragEnd}
               onElementClick={addElementToCanvas}
               allowExpand={symbolsGenerated[activeCanvas - 1]}
+              activeCanvas={activeCanvas}
             />
           </div>
 
@@ -462,6 +463,7 @@ export default function PoetryPage() {
             onDragEnd={handleDragEnd}
             onElementClick={addElementToCanvas}
             allowDisplay={symbolsGenerated[activeCanvas - 1]}
+            activeCanvas={activeCanvas}
           />
 
           {/* Middle Panel - Canvas Area */}

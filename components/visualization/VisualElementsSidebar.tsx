@@ -14,6 +14,7 @@ interface VisualElementsSidebarProps {
   onDragEnd: () => void;
   onElementClick: (elementId: number) => void;
   allowExpand?: boolean;
+  activeCanvas: number;
 }
 
 export function VisualElementsSidebar({
@@ -23,6 +24,7 @@ export function VisualElementsSidebar({
   onDragEnd,
   onElementClick,
   allowExpand = false,
+  activeCanvas,
 }: VisualElementsSidebarProps) {
   // State for the sidebar toggle
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -47,8 +49,8 @@ export function VisualElementsSidebar({
     setVisualElements(loadedConfig.visualElements);
   }, [searchParams]);
 
-  // Get elements for the current canvas - using canvas 1 for sidebar
-  const activeCanvasElements = visualElements[1] || [];
+  // Use the active canvas passed as a prop to get the correct visual elements
+  const activeCanvasElements = visualElements[activeCanvas] || [];
   
   // Check if any elements are available to display
   const availableElements = activeCanvasElements.filter(

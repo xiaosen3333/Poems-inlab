@@ -13,6 +13,7 @@ interface MobileVisualElementsProps {
   onDragEnd: () => void
   onElementClick: (elementId: number) => void
   allowDisplay?: boolean
+  activeCanvas: number
 }
 
 export function MobileVisualElements({
@@ -21,7 +22,8 @@ export function MobileVisualElements({
   onDragStart,
   onDragEnd,
   onElementClick,
-  allowDisplay = false
+  allowDisplay = false,
+  activeCanvas
 }: MobileVisualElementsProps) {
   const [visualElements, setVisualElements] = useState(defaultVisualElements);
   
@@ -44,8 +46,8 @@ export function MobileVisualElements({
     setVisualElements(loadedConfig.visualElements);
   }, [searchParams]);
   
-  // Get elements for the current canvas - using canvas 1 for mobile elements
-  const activeCanvasElements = visualElements[1] || [];
+  // Get elements for the current active canvas passed as prop
+  const activeCanvasElements = visualElements[activeCanvas] || [];
   
   // Check if any elements are available to display
   const availableElements = activeCanvasElements.filter(element => !usedElements.includes(element.id))

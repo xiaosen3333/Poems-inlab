@@ -1,7 +1,10 @@
 "use client"
 
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { DraggableVisualElement } from "./DraggableVisualElement"
-import { visualElements } from "@/lib/data/visualElements"
+import { visualElements as defaultVisualElements } from "@/lib/data/visualElements"
+import { getConfig } from "@/lib/services/configService"
 
 interface MobileVisualElementsProps {
   usedElements: number[]
@@ -20,6 +23,27 @@ export function MobileVisualElements({
   onElementClick,
   allowDisplay = false
 }: MobileVisualElementsProps) {
+  const [visualElements, setVisualElements] = useState(defaultVisualElements);
+  
+  // 使用 Next.js 的搜索参数
+  const searchParams = useSearchParams();
+  
+  // 当URL参数变化时加载配置
+  useEffect(() => {
+    const configParam = searchParams?.get('config');
+    console.log("URL config param in MobileVisualElements:", configParam);
+    
+    // 根据URL参数决定加载哪个配置文件
+    const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
+      ? configParam
+      : 'default';
+    
+    const loadedConfig = getConfig(configName);
+    console.log("MobileVisualElements - config loaded:", configName);
+    
+    setVisualElements(loadedConfig.visualElements);
+  }, [searchParams]);
+  
   // Get elements for the current canvas - using canvas 1 for mobile elements
   const activeCanvasElements = visualElements[1] || [];
   

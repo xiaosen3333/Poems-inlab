@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DraggableVisualElement } from "./DraggableVisualElement";
-import { visualElements } from "@/lib/data/visualElements";
+import { visualElements as defaultVisualElements } from "@/lib/data/visualElements";
+import { getConfig } from "@/lib/services/configService";
 
 interface VisualElementsSidebarProps {
   usedElements: number[];
@@ -24,6 +26,26 @@ export function VisualElementsSidebar({
 }: VisualElementsSidebarProps) {
   // State for the sidebar toggle
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [visualElements, setVisualElements] = useState(defaultVisualElements);
+  
+  // 使用 Next.js 的搜索参数
+  const searchParams = useSearchParams();
+  
+  // 当URL参数变化时加载配置
+  useEffect(() => {
+    const configParam = searchParams?.get('config');
+    console.log("URL config param in VisualElementsSidebar:", configParam);
+    
+    // 根据URL参数决定加载哪个配置文件
+    const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
+      ? configParam
+      : 'default';
+    
+    const loadedConfig = getConfig(configName);
+    console.log("VisualElementsSidebar - config loaded:", configName);
+    
+    setVisualElements(loadedConfig.visualElements);
+  }, [searchParams]);
 
   // Get elements for the current canvas - using canvas 1 for sidebar
   const activeCanvasElements = visualElements[1] || [];

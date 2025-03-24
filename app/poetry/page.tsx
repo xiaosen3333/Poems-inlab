@@ -57,6 +57,9 @@ export default function PoetryPage() {
   // 处理状态
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingMessage, setProcessingMessage] = useState("");
+  
+  // 存储生成的图像
+  const [generatedImages, setGeneratedImages] = useState<{[key: number]: string}>({});
 
   // 配置相关状态
   const [graphCanvasData, setGraphCanvasData] = useState(
@@ -303,6 +306,24 @@ export default function PoetryPage() {
       setGraphCanvasNumber(activeCanvas);
     }
   }, [activeTab, activeCanvas]);
+  
+  // 当画布切换时，检查状态中是否有对应的生成图像
+  useEffect(() => {
+    if (generatedImages[activeCanvas]) {
+      console.log(`Found generated image for canvas ${activeCanvas}, loading it`);
+      
+      const newElement = {
+        id: Date.now(),
+        type: "generated-image",
+        src: generatedImages[activeCanvas],
+        position: { x: 0, y: 0 },
+        size: { width: 600, height: 600 }
+      };
+      
+      // 更新当前画布
+      setCanvasElements([newElement]);
+    }
+  }, [activeCanvas, generatedImages]);
 
   // 使用useRef避免循环更新
   const prevSymbolsRef = useRef(symbolsGenerated);
@@ -477,6 +498,22 @@ export default function PoetryPage() {
         return;
       }
 
+      // 确保图像数量与提示词数量一致
+      const promptCount = generateConfig.prompt.length;
+      // 如果图像少于提示词，复制最后一张图片直到数量匹配
+      while (imagesBase64.length < promptCount) {
+        const lastImage = imagesBase64.length > 0 
+          ? imagesBase64[imagesBase64.length - 1] 
+          : imageBase64;
+        imagesBase64.push(lastImage);
+      }
+      // 如果图像多于提示词，截取需要的部分
+      if (imagesBase64.length > promptCount) {
+        imagesBase64 = imagesBase64.slice(0, promptCount);
+      }
+
+      console.log(`Sending ${imagesBase64.length} images to match ${promptCount} prompts`);
+
       // 创建请求数据
       const requestData = {
         lora: generateConfig.lora,
@@ -597,8 +634,43 @@ export default function PoetryPage() {
             updatedCanvasElements[canvasIndex] = [newElement];
           }
           
-          // 使用setCanvasElements更新当前活动画布
-          setCanvasElements(updatedCanvasElements[activeCanvas-1]);
+          // 创建一个新的图像对象，用于更新状态
+          const newGeneratedImages = {...generatedImages};
+          
+          // 保存所有生成的图像
+          for (let i = 0; i < processedCanvases.length && i < imagesToProcess; i++) {
+            const canvasIndex = processedCanvases[i] - 1; // 转为0-索引
+            const canvasNumber = canvasIndex + 1; // 1-索引的画布编号
+            const imgDataUrl = responseData.images[i];
+            
+            // 确保base64字符串有正确的前缀
+            const imgSrc = imgDataUrl.startsWith('data:') 
+              ? imgDataUrl 
+              : `data:image/png;base64,${imgDataUrl}`;
+            
+            // 保存图像到状态对象
+            newGeneratedImages[canvasNumber] = imgSrc;
+          }
+          
+          // 更新生成图像状态
+          setGeneratedImages(newGeneratedImages);
+          
+          // 更新当前活动画布
+          console.log(`Updating active canvas ${activeCanvas} with generated image`);
+          
+          // 检查当前活动画布是否有对应的生成图像
+          if (newGeneratedImages[activeCanvas]) {
+            const newElement = {
+              id: Date.now(),
+              type: "generated-image",
+              src: newGeneratedImages[activeCanvas],
+              position: { x: 0, y: 0 },
+              size: { width: 600, height: 600 }
+            };
+            
+            // 更新当前画布
+            setCanvasElements([newElement]);
+          }
         }
 
         setIsProcessing(false);

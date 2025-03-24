@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  emotionColorWheelData,
-  emotionColorWheelLegend,
-  uiConstants,
+import { getConfig } from "@/lib/services/configService";
+import { 
+  emotionColorWheelData as defaultEmotionColorWheelData,
+  emotionColorWheelLegend as defaultEmotionColorWheelLegend,
+  uiConstants as defaultUiConstants
 } from "@/lib/config/appConfig";
 
 interface EmotionColorWheelProps {
@@ -20,6 +22,32 @@ const EmotionColorWheel = ({
   onAutoAnalyze,
 }: EmotionColorWheelProps) => {
   const [showExtensions, setShowExtensions] = useState(false);
+  
+  // 配置相关状态
+  const [emotionColorWheelData, setEmotionColorWheelData] = useState(defaultEmotionColorWheelData);
+  const [emotionColorWheelLegend, setEmotionColorWheelLegend] = useState(defaultEmotionColorWheelLegend);
+  const [uiConstants, setUiConstants] = useState(defaultUiConstants);
+  
+  // 使用 Next.js 的搜索参数
+  const searchParams = useSearchParams();
+  
+  // 当URL参数变化时加载配置
+  useEffect(() => {
+    const configParam = searchParams?.get('config');
+    console.log("URL config param in EmotionColorWheel:", configParam);
+    
+    // 根据URL参数决定加载哪个配置文件
+    const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
+      ? configParam
+      : 'default';
+    
+    const loadedConfig = getConfig(configName);
+    console.log("EmotionColorWheel - config loaded:", configName);
+    
+    setEmotionColorWheelData(loadedConfig.emotionColorWheelData);
+    setEmotionColorWheelLegend(loadedConfig.emotionColorWheelLegend);
+    setUiConstants(loadedConfig.uiConstants);
+  }, [searchParams]);
 
   // Handle auto analyze click
   const handleAutoAnalyze = () => {
@@ -36,19 +64,27 @@ const EmotionColorWheel = ({
       <div className="flex flex-col justify-start">
         {/* Emotion color legend */}
         <div className="flex flex-col mb-6 px-4">
-          {emotionColorWheelLegend.map(({ emotion, color }) => (
-            <div key={emotion} className="flex items-center mb-1">
-              <div
-                className="mr-2 h-3 w-3"
-                style={{
-                  backgroundColor: color,
-                  backgroundImage:
-                    "repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.4) 2px, rgba(255,255,255,0.4) 4px)",
-                }}
-              />
-              <span className="text-xs text-gray-700">{emotion}</span>
-            </div>
-          ))}
+          {emotionColorWheelLegend.map((item, index) => {
+            // Skip empty items or items without emotion
+            if (!item.emotion && !item.color) return null;
+            
+            return (
+              <div 
+                key={item.emotion || `empty-${index}`} 
+                className="flex items-center mb-1"
+              >
+                <div
+                  className="mr-2 h-3 w-3"
+                  style={{
+                    backgroundColor: item.color,
+                    backgroundImage:
+                      "repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.4) 2px, rgba(255,255,255,0.4) 4px)",
+                  }}
+                />
+                <span className="text-xs text-gray-700">{item.emotion}</span>
+              </div>
+            );
+          })}
         </div>
         {/* Auto analyze button */}
         <div className="mt-3 flex justify-center">

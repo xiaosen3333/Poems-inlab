@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Graph, Edge } from "@antv/x6";
-import { SceneNode, SceneEdge, uiConstants } from "@/lib/config/appConfig";
+import { SceneNode, SceneEdge, uiConstants as defaultUiConstants } from "@/lib/config/appConfig";
+import { getConfig } from "@/lib/services/configService";
 
 interface GraphComponentProps {
   nodes: SceneNode[];
@@ -24,6 +26,28 @@ export function GraphComponent({
   const containerRef = useRef<HTMLDivElement>(null);
   const graphRef = useRef<Graph | null>(null);
   const nodesRef = useRef<SceneNode[]>(nodes);
+  
+  // 配置相关状态
+  const [uiConstants, setUiConstants] = useState(defaultUiConstants);
+  
+  // 使用 Next.js 的搜索参数
+  const searchParams = useSearchParams();
+  
+  // 当URL参数变化时加载配置
+  useEffect(() => {
+    const configParam = searchParams?.get('config');
+    console.log("URL config param in Graph:", configParam);
+    
+    // 根据URL参数决定加载哪个配置文件
+    const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
+      ? configParam
+      : 'default';
+    
+    const loadedConfig = getConfig(configName);
+    console.log("Graph - config loaded:", configName);
+    
+    setUiConstants(loadedConfig.uiConstants);
+  }, [searchParams]);
 
   // Update the ref when nodes prop changes
   useEffect(() => {

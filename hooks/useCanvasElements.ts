@@ -1,8 +1,10 @@
 "use client"
 
 import { useState, useCallback, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { visualElements } from "@/lib/data/visualElements"
-import { uiConstants } from "@/lib/config/appConfig"
+import { loadConfigFromUrl, getConfig } from "@/lib/services/configService"
+import { uiConstants as defaultUiConstants } from "@/lib/config/appConfig"
 
 export interface CanvasElement {
   id: string;
@@ -13,9 +15,30 @@ export interface CanvasElement {
   height: number;
 }
 
-export function useCanvasElements() {
+export function useCanvasElements(visualElementsConfig?: any) {
   // Active canvas number
   const [activeCanvas, setActiveCanvas] = useState<number>(1)
+  
+  // 配置相关状态
+  const [uiConstants, setUiConstants] = useState(defaultUiConstants);
+  
+  // 使用 Next.js 的搜索参数
+  const searchParams = useSearchParams();
+  
+  // 当URL参数变化时加载配置
+  useEffect(() => {
+    const configParam = searchParams?.get('config');
+    console.log("URL config param in useCanvasElements:", configParam);
+    
+    // 根据URL参数决定加载哪个配置文件
+    const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
+      ? configParam
+      : 'default';
+    
+    const loadedConfig = getConfig(configName);
+    console.log("useCanvasElements - config loaded:", configName, loadedConfig);
+    setUiConstants(loadedConfig.uiConstants);
+  }, [searchParams]);
   
   // Canvas elements state - separate for each canvas
   const [canvasElements1, setCanvasElements1] = useState<CanvasElement[]>([])
@@ -35,10 +58,20 @@ export function useCanvasElements() {
   // Selected canvas element for moving or deleting
   const [selectedCanvasElement, setSelectedCanvasElement] = useState<string | null>(null)
   
+  // 使用传入的visualElements或者默认值
+  const [localVisualElements, setLocalVisualElements] = useState(visualElementsConfig || visualElements);
+  
+  // 当visualElementsConfig变化时更新
+  useEffect(() => {
+    if (visualElementsConfig) {
+      setLocalVisualElements(visualElementsConfig);
+    }
+  }, [visualElementsConfig]);
+  
   // Helper function to check if a canvas has active visual elements defined
   const hasActiveVisualElements = useCallback((canvasNumber: number): boolean => {
-    return (visualElements[canvasNumber] || []).length > 0
-  }, [])
+    return (localVisualElements[canvasNumber] || []).length > 0
+  }, [localVisualElements])
   
   // Helper to get the current canvas elements and setters based on active canvas
   const getCanvasData = useCallback(() => {
@@ -100,7 +133,7 @@ export function useCanvasElements() {
     const { canvasElements, setCanvasElements } = getCanvasData();
     
     // Get the current canvas's elements and find the specific element
-    const visualElementsForCanvas = visualElements[activeCanvas] || [];
+    const visualElementsForCanvas = localVisualElements[activeCanvas] || [];
     const elementData = visualElementsForCanvas.find(el => el.id === elementId);
     
     // Use the element's size from config or default to config values if not found
@@ -205,6 +238,12 @@ export function useCanvasElements() {
     handleDragStart,
     handleDragEnd,
     removeCanvasElement,
-    hasActiveVisualElements
+    hasActiveVisualElements,
+    
+    // Export canvas elements for each canvas so they can be checked externally
+    canvasElements1,
+    canvasElements2,
+    canvasElements3,
+    canvasElements4
   }
 }

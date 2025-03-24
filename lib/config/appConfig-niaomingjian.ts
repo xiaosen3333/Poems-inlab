@@ -1,0 +1,889 @@
+/**
+ * Application Configuration
+ * 
+ * This file contains centralized configuration for the Poem Studio application.
+ * All hardcoded data is extracted here to make it easier to maintain and update.
+ */
+
+// ========== VISUALIZATION ELEMENTS CONFIG ==========
+
+/**
+ * Visual elements interface
+ */
+export interface VisualElement {
+  id: number;
+  src: string;
+  title: string;
+  size: {
+    width: number;
+    height: number;
+  };
+}
+
+/**
+ * Visual elements for each canvas
+ */
+export const visualElements: { [key: number]: VisualElement[] } = {
+  "1": [
+    {
+      "id": 1,
+      "src": "https://i.ibb.co/hJ9g426v/287-251.png",
+      "title": "Person",
+      "size": {
+        "width": 287,
+        "height": 249
+      }
+    },
+    {
+      "id": 2,
+      "src": "https://i.ibb.co/gbpfNvHg/600-593.png",
+      "title": "Laurel",
+      "size": {
+        "width": 600,
+        "height": 593
+      }
+    },
+    {
+      "id": 3,
+      "src": "https://i.ibb.co/99tWCC5H/414-153.png",
+      "title": "Laurel Blooms",
+      "size": {
+        "width": 414,
+        "height": 153
+      }
+    }
+  ],
+  "2": [
+    {
+      "id": 1,
+      "src": "https://i.ibb.co/d0D6nkNy/600-185.png",
+      "title": "Night",
+      "size": {
+        "width": 600,
+        "height": 185
+      }
+    },
+    {
+      "id": 2,
+      "src": "https://i.ibb.co/QqG0WZV/600-600.png",
+      "title": "Hills",
+      "size": {
+        "width": 600,
+        "height": 557
+      }
+    }
+  ],
+  "3": [
+    {
+      "id": 1,
+      "src": "https://i.ibb.co/Q7XrFCP0/105-105.png",
+      "title": "Moonrise",
+      "size": {
+        "width": 105,
+        "height": 105
+      }
+    },
+    {
+      "id": 2,
+      "src": "https://i.ibb.co/ZRzQh99X/343-417.png",
+      "title": "Birds",
+      "size": {
+        "width": 343,
+        "height": 417
+      }
+    }
+  ],
+  "4": [
+    {
+      "id": 1,
+      "src": "https://i.ibb.co/TFxHqKp/313-189.png",
+      "title": "Birds",
+      "size": {
+        "width": 313,
+        "height": 189
+      }
+    },
+    {
+      "id": 2,
+      "src": "https://i.ibb.co/YFKrbKqD/600-494.png",
+      "title": "Dale",
+      "size": {
+        "width": 600,
+        "height": 494
+      }
+    }
+  ]
+};
+
+// ========== EMOTION ANALYSIS CONFIG ==========
+
+/**
+ * Emotion color wheel data configuration
+ */
+export const emotionColorWheelLegend = [
+  {
+    "emotion": "Joy",
+    "color": "#e8a87c",
+    "value": 19,
+    "degree": 0
+  },
+  {
+    "emotion": "Surprise",
+    "color": "#f8ef86",
+    "value": 19,
+    "degree": 60
+  },
+  {
+    "emotion": "No Emotion",
+    "color": "#c1f486",
+    "value": 19,
+    "degree": 120
+  },
+  {
+    "emotion": "Sadness",
+    "color": "#86b5f4",
+    "value": 19,
+    "degree": 180
+  },
+  {
+    "emotion": "Fear",
+    "color": "#c486f4",
+    "value": 19,
+    "degree": 240
+  },
+  {
+    "emotion": "Anger",
+    "color": "#f486a9",
+    "value": 19,
+    "degree": 300
+  },
+  {
+    "value": 19
+  },
+  {
+    "value": 19
+  },
+  {
+    "value": 19
+  }
+];
+
+export const emotionColorWheelData = [
+  {
+    "emotion": "Joy",
+    "color": "#85F614",
+    "value": 5,
+    "degree": -7.5
+  },
+  {
+    "emotion": "Delight",
+    "color": "#4AEB27",
+    "value": 10,
+    "degree": 7.5
+  },
+  {
+    "emotion": "Happiness",
+    "color": "#00D613",
+    "value": 10,
+    "degree": 22.5
+  },
+  {
+    "emotion": "Elation",
+    "color": "#00C246",
+    "value": 5,
+    "degree": 37.5
+  },
+  {
+    "emotion": "Surprise",
+    "color": "#06A865",
+    "value": 2,
+    "degree": 52.5
+  },
+  {
+    "emotion": "Wonder",
+    "color": "#008C64",
+    "value": 2,
+    "degree": 67.5
+  },
+  {
+    "emotion": "Amazement",
+    "color": "#019293",
+    "value": 2,
+    "degree": 82.5
+  },
+  {
+    "emotion": "Curiosity",
+    "color": "#107A9A",
+    "value": 2,
+    "degree": 97.5
+  },
+  {
+    "emotion": "Calmness",
+    "color": "#2566CA",
+    "value": 2,
+    "degree": 112.5
+  },
+  {
+    "emotion": "Serenity",
+    "color": "#4558CD",
+    "value": 2,
+    "degree": 127.5
+  },
+  {
+    "emotion": "Tranquility",
+    "color": "#3200C4",
+    "value": 5,
+    "degree": 142.5
+  },
+  {
+    "emotion": "Melancholy",
+    "color": "#3B00AF",
+    "value": 2,
+    "degree": 157.5
+  },
+  {
+    "emotion": "Sadness",
+    "color": "#500096",
+    "value": 2,
+    "degree": 172.5
+  },
+  {
+    "emotion": "Grief",
+    "color": "#590C6C",
+    "value": 2,
+    "degree": 187.5
+  },
+  {
+    "emotion": "Sorrow",
+    "color": "#691B71",
+    "value": 2,
+    "degree": 202.5
+  },
+  {
+    "emotion": "Anxiety",
+    "color": "#54003B",
+    "value": 2,
+    "degree": 217.5
+  },
+  {
+    "emotion": "Fear",
+    "color": "#860445",
+    "value": 2,
+    "degree": 232.5
+  },
+  {
+    "emotion": "Dread",
+    "color": "#A30B2F",
+    "value": 2,
+    "degree": 247.5
+  },
+  {
+    "emotion": "Shock",
+    "color": "#CC1715",
+    "value": 5,
+    "degree": 262.5
+  },
+  {
+    "emotion": "Disgust",
+    "color": "#DA4518",
+    "value": 15,
+    "degree": 277.5
+  },
+  {
+    "emotion": "Anger",
+    "color": "#EA8217",
+    "value": 20,
+    "degree": 292.5
+  },
+  {
+    "emotion": "Rage",
+    "color": "#EDB71C",
+    "value": 10,
+    "degree": 307.5
+  },
+  {
+    "emotion": "Frustration",
+    "color": "#E7F513",
+    "value": 6,
+    "degree": 322.5
+  },
+  {
+    "emotion": "Irritation",
+    "color": "#BDF61A",
+    "value": 5,
+    "degree": 337.5
+  }
+];
+
+/**
+ * Interface for radar chart data points
+ */
+export interface RadarDataPoint {
+  emotion: string;
+  angle: number;
+  userValue: number;
+  analysisValue?: number;
+}
+
+/**
+ * Initial data for the radar chart
+ */
+export const radarChartInitialData: RadarDataPoint[] = [
+  {
+    "emotion": "Surprise",
+    "angle": -90,
+    "userValue": 100
+  },
+  {
+    "emotion": "Joy",
+    "angle": -18,
+    "userValue": 100
+  },
+  {
+    "emotion": "Anger",
+    "angle": 54,
+    "userValue": 100
+  },
+  {
+    "emotion": "Sadness",
+    "angle": 126,
+    "userValue": 100
+  },
+  {
+    "emotion": "Fear",
+    "angle": 198,
+    "userValue": 100
+  }
+];
+
+/**
+ * Analysis data for the radar chart
+ */
+export const radarChartAnalysisData: RadarDataPoint[] = [
+  {
+    "emotion": "Surprise",
+    "angle": -90,
+    "userValue": 100,
+    "analysisValue": 15
+  },
+  {
+    "emotion": "Joy",
+    "angle": -18,
+    "userValue": 100,
+    "analysisValue": 80
+  },
+  {
+    "emotion": "Anger",
+    "angle": 54,
+    "userValue": 100,
+    "analysisValue": 0
+  },
+  {
+    "emotion": "Sadness",
+    "angle": 126,
+    "userValue": 100,
+    "analysisValue": 20
+  },
+  {
+    "emotion": "Fear",
+    "angle": 198,
+    "userValue": 100,
+    "analysisValue": 5
+  }
+];
+
+/**
+ * Purple colors for radar chart background layers
+ */
+export const radarChartPurpleColors = [
+  "#f2f0ff",
+  "#e5e2f8",
+  "#dbd7f4",
+  "#d1cef0"
+];
+
+// ========== POEM DATA CONFIG ==========
+
+/**
+ * Interface for poem keyword mapping
+ */
+export interface PoemKeyword {
+  [key: string]: string;
+}
+
+/**
+ * Interface for poem data structure
+ */
+export interface PoemData {
+  title: {
+    original: string;
+    translated: string;
+  };
+  author: {
+    name: string;
+    dynasty: string;
+  };
+  verses: {
+    original: string;
+    translated: string;
+    keywords?: {
+      original: string;
+      translated: string;
+    }[];
+  }[];
+  background?: string;
+}
+
+/**
+ * Keywords to highlight in the poem
+ */
+export const keywordsMap: PoemKeyword = {
+  "桂花": "laurel blooms",
+  "夜": "night",
+  "山": "hills",
+  "月": "moonrise",
+  "鸟": "birds",
+  "鸣": "twitters",
+  "涧": "dale"
+};
+
+/**
+ * Li Bai's "Quiet Night Thoughts" poem
+ */
+export const quietNightPoem: PoemData = {
+  "title": {
+    "original": "鸟鸣涧",
+    "translated": "The Dale of Singing Birds"
+  },
+  "author": {
+    "name": "王维",
+    "dynasty": "唐"
+  },
+  "verses": [
+    {
+      "original": "人闲桂花落",
+      "translated": "Sweet laurel blooms fall unenjoyed;",
+      "keywords": [
+        {
+          "original": "桂花",
+          "translated": "laurel blooms"
+        }
+      ]
+    },
+    {
+      "original": "夜静春山空",
+      "translated": "Vague hills dissolve into night void.",
+      "keywords": [
+        {
+          "original": "夜",
+          "translated": "night"
+        },
+        {
+          "original": "山",
+          "translated": "hills"
+        }
+      ]
+    },
+    {
+      "original": "月出惊山鸟",
+      "translated": "The moonrise startles birds to sing;",
+      "keywords": [
+        {
+          "original": "月",
+          "translated": "moonrise"
+        },
+        {
+          "original": "鸟",
+          "translated": "birds"
+        }
+      ]
+    },
+    {
+      "original": "时鸣春涧中",
+      "translated": "Their twitters fill the dale with spring.",
+      "keywords": [
+        {
+          "original": "涧",
+          "translated": "dale"
+        },
+        {
+          "original": "鸣",
+          "translated": "twitters"
+        }
+      ]
+    }
+  ],
+  "background": "This poem is a famous Chinese poem by Wang Wei (Tang Dynasty). It depicts a serene mountain scene where the quietness of the night is broken by the occasional songs of birds, highlighting the harmony between nature and solitude. The poem reflects Wang Wei's Zen-inspired style, blending simplicity with profound tranquility."
+};
+
+// ========== AI CHAT CONFIG ==========
+
+/**
+ * Interface for API message
+ */
+export interface ChatMessage {
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+}
+
+/**
+ * Interface for predefined question
+ */
+export interface PredefinedQuestion {
+  id: string;
+  label: string;
+  icon: string;
+  question: string;
+}
+
+/**
+ * Predefined questions for poetry analysis
+ */
+export const predefinedQuestions: PredefinedQuestion[] = [
+  {
+    "id": "background",
+    "label": "Background",
+    "icon": "/button1.png",
+    "question": "Please explain the historical background of this poem and its author."
+  },
+  {
+    "id": "techniques",
+    "label": "Techniques",
+    "icon": "/button2.png",
+    "question": "What poetic techniques are used in this poem?"
+  },
+  {
+    "id": "theme",
+    "label": "Theme",
+    "icon": "/button3.png",
+    "question": "What are the main themes of this poem?"
+  },
+  {
+    "id": "more",
+    "label": "More",
+    "icon": "/button4.png",
+    "question": "Please provide a deeper analysis of the imagery in this poem."
+  }
+];
+
+// ========== GRAPH VISUALIZATION CONFIG ==========
+
+/**
+ * Node type definition
+ */
+export type NodeType = 'entity' | 'relation';
+
+/**
+ * Node interfaces for graph visualization
+ */
+export interface SceneNode {
+  id: string;
+  label: string;
+  type: NodeType;
+  x: number;
+  y: number;
+}
+
+/**
+ * Edge interface for graph visualization
+ */
+export interface SceneEdge {
+  id: string;
+  source: string;
+  target: string;
+  label?: string;
+}
+
+/**
+ * Graph data for each canvas (1-4)
+ */
+export const graphCanvasData = [
+  {
+    "nodes": [
+      {
+        "id": "node-1742477063075",
+        "label": "Laurel",
+        "type": "entity",
+        "x": 180,
+        "y": 70
+      },
+      {
+        "id": "node-1742477099311",
+        "label": "Person",
+        "type": "entity",
+        "x": 70,
+        "y": 220
+      },
+      {
+        "id": "node-1742477378017",
+        "label": "under",
+        "type": "relation",
+        "x": 70,
+        "y": 140
+      },
+      {
+        "id": "node-1742622143160",
+        "label": "fall",
+        "type": "relation",
+        "x": 280,
+        "y": 140
+      },
+      {
+        "id": "node-1742622156041",
+        "label": "Laurel Blooms",
+        "type": "entity",
+        "x": 280,
+        "y": 220
+      },
+      {
+        "id": "node-1742622204551",
+        "label": "near",
+        "type": "relation",
+        "x": 180,
+        "y": 290
+      },
+      {
+        "id": "node-1742622942448",
+        "label": "sweet",
+        "type": "modifier",
+        "x": 320,
+        "y": 290
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-1742477396296",
+        "source": "node-1742622143160",
+        "target": "node-1742622156041"
+      },
+      {
+        "id": "edge-1742477397068",
+        "source": "node-1742477063075",
+        "target": "node-1742622143160"
+      },
+      {
+        "id": "edge-1742622799568",
+        "source": "node-1742477099311",
+        "target": "node-1742477378017"
+      },
+      {
+        "id": "edge-1742622808379",
+        "source": "node-1742477378017",
+        "target": "node-1742477063075"
+      },
+      {
+        "id": "edge-1742622814530",
+        "source": "node-1742622156041",
+        "target": "node-1742622204551"
+      },
+      {
+        "id": "edge-1742622820673",
+        "source": "node-1742622204551",
+        "target": "node-1742477099311"
+      },
+      {
+        "id": "edge-1742622954068",
+        "source": "node-1742622942448",
+        "target": "node-1742622156041"
+      }
+    ]
+  },
+  {
+    "nodes": [
+      {
+        "id": "node-1742620534683",
+        "label": "Hills",
+        "type": "entity",
+        "x": 190,
+        "y": 120
+      },
+      {
+        "id": "node-1742620550120",
+        "label": "dissolve into",
+        "type": "relation",
+        "x": 190,
+        "y": 200
+      },
+      {
+        "id": "node-1742620575006",
+        "label": "Night",
+        "type": "entity",
+        "x": 190,
+        "y": 260
+      },
+      {
+        "id": "node-1742622368419",
+        "label": "vague",
+        "type": "modifier",
+        "x": 190,
+        "y": 50
+      },
+      {
+        "id": "node-1742622393662",
+        "label": "void",
+        "type": "modifier",
+        "x": 190,
+        "y": 330
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-1742620610033",
+        "source": "node-1742622368419",
+        "target": "node-1742620534683"
+      },
+      {
+        "id": "edge-1742620615441",
+        "source": "node-1742620550120",
+        "target": "node-1742620575006"
+      },
+      {
+        "id": "edge-1742622451711",
+        "source": "node-1742620534683",
+        "target": "node-1742620550120"
+      },
+      {
+        "id": "edge-1742622456357",
+        "source": "node-1742622393662",
+        "target": "node-1742620575006"
+      }
+    ]
+  },
+  {
+    "nodes": [
+      {
+        "id": "node-1742620632485",
+        "label": "Moonrise",
+        "type": "entity",
+        "x": 200,
+        "y": 90
+      },
+      {
+        "id": "node-1742620645699",
+        "label": "startles",
+        "type": "relation",
+        "x": 200,
+        "y": 160
+      },
+      {
+        "id": "node-1742620660225",
+        "label": "Birds",
+        "type": "entity",
+        "x": 200,
+        "y": 230
+      },
+      {
+        "id": "node-1742622524111",
+        "label": "singing",
+        "type": "modifier",
+        "x": 200,
+        "y": 300
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-1742620670926",
+        "source": "node-1742620632485",
+        "target": "node-1742620645699"
+      },
+      {
+        "id": "edge-1742620672729",
+        "source": "node-1742620645699",
+        "target": "node-1742620660225"
+      },
+      {
+        "id": "edge-1742622543982",
+        "source": "node-1742622524111",
+        "target": "node-1742620660225"
+      }
+    ]
+  },
+  {
+    "nodes": [
+      {
+        "id": "node-1742620685521",
+        "label": "Birds",
+        "type": "entity",
+        "x": 190,
+        "y": 70
+      },
+      {
+        "id": "node-1742620698812",
+        "label": "twitter in",
+        "type": "relation",
+        "x": 190,
+        "y": 140
+      },
+      {
+        "id": "node-1742620751954",
+        "label": "Dale",
+        "type": "entity",
+        "x": 190,
+        "y": 210
+      },
+      {
+        "id": "node-1742622724439",
+        "label": "with Spring",
+        "type": "modifier",
+        "x": 190,
+        "y": 280
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-1742620768047",
+        "source": "node-1742622724439",
+        "target": "node-1742620751954"
+      },
+      {
+        "id": "edge-1742620769849",
+        "source": "node-1742620685521",
+        "target": "node-1742620698812"
+      },
+      {
+        "id": "edge-1742622857440",
+        "source": "node-1742620698812",
+        "target": "node-1742620751954"
+      }
+    ]
+  }
+];
+
+// ========== UI CONSTANTS ==========
+
+/**
+ * UI constant values
+ */
+export const uiConstants = {
+  "colorWheel": {
+    "maxBarLength": 80
+  },
+  "radarChart": {
+    "svgWidth": 500,
+    "svgHeight": 500,
+    "radius": 180,
+    "circleCount": 4
+  },
+  "graph": {
+    "nodeWidth": 90,
+    "nodeHeight": 35,
+    "entityFill": "#9AE3EB",
+    "entityStroke": "#9AE3EB",
+    "relationFill": "#7165DA",
+    "relationStroke": "#7165DA",
+    "modifierFill": "#C9D6E9",
+    "modifierStroke": "#C9D6E9",
+    "modifierText": "#66668A",
+    "edgeStroke": "black",
+    "borderRadius": 10
+  },
+  "canvasImage": {
+    "defaultWidth": 120,
+    "defaultHeight": 120,
+    "maxWidth": 240,
+    "maxHeight": 240,
+    "downloadWidth": 1200,
+    "downloadQuality": 1,
+    "downloadScale": 2
+  }
+};

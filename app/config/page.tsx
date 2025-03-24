@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -37,7 +38,7 @@ import {
 } from "@/components/ui/select";
 import { Plus, Trash, Download, FileJson, UploadCloud } from "lucide-react";
 import { Graph } from "@antv/x6";
-import * as appConfig from "@/lib/config/appConfig";
+import { loadConfigFromUrl, getConfigNameFromUrl } from "@/lib/services/configService";
 import ConfigGraphEditor from "@/components/config/ConfigGraphEditor";
 import ColorPicker from "@/components/config/ColorPicker";
 {
@@ -52,9 +53,32 @@ export default function ConfigPage() {
   const [config, setConfig] = useState<any>(null);
   const [fileContent, setFileContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [configName, setConfigName] = useState<string>("default");
+  
+  // Function to change config by redirecting with query parameter
+  const changeConfig = (newConfigName: string) => {
+    // Update the URL and reload the page
+    window.location.href = `?config=${newConfigName}`;
+  };
 
-  // Load the appConfig when component mounts
+  // 使用 Next.js 的 useSearchParams 获取 URL 参数
+  const searchParams = useSearchParams();
+  
+  // Load the config based on URL parameter when component mounts
   useEffect(() => {
+    // Get config from search params
+    const configParam = searchParams.get('config') || 'default';
+    const configName = (configParam && ['default', 'youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)) 
+      ? configParam 
+      : 'default';
+      
+    // Set the selected config name in UI
+    setConfigName(configName);
+    
+    // Get config based on name
+    const appConfig = loadConfigFromUrl();
+    
+    // Deep clone the config to avoid mutating the original
     const initialConfig = {
       visualElements: JSON.parse(JSON.stringify(appConfig.visualElements)),
       emotionColorWheelLegend: JSON.parse(
@@ -81,7 +105,7 @@ export default function ConfigPage() {
       uiConstants: JSON.parse(JSON.stringify(appConfig.uiConstants)),
     };
     setConfig(initialConfig);
-  }, []);
+  }, [searchParams]);
 
   // Upload image to ImgBB
   const uploadImage = async (file: File): Promise<string> => {
@@ -346,7 +370,10 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "appConfig.ts";
+    // Name the file based on the current config
+    a.download = configName === 'default' 
+      ? "appConfig.ts" 
+      : `appConfig-${configName}.ts`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -354,7 +381,7 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
 
     toast({
       title: "Success",
-      description: "Configuration file downloaded successfully",
+      description: `Configuration file "${configName}" downloaded successfully`,
     });
   };
 
@@ -368,7 +395,25 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">Configuration Editor</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Configuration Editor</h1>
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-500 mr-2">选择配置:</span>
+          <Select value={configName} onValueChange={changeConfig}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="选择配置" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="default">默认配置</SelectItem>
+              <SelectItem value="youcaihua">有彩花配置</SelectItem>
+              <SelectItem value="chunxiao">春晓配置</SelectItem>
+              <SelectItem value="qingwa">青蛙配置</SelectItem>
+              <SelectItem value="niaomingjian">鸟鸣涧配置</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      
       <div className="flex justify-between mb-6">
         <Button
           onClick={downloadConfigFile}

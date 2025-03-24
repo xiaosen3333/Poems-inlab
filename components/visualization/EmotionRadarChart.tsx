@@ -1,21 +1,52 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  RadarDataPoint,
-  radarChartInitialData,
-  radarChartAnalysisData,
-  radarChartPurpleColors,
-  uiConstants,
+import { getConfig } from "@/lib/services/configService";
+import { 
+  RadarDataPoint, 
+  radarChartInitialData as defaultRadarChartInitialData, 
+  radarChartAnalysisData as defaultRadarChartAnalysisData, 
+  radarChartPurpleColors as defaultRadarChartPurpleColors, 
+  uiConstants as defaultUiConstants 
 } from "@/lib/config/appConfig";
+
 
 interface EmotionRadarChartProps {
   className?: string;
 }
 
 const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
+  // 配置相关状态
+  const [radarChartInitialData, setRadarChartInitialData] = useState(defaultRadarChartInitialData);
+  const [radarChartAnalysisData, setRadarChartAnalysisData] = useState(defaultRadarChartAnalysisData);
+  const [radarChartPurpleColors, setRadarChartPurpleColors] = useState(defaultRadarChartPurpleColors);
+  const [uiConstants, setUiConstants] = useState(defaultUiConstants);
+  
+  // 使用 Next.js 的搜索参数
+  const searchParams = useSearchParams();
+  
+  // 当URL参数变化时加载配置
+  useEffect(() => {
+    const configParam = searchParams?.get('config');
+    console.log("URL config param in EmotionRadarChart:", configParam);
+    
+    // 根据URL参数决定加载哪个配置文件
+    const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
+      ? configParam
+      : 'default';
+    
+    const loadedConfig = getConfig(configName);
+    console.log("EmotionRadarChart - config loaded:", configName);
+    
+    setRadarChartInitialData(loadedConfig.radarChartInitialData);
+    setRadarChartAnalysisData(loadedConfig.radarChartAnalysisData);
+    setRadarChartPurpleColors(loadedConfig.radarChartPurpleColors);
+    setUiConstants(loadedConfig.uiConstants);
+  }, [searchParams]);
+
   // SVG viewbox dimensions from config
   const svgWidth = uiConstants.radarChart.svgWidth;
   const svgHeight = uiConstants.radarChart.svgHeight;

@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Trash } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { SceneNode, SceneEdge, NodeType } from "@/lib/config/appConfig";
+import { NodeType } from "@/lib/config/appConfig";
+import { SceneNode, SceneEdge } from "@/lib/config/appConfig";
 
 interface ConfigGraphEditorProps {
   graphData: {

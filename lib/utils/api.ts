@@ -1,5 +1,8 @@
 // API utilities for interacting with Deepseek AI model
-import { ChatMessage } from "@/lib/config/appConfig";
+import { ChatMessage, predefinedQuestions as defaultPredefinedQuestions } from "@/lib/config/appConfig";
+
+// Use default predefined questions to maintain SSR compatibility
+const predefinedQuestions = defaultPredefinedQuestions;
 
 export type Message = ChatMessage;
 
@@ -50,6 +53,5 @@ export async function chatWithAI(messages: Message[]): Promise<string> {
   }
 }
 
-// Predefined questions for poetry analysis - imported from config
-import { predefinedQuestions } from "@/lib/config/appConfig";
+// Export predefined questions for poetry analysis
 export { predefinedQuestions };

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { GraphComponent } from "@/components/ui/graph";
@@ -17,14 +18,29 @@ import { ColorAnalysisTab } from "@/components/poetry/ColorAnalysisTab";
 
 // Import data and hooks
 import { useCanvasElements } from "@/hooks/useCanvasElements";
-import { quietNightPoem } from "@/lib/data/poems";
-import { visualElements } from "@/lib/data/visualElements";
+import { PoemData } from "@/lib/config/appConfig";
+import { visualElements as defaultVisualElements } from "@/lib/data/visualElements";
+import { getConfig } from "@/lib/services/configService";
 import {
-  graphCanvasData,
   SceneNode,
   SceneEdge,
-  uiConstants,
+  graphCanvasData as defaultGraphCanvasData,
+  uiConstants as defaultUiConstants,
+  quietNightPoem as defaultQuietNightPoem
 } from "@/lib/config/appConfig";
+// imageService removed - we'll use html2canvas directly
+
+// Loading component
+function LoadingOverlay({ message }: { message: string }) {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-xl shadow-xl max-w-md text-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-500 mx-auto mb-4"></div>
+        <p className="text-lg font-medium text-gray-800">{message}</p>
+      </div>
+    </div>
+  );
+}
 
 export default function PoetryPage() {
   const [activeTab, setActiveTab] = useState("poem");
@@ -37,6 +53,42 @@ export default function PoetryPage() {
     null,
     null,
   ]);
+
+  // 处理状态
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [processingMessage, setProcessingMessage] = useState("");
+
+  // 配置相关状态
+  const [graphCanvasData, setGraphCanvasData] = useState(defaultGraphCanvasData);
+  const [uiConstants, setUiConstants] = useState(defaultUiConstants);
+  const [visualElements, setVisualElements] = useState(defaultVisualElements);
+  const [quietNightPoem, setQuietNightPoem] = useState<PoemData>(defaultQuietNightPoem);
+  
+  // 使用 Next.js 的搜索参数来获取配置
+  const searchParams = useSearchParams();
+  
+  // 当URL参数变化时加载配置
+  useEffect(() => {
+    const configParam = searchParams.get('config');
+    console.log("URL config param in poetry page:", configParam);
+    
+    // 根据URL参数决定加载哪个配置文件
+    const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
+      ? configParam
+      : 'default';
+    
+    // 加载对应的配置
+    const loadedConfig = getConfig(configName);
+    console.log("Poetry page - Loading config:", configName, loadedConfig);
+    
+    // 更新状态
+    setGraphCanvasData(loadedConfig.graphCanvasData);
+    setUiConstants(loadedConfig.uiConstants);
+    setVisualElements(loadedConfig.visualElements);
+    setQuietNightPoem(loadedConfig.quietNightPoem);
+    
+    console.log("Loaded poem:", loadedConfig.quietNightPoem);
+  }, [searchParams]);
 
   // Graph state management
   const [isMoving, setIsMoving] = useState(false);
@@ -134,7 +186,8 @@ export default function PoetryPage() {
     }, 0);
   };
 
-  const canvasElementsContext = useCanvasElements();
+  // 传递动态加载的visualElements到useCanvasElements
+  const canvasElementsContext = useCanvasElements(visualElements);
   const {
     activeCanvas,
     setActiveCanvas,
@@ -152,6 +205,10 @@ export default function PoetryPage() {
     handleDragEnd,
     removeCanvasElement,
     hasActiveVisualElements,
+    canvasElements1,
+    canvasElements2,
+    canvasElements3,
+    canvasElements4,
   } = canvasElementsContext;
 
   // Handle left canvas navigation (poetry canvas)
@@ -249,8 +306,21 @@ export default function PoetryPage() {
     prevSymbolsRef.current = symbolsGenerated;
   }, [symbolsGenerated]);
 
-  // 移除可能导致循环更新的useEffect
-  // 我们将在canvas切换时手动同步symbolsGenerated状态
+  // 辅助函数，获取特定画布编号的元素
+  const getCanvasElementsForCanvas = (canvasNumber: number) => {
+    switch (canvasNumber) {
+      case 1:
+        return canvasElementsContext.canvasElements1;
+      case 2:
+        return canvasElementsContext.canvasElements2;
+      case 3:
+        return canvasElementsContext.canvasElements3;
+      case 4:
+        return canvasElementsContext.canvasElements4;
+      default:
+        return [];
+    }
+  };
 
   // 下载当前画布为图片
   const downloadCanvasAsImage = async () => {
@@ -303,75 +373,72 @@ export default function PoetryPage() {
     }
   };
 
-  // 下载所有画布为图片
-  const downloadAllCanvases = async () => {
-    // 保存当前活动的画布
-    const currentActive = activeCanvas;
+  // 移除了轮询API结果的useEffect，因为我们直接使用canvas的base64数据
 
-    // 依次遍历所有画布并下载
+  // 处理AI生成
+  const handleAIGeneration = async () => {
+    // 查找有内容的画布
+    const canvasesToProcess = [];
     for (let i = 1; i <= canvasCount; i++) {
-      setActiveCanvas(i);
-      // 添加延迟以确保画布已渲染
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
-      const canvasRef = canvasRefs.current[i - 1];
-      if (canvasRef) {
-        try {
-          // 使用配置中定义的固定宽度和比例
-          const targetWidth = uiConstants.canvasImage.downloadWidth;
-          const originalRect = canvasRef.getBoundingClientRect();
-          const aspectRatio = originalRect.height / originalRect.width;
-          const targetHeight = Math.round(targetWidth * aspectRatio); // 根据宽高比计算高度
-
-          const canvas = await html2canvas(canvasRef, {
-            backgroundColor: "white",
-            scale: uiConstants.canvasImage.downloadScale, // 使用配置的缩放因子
-            logging: false,
-            allowTaint: true,
-            useCORS: true,
-            width: originalRect.width, // 使用原始宽度
-            height: originalRect.height, // 使用原始高度
-          });
-
-          // 创建新的画布来调整大小，保持比例
-          const resizedCanvas = document.createElement("canvas");
-          resizedCanvas.width = targetWidth;
-          resizedCanvas.height = targetHeight;
-          const ctx = resizedCanvas.getContext("2d");
-
-          if (ctx) {
-            // 平滑绘制以保持质量
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = "high";
-            ctx.fillStyle = "white"; // 确保背景是白色
-            ctx.fillRect(0, 0, targetWidth, targetHeight);
-            ctx.drawImage(canvas, 0, 0, targetWidth, targetHeight);
-          }
-
-          // 创建下载链接
-          const image = resizedCanvas.toDataURL("image/png");
-          const link = document.createElement("a");
-          link.href = image;
-          link.download = `poetry-canvas-${i}.png`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-
-          // 添加短暂延迟，防止浏览器下载行为冲突
-          await new Promise((resolve) => setTimeout(resolve, 300));
-        } catch (error) {
-          console.error(`Error downloading canvas ${i}:`, error);
-        }
+      // 检查画布是否有元素
+      const canvasElements = getCanvasElementsForCanvas(i);
+      if (canvasElements && canvasElements.length > 0) {
+        canvasesToProcess.push(i);
       }
     }
 
-    // 恢复原来的活动画布
-    setActiveCanvas(currentActive);
+    // 如果没有画布有元素，仅处理当前画布
+    if (canvasesToProcess.length === 0) {
+      canvasesToProcess.push(activeCanvas);
+    }
+
+    // 只处理第一个有内容的画布
+    const canvasNumber = canvasesToProcess[0];
+    setActiveCanvas(canvasNumber);
+
+    try {
+      // 开始处理
+      setIsProcessing(true);
+      setProcessingMessage("捕获画布内容...");
+
+      // 确保切换画布后DOM已更新
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const canvasRef = canvasRefs.current[canvasNumber - 1];
+      if (!canvasRef) {
+        throw new Error("Canvas reference not found");
+      }
+
+      // 使用html2canvas将画布直接转换为base64图像
+      const canvas = await html2canvas(canvasRef, {
+        backgroundColor: "white",
+        scale: 2, // 高质量
+        logging: false,
+        allowTaint: true,
+        useCORS: true
+      });
+      
+      // 将canvas转换为base64数据URL
+      const imageBase64 = canvas.toDataURL("image/png");
+      console.log("Canvas captured as base64 image");
+      
+      // 设置完成
+      setIsProcessing(false);
+      
+      // 这里可以添加你想要对base64图像执行的操作
+      // 例如：保存到状态、下载、展示等
+      
+    } catch (error) {
+      console.error("Error in AI generation process:", error);
+      setIsProcessing(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-50">
       <Header />
+
+      {isProcessing && <LoadingOverlay message={processingMessage} />}
 
       <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
         <div className="grid grid-cols-1 md:grid-cols-[auto_1fr_minmax(425px,1fr)] gap-4 sm:gap-7 items-stretch">
@@ -525,7 +592,8 @@ export default function PoetryPage() {
             <div className="flex justify-center">
               <Button
                 className="bg-[#FFFFFF] h-[42px] w-full hover:bg-[#6058c8] hover:text-white text-black rounded-full px-6 text-base sm:text-lg font-medium shadow-sm"
-                onClick={downloadAllCanvases}
+                onClick={handleAIGeneration}
+                disabled={isProcessing}
               >
                 Poetry Visualization
               </Button>

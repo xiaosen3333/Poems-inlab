@@ -20,6 +20,15 @@ export interface VisualElement {
   };
 }
 
+export const generateConfig: { lora: string; prompt: string[] } = {
+  "lora": "FLUXshuimoXiaoxieyi_V1.0.safetensors",
+  "prompt": [
+    "191shuimo,1girl,chinese young girl,wearing white clothes,night,the osmanthus trees are lush,Small,golden osmanthus flowers silently fall from the branches,osmanthus flowers twirling in the air,a person sit under the osmanthus tree,the ground was covered with a fallen osmanthus petal,traditional chinese painting,chinese style painting,chinese painting,simple background,Tang Yintraditional chinese art,chinese painting style,ancient chinese beauties,chinese watercolor,chinese art,Chen Yifei,Wang Meng,traditional chinese watercolor,Zhao Mengfu,Zha Shibiao,Wu Guanzhong,bo xun ling,ancient china art style,qing dynasty painting,song dynasty,Qiu Ying,chinese ink painting,old chines painting,Wen Jia,traditional chinese ink painting,Gong Xian,",
+    "191shuimo,night,moonlight spills,distant view,mountains,trees on ground,spring flowers close by,rocks,paths,traditional chinese painting,in the distance are hazy mountains,no trees on the mountains,chinese style painting,chinese painting,simple background,Tang Yintraditional chinese art,chinese painting style,chinese watercolor,chinese art,Chen Yifei,Wang Meng,traditional chinese watercolor,Zhao Mengfu,Zha Shibiao,Wu Guanzhong,bo xun ling,ancient china art style,qing dynasty painting,song dynasty,Qiu Ying,chinese ink painting,old chines painting,Wen Jia,traditional chinese ink painting,Gong Xian,",
+    "191shuimo,traditional Chinese landscape painting,moon,night,some birds are flying in the sky,some birds are staying on the trees,chinese style painting,chinese painting,simple background,Tang Yintraditional chinese art,chinese painting style,chinese watercolor,chinese art,Chen Yifei,Wang Meng,traditional chinese watercolor,Zhao Mengfu,Wu Guanzhong,Wang Ximeng,Dong Qichang,bo xun ling,ancient china art style,qing dynasty painting,song dynasty,Qiu Ying,chinese ink painting,old chines painting,Wen Jia,traditional chinese ink painting,Gong Xian,",
+    "191shuimo,sf,191shuimo,spring,spring flowers,no trees,no branchs,traditional Chinese landscape painting,high big mountains,some small and little birds are flying in the sky,a small river between two mountains,water flowing,chinese style painting,chinese painting,simple background,Tang Yintraditional chinese art,chinese painting style,chinese watercolor,chinese art,Chen Yifei,Wang Meng,traditional chinese watercolor,Zhao Mengfu,Wu Guanzhong,Wang Ximeng,Dong Qichang,bo xun ling,ancient china art style,qing dynasty painting,song dynasty,Qiu Ying,chinese ink painting,old chines painting,Wen Jia,traditional chinese ink painting,Gong Xian,",
+  ]
+}
 /**
  * Visual elements for each canvas
  */

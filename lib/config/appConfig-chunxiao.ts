@@ -20,6 +20,15 @@ export interface VisualElement {
   };
 }
 
+export const generateConfig: { lora: string; prompt: string[] } = {
+  "lora": "FLUXshuimoXiaoxieyi_V1.0.safetensors",
+  "prompt": [
+    "191shuimo,1girl,chinese women,chinese beautiful young women,Leanning back on the bed,eyes closed,the winter jasmine are blooming outside the window,traditional chinese painting,chinese style painting,chinese painting,Tang Yintraditional chinese art,chinese painting style,ancient chinese human,chinese watercolor,chinese art,ancient chinese beauties,Chen Yifei,Wang Meng,traditional chinese watercolor,Zhao Mengfu,Zha Shibiao,Wu Guanzhong,bo xun ling,ancient china art style,qing dynasty painting,song dynasty,Qiu Ying,chinese ink painting,old chines painting,Wen Jia,traditional chinese ink painting,Gong Xian,a spring morning,the gentle sunlight filters softly through the window and shines into a cozy bedroom,in the room,",
+    "191shuimo,no humans,many spring flowers are blooming in the garden,winter jasmine,little wild flowers,meadows,garden,white low walls,black tiles,little river,grass,many birds are flying in the air,smelling the flowerstraditional media,bird,animal focus,traditional media,painting\(medium\),white background,simple background,raditional chinese painting,chinese painting style,chinese style painting,chinese painting,hanfu,traditional chinese ink painting,Wu Guanzhong,Wang Meng,style of old painting,Tang Yin,",
+    "191shuimo,no humans,blue night,misty moonlight,raining,rain falling in the sky,wind blew hard,and the wind blew the rain sideways,traditional media,wind focus,traditional media,painting\(medium\),simple background,traditional chinese painting,chinese painting style,chinese style painting,chinese painting,traditional chinese ink painting,Wu Guanzhong,Wang Meng,style of old painting,Tang Yin,",
+    "191shuimo,no humans,A lot of petals on the ground, a lot of flowers in full bloom, and the view from the top down focuses on the flowers and the petals on the ground, the winter jasmine, the small wild flower,traditional media,wind focus,traditional media,painting\(medium\),white background， simple background,traditional chinese painting,chinese painting style,chinese style painting,chinese painting,traditional chinese ink painting,Wu Guanzhong,Wang Meng,style of old painting,Tang Yin,"
+  ]
+}
 /**
  * Visual elements for each canvas
  */

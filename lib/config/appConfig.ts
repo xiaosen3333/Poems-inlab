@@ -19,7 +19,12 @@ export interface VisualElement {
     height: number;
   };
 }
-
+export const generateConfig: { lora: string; prompt: string[] } = {
+  "lora": "FLUX-FUSHIHUI v3.0.safetensors",
+  "prompt": [
+    "This image portrays an idyllic scene of an endless expanse of rapeseed flower fields at twilight.Key Elements:1Rapeseed Fields:-The centerpiece is the vast sea of bright - yellow rapeseed flowers stretching far and wide. Their vivid color dominates the view,with simple yet effective detailing to show their density.2.Setting Sun:-In the west,the sun is sinking. It casts a warm red - orange glow,painting the sky with streaks of sunset colors. The sunlight hits the rapeseed fields,creating a beautiful contrast between the flower's yellow and the sunset hues.3.Rising Moon:-In the east,the moon is emerging. It's a pale,faint orb in the darkening sky,adding a touch of mystery. The blue - black sky around it is in contrast to the bright west.4.Twilight Atmosphere:The scene exudes a peaceful transition from day to night. There's a sense of calm,with no signs of human activity,just the natural beauty of the setting sun,rising moon,and endless rapeseed fields.**Overall Impression:The image captures the serene and beautiful moment of twilight in a rapeseed field,highlighting the harmony between the setting sun and rising moon,creating a scene of pure natural splendor.,"
+  ]
+}
 /**
  * Visual elements for each canvas
  */

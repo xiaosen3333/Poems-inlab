@@ -7,12 +7,16 @@ import { loadConfigFromUrl, getConfig } from "@/lib/services/configService"
 import { uiConstants as defaultUiConstants } from "@/lib/config/appConfig"
 
 export interface CanvasElement {
-  id: string;
-  elementId: number;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+  id: string | number;
+  elementId?: number;
+  type?: string;
+  src?: string;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  position?: { x: number; y: number };
+  size?: { width: number; height: number };
 }
 
 export function useCanvasElements(visualElementsConfig?: any) {

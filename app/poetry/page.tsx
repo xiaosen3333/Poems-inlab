@@ -26,7 +26,7 @@ import {
   SceneEdge,
   graphCanvasData as defaultGraphCanvasData,
   uiConstants as defaultUiConstants,
-  quietNightPoem as defaultQuietNightPoem
+  quietNightPoem as defaultQuietNightPoem,
 } from "@/lib/config/appConfig";
 // imageService removed - we'll use html2canvas directly
 
@@ -59,34 +59,40 @@ export default function PoetryPage() {
   const [processingMessage, setProcessingMessage] = useState("");
 
   // 配置相关状态
-  const [graphCanvasData, setGraphCanvasData] = useState(defaultGraphCanvasData);
+  const [graphCanvasData, setGraphCanvasData] = useState(
+    defaultGraphCanvasData
+  );
   const [uiConstants, setUiConstants] = useState(defaultUiConstants);
   const [visualElements, setVisualElements] = useState(defaultVisualElements);
-  const [quietNightPoem, setQuietNightPoem] = useState<PoemData>(defaultQuietNightPoem);
-  
+  const [quietNightPoem, setQuietNightPoem] = useState<PoemData>(
+    defaultQuietNightPoem
+  );
+
   // 使用 Next.js 的搜索参数来获取配置
   const searchParams = useSearchParams();
-  
+
   // 当URL参数变化时加载配置
   useEffect(() => {
-    const configParam = searchParams.get('config');
+    const configParam = searchParams.get("config");
     console.log("URL config param in poetry page:", configParam);
-    
+
     // 根据URL参数决定加载哪个配置文件
-    const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
-      ? configParam
-      : 'default';
-    
+    const configName =
+      configParam &&
+      ["youcaihua", "chunxiao", "qingwa", "niaomingjian"].includes(configParam)
+        ? configParam
+        : "default";
+
     // 加载对应的配置
     const loadedConfig = getConfig(configName);
     console.log("Poetry page - Loading config:", configName, loadedConfig);
-    
+
     // 更新状态
     setGraphCanvasData(loadedConfig.graphCanvasData);
     setUiConstants(loadedConfig.uiConstants);
     setVisualElements(loadedConfig.visualElements);
     setQuietNightPoem(loadedConfig.quietNightPoem);
-    
+
     console.log("Loaded poem:", loadedConfig.quietNightPoem);
   }, [searchParams]);
 
@@ -415,19 +421,191 @@ export default function PoetryPage() {
         scale: 2, // 高质量
         logging: false,
         allowTaint: true,
-        useCORS: true
+        useCORS: true,
       });
-      
+
       // 将canvas转换为base64数据URL
       const imageBase64 = canvas.toDataURL("image/png");
-      console.log("Canvas captured as base64 image");
-      
-      // 设置完成
-      setIsProcessing(false);
-      
-      // 这里可以添加你想要对base64图像执行的操作
-      // 例如：保存到状态、下载、展示等
-      
+      console.log(imageBase64);
+
+      // 收集所有画布的base64图像
+      const imagesBase64: string[] = [];
+
+      // 收集所有有内容的画布的base64图像
+      for (let i = 1; i <= canvasCount; i++) {
+        // 检查画布是否有元素
+        const otherCanvasElements = getCanvasElementsForCanvas(i);
+
+        if (i === canvasNumber) {
+          // 当前画布已经处理过了
+          imagesBase64.push(imageBase64);
+        } else if (otherCanvasElements && otherCanvasElements.length > 0) {
+          // 处理其他有内容的画布
+          setProcessingMessage(`捕获画布 ${i} 内容...`);
+
+          // 获取对应画布的引用
+          const otherCanvasRef = canvasRefs.current[i - 1];
+          if (otherCanvasRef) {
+            try {
+              // 捕获其他画布的内容
+              const otherCanvas = await html2canvas(otherCanvasRef, {
+                backgroundColor: "white",
+                scale: 2,
+                logging: false,
+                allowTaint: true,
+                useCORS: true,
+              });
+
+              // 添加到数组
+              const otherImageBase64 = otherCanvas.toDataURL("image/png");
+              imagesBase64.push(otherImageBase64);
+            } catch (error) {
+              console.error(`Error capturing canvas ${i}:`, error);
+            }
+          }
+        }
+      }
+
+      // 获取当前配置中的generatePrompt
+      const configParam = searchParams.get("config") || "default";
+      const loadedConfig = getConfig(configParam);
+      const generateConfig = (loadedConfig as any).generateConfig;
+
+      if (!generateConfig) {
+        console.error("No generate config found in current config");
+        setIsProcessing(false);
+        return;
+      }
+
+      // 创建请求数据
+      const requestData = {
+        lora: generateConfig.lora,
+        prompts: generateConfig.prompt,
+        images_base64: imagesBase64,
+      };
+
+      // 发送请求到后端
+      try {
+        setProcessingMessage("生成图像中...");
+        // 使用相对URL或者本地开发URL
+        const response = await fetch(
+          "https://cvgch5k7v38s73a8h9vg-8000.agent.damodel.com/generate",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+            // 添加模式为no-cors，这可能会导致响应不可读，
+            // 但如果后端正确设置了CORS，可以删除这一行
+            mode: "cors",
+            credentials: "omit",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // 解析响应
+        const responseData = await response.json();
+
+        // 检查返回的图像数组
+        if (responseData.images && responseData.images.length > 0) {
+          // 获取返回的图像和处理过的画布的映射关系
+          const processedCanvases = [];
+
+          // 添加当前画布
+          processedCanvases.push(canvasNumber);
+
+          // 添加其他处理过的画布
+          for (let i = 1; i <= canvasCount; i++) {
+            if (i !== canvasNumber) {
+              const canvasElements = getCanvasElementsForCanvas(i);
+              if (canvasElements && canvasElements.length > 0) {
+                processedCanvases.push(i);
+              }
+            }
+          }
+
+          // 确保返回的图像和处理的画布数量一致
+          const imagesToProcess = Math.min(
+            responseData.images.length,
+            processedCanvases.length
+          );
+
+          // 创建所有画布元素的副本以进行批量更新
+          const allCanvasElements = [
+            [...canvasElements1],
+            [...canvasElements2],
+            [...canvasElements3],
+            [...canvasElements4],
+          ];
+
+          // 处理每个生成的图像
+          for (let i = 0; i < imagesToProcess; i++) {
+            const canvasIndex = processedCanvases[i] - 1; // 转为0-索引
+            const imgDataUrl = responseData.images[i];
+
+            // 创建新的画布元素
+            const newElement = {
+              id: Date.now() + i, // 使用时间戳+索引作为唯一ID
+              type: "generated-image",
+              src: imgDataUrl,
+              position: { x: 0, y: 0 }, // 居中放置
+              size: { width: 600, height: 600 }, // 使用画布大小
+            };
+
+            // 替换对应画布上的所有元素
+            allCanvasElements[canvasIndex] = [newElement];
+          }
+
+          // 处理当前活动画布
+          let updatedCanvasElements = Array(canvasCount).fill(null).map((_, i) => {
+            // 默认保留原始数据
+            switch (i) {
+              case 0: return [...canvasElements1];
+              case 1: return [...canvasElements2];
+              case 2: return [...canvasElements3];
+              case 3: return [...canvasElements4];
+              default: return [];
+            }
+          });
+          
+          // 更新所有处理过的画布
+          for (let i = 0; i < processedCanvases.length && i < imagesToProcess; i++) {
+            const canvasIndex = processedCanvases[i] - 1; // 转为0-索引
+            const imgDataUrl = responseData.images[i];
+            
+            // 确保base64字符串有正确的前缀
+            let src = imgDataUrl;
+            if (!src.startsWith('data:image/')) {
+              // 添加数据URL前缀
+              src = `data:image/png;base64,${imgDataUrl}`;
+            }
+            
+            // 创建新的画布元素
+            const newElement = {
+              id: Date.now() + i, // 使用时间戳+索引作为唯一ID
+              type: "generated-image",
+              src: src,
+              position: { x: 0, y: 0 }, // 居中放置
+              size: { width: 600, height: 600 } // 使用画布大小
+            };
+            
+            // 替换对应画布上的所有元素
+            updatedCanvasElements[canvasIndex] = [newElement];
+          }
+          
+          // 使用setCanvasElements更新当前活动画布
+          setCanvasElements(updatedCanvasElements[activeCanvas-1]);
+        }
+
+        setIsProcessing(false);
+      } catch (error) {
+        console.error("Error sending request to backend:", error);
+        setIsProcessing(false);
+      }
     } catch (error) {
       console.error("Error in AI generation process:", error);
       setIsProcessing(false);

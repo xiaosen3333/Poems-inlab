@@ -19,10 +19,11 @@ export interface VisualElement {
     height: number;
   };
 }
+
 export const generateConfig: { lora: string; prompt: string[] } = {
-  "lora": "FLUX-FUSHIHUI v3.0.safetensors",
+  "lora": "ukiyo-e_style_hokusai_flux1-dev.safetensors",
   "prompt": [
-    "This image portrays an idyllic scene of an endless expanse of rapeseed flower fields at twilight.Key Elements:1Rapeseed Fields:-The centerpiece is the vast sea of bright - yellow rapeseed flowers stretching far and wide. Their vivid color dominates the view,with simple yet effective detailing to show their density.2.Setting Sun:-In the west,the sun is sinking. It casts a warm red - orange glow,painting the sky with streaks of sunset colors. The sunlight hits the rapeseed fields,creating a beautiful contrast between the flower's yellow and the sunset hues.3.Rising Moon:-In the east,the moon is emerging. It's a pale,faint orb in the darkening sky,adding a touch of mystery. The blue - black sky around it is in contrast to the bright west.4.Twilight Atmosphere:The scene exudes a peaceful transition from day to night. There's a sense of calm,with no signs of human activity,just the natural beauty of the setting sun,rising moon,and endless rapeseed fields.**Overall Impression:The image captures the serene and beautiful moment of twilight in a rapeseed field,highlighting the harmony between the setting sun and rising moon,creating a scene of pure natural splendor.,"
+    "Ukiyo-e style by Hokusai，This image portrays an idyllic scene of an endless expanse of rapeseed flower fields at twilight.Key Elements:1Rapeseed Fields:-The centerpiece is the vast sea of bright - yellow rapeseed flowers stretching far and wide. Their vivid color dominates the view,with simple yet effective detailing to show their density.2.Setting Sun:-In the west,the sun is sinking. It casts a warm red - orange glow,painting the sky with streaks of sunset colors. The sunlight hits the rapeseed fields,creating a beautiful contrast between the flower's yellow and the sunset hues.3.Rising Moon:-In the east,the moon is emerging. It's a pale,faint orb in the darkening sky,adding a touch of mystery. The blue - black sky around it is in contrast to the bright west.4.Twilight Atmosphere:The scene exudes a peaceful transition from day to night. There's a sense of calm,with no signs of human activity,just the natural beauty of the setting sun,rising moon,and endless rapeseed fields.**Overall Impression:The image captures the serene and beautiful moment of twilight in a rapeseed field,highlighting the harmony between the setting sun and rising moon,creating a scene of pure natural splendor."
   ]
 }
 /**
@@ -120,145 +121,145 @@ export const emotionColorWheelData = [
   {
     "emotion": "Joy",
     "color": "#85F614",
-    "value": 20,
+    "value": 2,
     "degree": -7.5
   },
   {
     "emotion": "Delight",
     "color": "#4AEB27",
-    "value": 20,
+    "value": 2,
     "degree": 7.5
   },
   {
     "emotion": "Happiness",
     "color": "#00D613",
-    "value": 20,
+    "value": 2,
     "degree": 22.5
   },
   {
     "emotion": "Elation",
     "color": "#00C246",
-    "value": 20,
+    "value": 2,
     "degree": 37.5
   },
   {
     "emotion": "Surprise",
     "color": "#06A865",
-    "value": 20,
+    "value": 3,
     "degree": 52.5
   },
   {
     "emotion": "Wonder",
     "color": "#008C64",
-    "value": 20,
+    "value": 4,
     "degree": 67.5
   },
   {
     "emotion": "Amazement",
     "color": "#019293",
-    "value": 20,
+    "value": 5,
     "degree": 82.5
   },
   {
     "emotion": "Curiosity",
     "color": "#107A9A",
-    "value": 20,
+    "value": 15,
     "degree": 97.5
   },
   {
     "emotion": "Calmness",
     "color": "#2566CA",
-    "value": 20,
+    "value": 18,
     "degree": 112.5
   },
   {
     "emotion": "Serenity",
     "color": "#4558CD",
-    "value": 20,
+    "value": 15,
     "degree": 127.5
   },
   {
     "emotion": "Tranquility",
     "color": "#3200C4",
-    "value": 20,
+    "value": 5,
     "degree": 142.5
   },
   {
     "emotion": "Melancholy",
     "color": "#3B00AF",
-    "value": 20,
+    "value": 5,
     "degree": 157.5
   },
   {
     "emotion": "Sadness",
     "color": "#500096",
-    "value": 20,
+    "value": 2,
     "degree": 172.5
   },
   {
     "emotion": "Grief",
     "color": "#590C6C",
-    "value": 20,
+    "value": 2,
     "degree": 187.5
   },
   {
     "emotion": "Sorrow",
     "color": "#691B71",
-    "value": 20,
+    "value": 2,
     "degree": 202.5
   },
   {
     "emotion": "Anxiety",
     "color": "#54003B",
-    "value": 20,
+    "value": 2,
     "degree": 217.5
   },
   {
     "emotion": "Fear",
     "color": "#860445",
-    "value": 20,
+    "value": 2,
     "degree": 232.5
   },
   {
     "emotion": "Dread",
     "color": "#A30B2F",
-    "value": 20,
+    "value": 2,
     "degree": 247.5
   },
   {
     "emotion": "Shock",
     "color": "#CC1715",
-    "value": 20,
+    "value": 2,
     "degree": 262.5
   },
   {
     "emotion": "Disgust",
     "color": "#DA4518",
-    "value": 20,
+    "value": 5,
     "degree": 277.5
   },
   {
     "emotion": "Anger",
     "color": "#EA8217",
-    "value": 20,
+    "value": 8,
     "degree": 292.5
   },
   {
     "emotion": "Rage",
     "color": "#EDB71C",
-    "value": 20,
+    "value": 5,
     "degree": 307.5
   },
   {
     "emotion": "Frustration",
     "color": "#E7F513",
-    "value": 20,
+    "value": 2,
     "degree": 322.5
   },
   {
     "emotion": "Irritation",
     "color": "#BDF61A",
-    "value": 20,
+    "value": 2,
     "degree": 337.5
   }
 ];
@@ -336,7 +337,7 @@ export const radarChartAnalysisData: RadarDataPoint[] = [
     "emotion": "Fear",
     "angle": 198,
     "userValue": 100,
-    "analysisValue": 15
+    "analysisValue": 10
   }
 ];
 

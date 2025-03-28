@@ -58,9 +58,11 @@ function PoetryPageContent() {
   // 处理状态
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingMessage, setProcessingMessage] = useState("");
-  
+
   // 存储生成的图像
-  const [generatedImages, setGeneratedImages] = useState<{[key: number]: string}>({});
+  const [generatedImages, setGeneratedImages] = useState<{
+    [key: number]: string;
+  }>({});
 
   // 配置相关状态
   const [graphCanvasData, setGraphCanvasData] = useState(
@@ -307,20 +309,22 @@ function PoetryPageContent() {
       setGraphCanvasNumber(activeCanvas);
     }
   }, [activeTab, activeCanvas]);
-  
+
   // 当画布切换时，检查状态中是否有对应的生成图像
   useEffect(() => {
     if (generatedImages[activeCanvas]) {
-      console.log(`Found generated image for canvas ${activeCanvas}, loading it`);
-      
+      console.log(
+        `Found generated image for canvas ${activeCanvas}, loading it`
+      );
+
       const newElement = {
         id: Date.now(),
         type: "generated-image",
         src: generatedImages[activeCanvas],
         position: { x: 0, y: 0 },
-        size: { width: 600, height: 600 }
+        size: { width: 600, height: 600 },
       };
-      
+
       // 更新当前画布
       setCanvasElements([newElement]);
     }
@@ -489,7 +493,9 @@ function PoetryPageContent() {
       }
 
       // 获取当前配置中的generatePrompt
-      const configParam = searchParams ? searchParams.get("config") || "default" : "default";
+      const configParam = searchParams
+        ? searchParams.get("config") || "default"
+        : "default";
       const loadedConfig = getConfig(configParam);
       const generateConfig = (loadedConfig as any).generateConfig;
 
@@ -502,21 +508,24 @@ function PoetryPageContent() {
       // 确保图像数量与提示词数量一致
       const promptCount = generateConfig.prompt.length;
       let processedImagesBase64 = [...imagesBase64];
-      
+
       // 如果图像少于提示词，复制最后一张图片直到数量匹配
       while (processedImagesBase64.length < promptCount) {
-        const lastImage = processedImagesBase64.length > 0 
-          ? processedImagesBase64[processedImagesBase64.length - 1] 
-          : imageBase64;
+        const lastImage =
+          processedImagesBase64.length > 0
+            ? processedImagesBase64[processedImagesBase64.length - 1]
+            : imageBase64;
         processedImagesBase64.push(lastImage);
       }
-      
+
       // 如果图像多于提示词，截取需要的部分
       if (processedImagesBase64.length > promptCount) {
         processedImagesBase64 = processedImagesBase64.slice(0, promptCount);
       }
 
-      console.log(`Sending ${processedImagesBase64.length} images to match ${promptCount} prompts`);
+      console.log(
+        `Sending ${processedImagesBase64.length} images to match ${promptCount} prompts`
+      );
 
       // 创建请求数据
       const requestData = {
@@ -530,7 +539,7 @@ function PoetryPageContent() {
         setProcessingMessage("生成图像中...");
         // 使用相对URL或者本地开发URL
         const response = await fetch(
-          "https://cvgch5k7v38s73a8h9vg-8000.agent.damodel.com/generate",
+          "https://cvj1f8kp420c73cemm1g-8000.agent.damodel.com/generate",
           {
             method: "POST",
             headers: {
@@ -602,66 +611,83 @@ function PoetryPageContent() {
           }
 
           // 处理当前活动画布
-          let updatedCanvasElements = Array(canvasCount).fill(null).map((_, i) => {
-            // 默认保留原始数据
-            switch (i) {
-              case 0: return [...canvasElements1];
-              case 1: return [...canvasElements2];
-              case 2: return [...canvasElements3];
-              case 3: return [...canvasElements4];
-              default: return [];
-            }
-          });
-          
+          let updatedCanvasElements = Array(canvasCount)
+            .fill(null)
+            .map((_, i) => {
+              // 默认保留原始数据
+              switch (i) {
+                case 0:
+                  return [...canvasElements1];
+                case 1:
+                  return [...canvasElements2];
+                case 2:
+                  return [...canvasElements3];
+                case 3:
+                  return [...canvasElements4];
+                default:
+                  return [];
+              }
+            });
+
           // 更新所有处理过的画布
-          for (let i = 0; i < processedCanvases.length && i < imagesToProcess; i++) {
+          for (
+            let i = 0;
+            i < processedCanvases.length && i < imagesToProcess;
+            i++
+          ) {
             const canvasIndex = processedCanvases[i] - 1; // 转为0-索引
             const imgDataUrl = responseData.images[i];
-            
+
             // 确保base64字符串有正确的前缀
             let src = imgDataUrl;
-            if (!src.startsWith('data:image/')) {
+            if (!src.startsWith("data:image/")) {
               // 添加数据URL前缀
               src = `data:image/png;base64,${imgDataUrl}`;
             }
-            
+
             // 创建新的画布元素
             const newElement = {
               id: Date.now() + i, // 使用时间戳+索引作为唯一ID
               type: "generated-image",
               src: src,
               position: { x: 0, y: 0 }, // 居中放置
-              size: { width: 600, height: 600 } // 使用画布大小
+              size: { width: 600, height: 600 }, // 使用画布大小
             };
-            
+
             // 替换对应画布上的所有元素
             updatedCanvasElements[canvasIndex] = [newElement];
           }
-          
+
           // 创建一个新的图像对象，用于更新状态
-          const newGeneratedImages = {...generatedImages};
-          
+          const newGeneratedImages = { ...generatedImages };
+
           // 保存所有生成的图像
-          for (let i = 0; i < processedCanvases.length && i < imagesToProcess; i++) {
+          for (
+            let i = 0;
+            i < processedCanvases.length && i < imagesToProcess;
+            i++
+          ) {
             const canvasIndex = processedCanvases[i] - 1; // 转为0-索引
             const canvasNumber = canvasIndex + 1; // 1-索引的画布编号
             const imgDataUrl = responseData.images[i];
-            
+
             // 确保base64字符串有正确的前缀
-            const imgSrc = imgDataUrl.startsWith('data:') 
-              ? imgDataUrl 
+            const imgSrc = imgDataUrl.startsWith("data:")
+              ? imgDataUrl
               : `data:image/png;base64,${imgDataUrl}`;
-            
+
             // 保存图像到状态对象
             newGeneratedImages[canvasNumber] = imgSrc;
           }
-          
+
           // 更新生成图像状态
           setGeneratedImages(newGeneratedImages);
-          
+
           // 更新当前活动画布
-          console.log(`Updating active canvas ${activeCanvas} with generated image`);
-          
+          console.log(
+            `Updating active canvas ${activeCanvas} with generated image`
+          );
+
           // 检查当前活动画布是否有对应的生成图像
           if (newGeneratedImages[activeCanvas]) {
             const newElement = {
@@ -669,9 +695,9 @@ function PoetryPageContent() {
               type: "generated-image",
               src: newGeneratedImages[activeCanvas],
               position: { x: 0, y: 0 },
-              size: { width: 600, height: 600 }
+              size: { width: 600, height: 600 },
             };
-            
+
             // 更新当前画布
             setCanvasElements([newElement]);
           }
@@ -1146,7 +1172,9 @@ function PoetryPageLoading() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-xl shadow-xl max-w-md text-center">
         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-500 mx-auto mb-4"></div>
-        <p className="text-lg font-medium text-gray-800">Loading poetry page...</p>
+        <p className="text-lg font-medium text-gray-800">
+          Loading poetry page...
+        </p>
       </div>
     </div>
   );

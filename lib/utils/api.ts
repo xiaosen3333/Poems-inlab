@@ -1,12 +1,14 @@
 // API utilities for interacting with Deepseek AI model
-import { ChatMessage, predefinedQuestions as defaultPredefinedQuestions } from "@/lib/config/appConfig";
+import {
+  ChatMessage,
+  predefinedQuestions as defaultPredefinedQuestions,
+} from "@/lib/config/appConfig";
+import { GENERATION_CHAT_URL } from "@/lib/config/env";
 
 // Use default predefined questions to maintain SSR compatibility
 const predefinedQuestions = defaultPredefinedQuestions;
 
 // AI API configuration - using the same server as image generation
-const GENERATION_SERVER = 'https://cvj1f8kp420c73cemm1g-8000.agent.damodel.com';
-const API_URL = `${GENERATION_SERVER}/chat`;
 export const MODEL = 'deepseek-chat';
 export const TEMPERATURE = 0.7;
 
@@ -41,7 +43,11 @@ export async function chatWithAI(messages: Message[]): Promise<string> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-    const response = await fetch(API_URL, {
+    if (!GENERATION_CHAT_URL) {
+      throw new Error("Missing NEXT_PUBLIC_GENERATION_SERVER");
+    }
+
+    const response = await fetch(GENERATION_CHAT_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

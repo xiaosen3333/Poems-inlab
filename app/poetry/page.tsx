@@ -28,6 +28,7 @@ import {
   uiConstants as defaultUiConstants,
   quietNightPoem as defaultQuietNightPoem,
 } from "@/lib/config/appConfig";
+import { GENERATION_IMAGE_URL } from "@/lib/config/env";
 // imageService removed - we'll use html2canvas directly
 
 // Loading component
@@ -538,8 +539,12 @@ function PoetryPageContent() {
       try {
         setProcessingMessage("生成图像中...");
         // 使用相对URL或者本地开发URL
+        if (!GENERATION_IMAGE_URL) {
+          throw new Error("Missing NEXT_PUBLIC_GENERATION_SERVER");
+        }
+
         const response = await fetch(
-          "https://cvj1f8kp420c73cemm1g-8000.agent.damodel.com/generate",
+          GENERATION_IMAGE_URL,
           {
             method: "POST",
             headers: {

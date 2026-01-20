@@ -41,12 +41,7 @@ import { Graph } from "@antv/x6";
 import { loadConfigFromUrl, getConfigNameFromUrl } from "@/lib/services/configService";
 import ConfigGraphEditor from "@/components/config/ConfigGraphEditor";
 import ColorPicker from "@/components/config/ColorPicker";
-{
-  /*后面根据url换文件*/
-}
-// ImgBB API Key
-const IMGBB_API_KEY = "7310033e928db829771cad56fc098222";
-const IMGBB_EXPIRATION = "1555200"; // in seconds (180 days)
+import { IMGBB_API_KEY, IMGBB_EXPIRATION } from "@/lib/config/env";
 
 // Main content component that uses searchParams
 function ConfigPageContent() {
@@ -115,8 +110,18 @@ function ConfigPageContent() {
     formData.append("image", file);
 
     try {
+      if (!IMGBB_API_KEY) {
+        throw new Error("Missing NEXT_PUBLIC_IMGBB_API_KEY");
+      }
+
+      const uploadUrl = new URL("https://api.imgbb.com/1/upload");
+      uploadUrl.searchParams.set("key", IMGBB_API_KEY);
+      if (IMGBB_EXPIRATION) {
+        uploadUrl.searchParams.set("expiration", IMGBB_EXPIRATION);
+      }
+
       const response = await fetch(
-        `https://api.imgbb.com/1/upload?expiration=${IMGBB_EXPIRATION}&key=${IMGBB_API_KEY}`,
+        uploadUrl.toString(),
         {
           method: "POST",
           body: formData,

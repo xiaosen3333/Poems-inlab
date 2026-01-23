@@ -1,4 +1,4 @@
-# PoemPalette: Facilitating Poetry Creative Exploration and Foundational Understanding through the Ideorealm Alignment of Paintings and Poems
+# <p align="center"> PoemPalette: Facilitating Poetry Creative Exploration and Foundational Understanding through the Ideorealm Alignment of Paintings and Poems </p>
 *<p align="center">
   [Paper Link](https://doi.org/10.1145/3772318.3791460)
 </p>

@@ -4,10 +4,26 @@ title: "Poems InLab"
 version: "0.1.0"
 date-released: "2025-01-01"
 preferred-citation:
-  type: article
-  title: "TODO: Add paper title"
+  type: conference-paper
+  title: "PoemPalette: Facilitating Poetry Creative Exploration and Foundational Understanding through the Ideorealm Alignment of Paintings and Poems"
   authors:
-    - family-names: "TODO"
-      given-names: "TODO"
-  year: 2025
-  doi: "TODO"
+    - family-names: "Zhang"
+      given-names: "Ying"
+    - family-names: "Jia"
+      given-names: "Kaixin"
+    - family-names: "Zhang"
+      given-names: "Hongjian"
+    - family-names: "Zhu"
+      given-names: "Kewen"
+    - family-names: "Meng"
+      given-names: "Chenye"
+    - family-names: "Zhang"
+      given-names: "Jiesi"
+    - family-names: "Li"
+      given-names: "Zejian"
+    - family-names: "Chen"
+      given-names: "Pei"
+    - family-names: "Sun"
+      given-names: "Lingyun"
+  year: 2026
+  doi: "10.1145/3772318.3791460"

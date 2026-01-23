@@ -1,7 +1,8 @@
 # <p align="center">Poems InLab: Interactive Poem Visualization and Generative Imagery</p>
-*<p align="center">[Paper Link](TODO) · [Project Page](TODO) · [Demo](TODO)</p>
-*<p align="center">TODO: Add author list and affiliations</p>
-![teaser](TODO)
+*<p align="center">[Paper Link](https://doi.org/10.1145/3772318.3791460)</p>
+*<p align="center">Ying Zhang · Kaixin Jia · Hongjian Zhang · Kewen Zhu · Chenye Meng · Jiesi Zhang · Zejian Li* · Pei Chen · Lingyun Sun</p>
+*<p align="center">Zhejiang University, Ningbo, China (Ying Zhang, Kaixin Jia, Hongjian Zhang, Kewen Zhu, Chenye Meng, Jiesi Zhang, Zejian Li)</p>
+*<p align="center">Zhejiang University, Hangzhou, China (Pei Chen, Lingyun Sun)</p>
 
 ## Abstract
 Poems InLab is an interactive system for poem exploration, visualization, and AI-assisted image generation. It combines a Next.js frontend for poem browsing and composition, a FastAPI backend for chat and image requests, and an external ComfyUI pipeline for image synthesis. This repository is intended for paper reviewers and practitioners to self-deploy and experience the system.
@@ -112,7 +113,9 @@ Set `AI_API_KEY` in `backend/.env` and keep it out of version control.
 Please cite the paper that this code accompanies.
 
 ```
-TODO: Add paper title, authors, venue, year, and DOI/arXiv.
+PoemPalette: Facilitating Poetry Creative Exploration and Foundational Understanding through the Ideorealm Alignment of Paintings and Poems.
+Ying Zhang, Kaixin Jia, Hongjian Zhang, Kewen Zhu, Chenye Meng, Jiesi Zhang, Zejian Li, Pei Chen, Lingyun Sun.
+ACM ISBN 979-8-4007-2278-3/2026/04. https://doi.org/10.1145/3772318.3791460
 ```
 
 A BibTeX entry will be provided once the paper metadata is finalized.

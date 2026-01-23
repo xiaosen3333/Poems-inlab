@@ -30,15 +30,12 @@ export function VisualElementsSidebar({
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [visualElements, setVisualElements] = useState(defaultVisualElements);
   
-  // 使用 Next.js 的搜索参数
   const searchParams = useSearchParams();
   
-  // 当URL参数变化时加载配置
   useEffect(() => {
     const configParam = searchParams?.get('config');
     console.log("URL config param in VisualElementsSidebar:", configParam);
     
-    // 根据URL参数决定加载哪个配置文件
     const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
       ? configParam
       : 'default';

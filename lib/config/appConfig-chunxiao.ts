@@ -456,8 +456,8 @@ export const quietNightPoem: PoemData = {
     "translated": "A Spring Morning"
   },
   "author": {
-    "name": "孟浩然",
-    "dynasty": "唐"
+    "name": "Meng Haoran",
+    "dynasty": "Tang"
   },
   "verses": [
     {

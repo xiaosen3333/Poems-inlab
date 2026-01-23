@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper listed below."
+title: "Poems InLab"
+version: "0.1.0"
+date-released: "2025-01-01"
+preferred-citation:
+  type: article
+  title: "TODO: Add paper title"
+  authors:
+    - family-names: "TODO"
+      given-names: "TODO"
+  year: 2025
+  doi: "TODO"

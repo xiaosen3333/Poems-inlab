@@ -465,8 +465,8 @@ export const quietNightPoem: PoemData = {
     "translated": "The Dale of Singing Birds"
   },
   "author": {
-    "name": "王维",
-    "dynasty": "唐"
+    "name": "Wang Wei",
+    "dynasty": "Tang"
   },
   "verses": [
     {

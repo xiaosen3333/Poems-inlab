@@ -57,7 +57,6 @@ function ConfigPageContent() {
     window.location.href = `?config=${newConfigName}`;
   };
 
-  // 使用 Next.js 的 useSearchParams 获取 URL 参数
   const searchParams = useSearchParams();
   
   // Load the config based on URL parameter when component mounts
@@ -404,17 +403,17 @@ export const uiConstants = ${JSON.stringify(config.uiConstants, null, 2)};`;
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Configuration Editor</h1>
         <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-500 mr-2">选择配置:</span>
+          <span className="text-sm text-gray-500 mr-2">Select config:</span>
           <Select value={configName} onValueChange={changeConfig}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="选择配置" />
+              <SelectValue placeholder="Select config" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="default">默认配置</SelectItem>
-              <SelectItem value="youcaihua">有彩花配置</SelectItem>
-              <SelectItem value="chunxiao">春晓配置</SelectItem>
-              <SelectItem value="qingwa">青蛙配置</SelectItem>
-              <SelectItem value="niaomingjian">鸟鸣涧配置</SelectItem>
+              <SelectItem value="default">Default</SelectItem>
+              <SelectItem value="youcaihua">Rapeseed Flowers</SelectItem>
+              <SelectItem value="chunxiao">Spring Dawn</SelectItem>
+              <SelectItem value="qingwa">Old Pond</SelectItem>
+              <SelectItem value="niaomingjian">Birdsong Ravine</SelectItem>
             </SelectContent>
           </Select>
         </div>

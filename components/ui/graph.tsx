@@ -27,18 +27,14 @@ export function GraphComponent({
   const graphRef = useRef<Graph | null>(null);
   const nodesRef = useRef<SceneNode[]>(nodes);
   
-  // 配置相关状态
   const [uiConstants, setUiConstants] = useState(defaultUiConstants);
   
-  // 使用 Next.js 的搜索参数
   const searchParams = useSearchParams();
   
-  // 当URL参数变化时加载配置
   useEffect(() => {
     const configParam = searchParams?.get('config');
     console.log("URL config param in Graph:", configParam);
     
-    // 根据URL参数决定加载哪个配置文件
     const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
       ? configParam
       : 'default';
@@ -207,14 +203,12 @@ export function GraphComponent({
         textColor = modifierText;
       }
 
-      // 根据标签文本长度动态计算宽度（每个中文字符或英文字符的宽度不同）
-      // 假设每个中文字符宽度约18px，英文字符宽度约9px
       const chineseCharCount = (node.label.match(/[\u4e00-\u9fa5]/g) || [])
         .length;
       const otherCharCount = node.label.length - chineseCharCount;
       const estimatedWidth = Math.max(
-        nodeWidth, // 最小宽度
-        chineseCharCount * 18 + otherCharCount * 9 + 20 // 额外20px作为内边距
+        nodeWidth,
+        chineseCharCount * 18 + otherCharCount * 9 + 20
       );
 
       const cell = graph.addNode({
@@ -297,40 +291,30 @@ export function GraphComponent({
       }
     });
 
-    // 完全重写渲染逻辑，确保节点始终在视图内
     if (nodes.length > 0) {
       try {
-        // 在更大的画布上，我们可以使用更合适的缩放比例
 
-        // 首先居中内容
         graph.centerContent({
-          padding: 50, // 合理的边距
+          padding: 50,
         });
 
-        // 使用更适合的缩放比例
-        graph.zoomTo(0.8); // 增大缩放比例，使节点更大
+        graph.zoomTo(0.8);
 
-        // 获取容器尺寸
         const width = graph.options.width as number;
         const height = graph.options.height as number;
 
-        // 应用一个小的偏移来确保居中效果
         graph.translate(width / 8, height / 8);
       } catch (e) {
-        // 如果上述方法失败，使用最保守的备用方法
-        console.log("使用备用定位方法");
+        console.log("Using fallback positioning.");
 
-        // 使用更大的缩放比例，适合大画布
         graph.zoomTo(0.7);
 
-        // 手动设置平移，确保内容居中
         const width = graph.options.width as number;
         const height = graph.options.height as number;
 
         graph.translate(width / 6, height / 6);
       }
     } else {
-      // 无节点时，设置更好的初始视图
       graph.zoomTo(0.9);
       graph.translate(
         (graph.options.width as number) / 4,

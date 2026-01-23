@@ -19,21 +19,17 @@ interface EmotionRadarChartProps {
 }
 
 const EmotionRadarChart = ({ className }: EmotionRadarChartProps) => {
-  // 配置相关状态
   const [radarChartInitialData, setRadarChartInitialData] = useState(defaultRadarChartInitialData);
   const [radarChartAnalysisData, setRadarChartAnalysisData] = useState(defaultRadarChartAnalysisData);
   const [radarChartPurpleColors, setRadarChartPurpleColors] = useState(defaultRadarChartPurpleColors);
   const [uiConstants, setUiConstants] = useState(defaultUiConstants);
   
-  // 使用 Next.js 的搜索参数
   const searchParams = useSearchParams();
   
-  // 当URL参数变化时加载配置
   useEffect(() => {
     const configParam = searchParams?.get('config');
     console.log("URL config param in EmotionRadarChart:", configParam);
     
-    // 根据URL参数决定加载哪个配置文件
     const configName = configParam && ['youcaihua', 'chunxiao', 'qingwa', 'niaomingjian'].includes(configParam)
       ? configParam
       : 'default';

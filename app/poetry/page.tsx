@@ -56,16 +56,13 @@ function PoetryPageContent() {
     null,
   ]);
 
-  // 处理状态
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingMessage, setProcessingMessage] = useState("");
 
-  // 存储生成的图像
   const [generatedImages, setGeneratedImages] = useState<{
     [key: number]: string;
   }>({});
 
-  // 配置相关状态
   const [graphCanvasData, setGraphCanvasData] = useState(
     defaultGraphCanvasData
   );
@@ -75,26 +72,21 @@ function PoetryPageContent() {
     defaultQuietNightPoem
   );
 
-  // 使用 Next.js 的搜索参数来获取配置
   const searchParams = useSearchParams();
 
-  // 当URL参数变化时加载配置
   useEffect(() => {
     const configParam = searchParams.get("config");
     console.log("URL config param in poetry page:", configParam);
 
-    // 根据URL参数决定加载哪个配置文件
     const configName =
       configParam &&
       ["youcaihua", "chunxiao", "qingwa", "niaomingjian"].includes(configParam)
         ? configParam
         : "default";
 
-    // 加载对应的配置
     const loadedConfig = getConfig(configName);
     console.log("Poetry page - Loading config:", configName, loadedConfig);
 
-    // 更新状态
     setGraphCanvasData(loadedConfig.graphCanvasData);
     setUiConstants(loadedConfig.uiConstants);
     setVisualElements(loadedConfig.visualElements);
@@ -168,7 +160,6 @@ function PoetryPageContent() {
   const handleGenerateSymbols = () => {
     if (!graphGenerated[graphCanvasNumber - 1]) return;
 
-    // 保存当前图表状态的备份
     const currentNodes = [
       ...(canvasStates[graphCanvasNumber - 1]?.nodes || []),
     ];
@@ -181,13 +172,10 @@ function PoetryPageContent() {
     updatedSymbolsGenerated[graphCanvasNumber - 1] = true;
     setSymbolsGenerated(updatedSymbolsGenerated);
 
-    // 确保图表状态不受影响 - 在下一个渲染周期检查并恢复
     setTimeout(() => {
-      // 检查图表状态是否改变
       const updatedStates = [...canvasStates];
       const currentState = updatedStates[graphCanvasNumber - 1];
 
-      // 如果节点丢失，恢复它们
       if (currentState.nodes.length === 0 && currentNodes.length > 0) {
         console.log("Restoring graph nodes after symbols generation");
         updatedStates[graphCanvasNumber - 1] = {
@@ -199,7 +187,6 @@ function PoetryPageContent() {
     }, 0);
   };
 
-  // 传递动态加载的visualElements到useCanvasElements
   const canvasElementsContext = useCanvasElements(visualElements);
   const {
     activeCanvas,
@@ -225,9 +212,7 @@ function PoetryPageContent() {
   } = canvasElementsContext;
 
   // Handle left canvas navigation (poetry canvas)
-  // 获取下一个有可用元素的画布索引
   const getNextAvailableCanvas = (current: number) => {
-    // 如果只有1号画布有元素，直接返回1
     if (
       visualElements[1].length > 0 &&
       visualElements[2].length === 0 &&
@@ -247,9 +232,7 @@ function PoetryPageContent() {
     return current;
   };
 
-  // 获取前一个有可用元素的画布索引
   const getPrevAvailableCanvas = (current: number) => {
-    // 如果只有1号画布有元素，直接返回1
     if (
       visualElements[1].length > 0 &&
       visualElements[2].length === 0 &&
@@ -311,7 +294,6 @@ function PoetryPageContent() {
     }
   }, [activeTab, activeCanvas]);
 
-  // 当画布切换时，检查状态中是否有对应的生成图像
   useEffect(() => {
     if (generatedImages[activeCanvas]) {
       console.log(
@@ -326,20 +308,16 @@ function PoetryPageContent() {
         size: { width: 600, height: 600 },
       };
 
-      // 更新当前画布
       setCanvasElements([newElement]);
     }
   }, [activeCanvas, generatedImages]);
 
-  // 使用useRef避免循环更新
   const prevSymbolsRef = useRef(symbolsGenerated);
 
-  // 更新ref值，避免闭包问题
   useEffect(() => {
     prevSymbolsRef.current = symbolsGenerated;
   }, [symbolsGenerated]);
 
-  // 辅助函数，获取特定画布编号的元素
   const getCanvasElementsForCanvas = (canvasNumber: number) => {
     switch (canvasNumber) {
       case 1:
@@ -355,44 +333,39 @@ function PoetryPageContent() {
     }
   };
 
-  // 下载当前画布为图片
   const downloadCanvasAsImage = async () => {
     const currentCanvasRef = canvasRefs.current[activeCanvas - 1];
 
     if (currentCanvasRef) {
       try {
-        // 使用配置中定义的固定宽度和比例
         const targetWidth = uiConstants.canvasImage.downloadWidth;
         const originalRect = currentCanvasRef.getBoundingClientRect();
         const aspectRatio = originalRect.height / originalRect.width;
-        const targetHeight = Math.round(targetWidth * aspectRatio); // 根据宽高比计算高度
+        const targetHeight = Math.round(targetWidth * aspectRatio);
 
         const canvas = await html2canvas(currentCanvasRef, {
           backgroundColor: "white",
-          scale: uiConstants.canvasImage.downloadScale, // 使用配置的缩放因子
+          scale: uiConstants.canvasImage.downloadScale,
           logging: false,
           allowTaint: true,
           useCORS: true,
-          width: originalRect.width, // 使用原始宽度
-          height: originalRect.height, // 使用原始高度
+          width: originalRect.width,
+          height: originalRect.height,
         });
 
-        // 创建新的画布来调整大小，保持比例
         const resizedCanvas = document.createElement("canvas");
         resizedCanvas.width = targetWidth;
         resizedCanvas.height = targetHeight;
         const ctx = resizedCanvas.getContext("2d");
 
         if (ctx) {
-          // 平滑绘制以保持质量
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = "high";
-          ctx.fillStyle = "white"; // 确保背景是白色
+          ctx.fillStyle = "white";
           ctx.fillRect(0, 0, targetWidth, targetHeight);
           ctx.drawImage(canvas, 0, 0, targetWidth, targetHeight);
         }
 
-        // 创建下载链接
         const image = resizedCanvas.toDataURL("image/png");
         const link = document.createElement("a");
         link.href = image;
@@ -406,35 +379,27 @@ function PoetryPageContent() {
     }
   };
 
-  // 移除了轮询API结果的useEffect，因为我们直接使用canvas的base64数据
 
-  // 处理AI生成
   const handleAIGeneration = async () => {
-    // 查找有内容的画布
     const canvasesToProcess = [];
     for (let i = 1; i <= canvasCount; i++) {
-      // 检查画布是否有元素
       const canvasElements = getCanvasElementsForCanvas(i);
       if (canvasElements && canvasElements.length > 0) {
         canvasesToProcess.push(i);
       }
     }
 
-    // 如果没有画布有元素，仅处理当前画布
     if (canvasesToProcess.length === 0) {
       canvasesToProcess.push(activeCanvas);
     }
 
-    // 只处理第一个有内容的画布
     const canvasNumber = canvasesToProcess[0];
     setActiveCanvas(canvasNumber);
 
     try {
-      // 开始处理
       setIsProcessing(true);
-      setProcessingMessage("捕获画布内容...");
+      setProcessingMessage("Capturing canvas...");
 
-      // 确保切换画布后DOM已更新
       await new Promise((resolve) => setTimeout(resolve, 100));
 
       const canvasRef = canvasRefs.current[canvasNumber - 1];
@@ -442,39 +407,30 @@ function PoetryPageContent() {
         throw new Error("Canvas reference not found");
       }
 
-      // 使用html2canvas将画布直接转换为base64图像
       const canvas = await html2canvas(canvasRef, {
         backgroundColor: "white",
-        scale: 2, // 高质量
+        scale: 2,
         logging: false,
         allowTaint: true,
         useCORS: true,
       });
 
-      // 将canvas转换为base64数据URL
       const imageBase64 = canvas.toDataURL("image/png");
       console.log(imageBase64);
 
-      // 收集所有画布的base64图像
       const imagesBase64: string[] = [];
 
-      // 收集所有有内容的画布的base64图像
       for (let i = 1; i <= canvasCount; i++) {
-        // 检查画布是否有元素
         const otherCanvasElements = getCanvasElementsForCanvas(i);
 
         if (i === canvasNumber) {
-          // 当前画布已经处理过了
           imagesBase64.push(imageBase64);
         } else if (otherCanvasElements && otherCanvasElements.length > 0) {
-          // 处理其他有内容的画布
-          setProcessingMessage(`捕获画布 ${i} 内容...`);
+          setProcessingMessage(`Capturing canvas ${i}...`);
 
-          // 获取对应画布的引用
           const otherCanvasRef = canvasRefs.current[i - 1];
           if (otherCanvasRef) {
             try {
-              // 捕获其他画布的内容
               const otherCanvas = await html2canvas(otherCanvasRef, {
                 backgroundColor: "white",
                 scale: 2,
@@ -483,7 +439,6 @@ function PoetryPageContent() {
                 useCORS: true,
               });
 
-              // 添加到数组
               const otherImageBase64 = otherCanvas.toDataURL("image/png");
               imagesBase64.push(otherImageBase64);
             } catch (error) {
@@ -493,7 +448,6 @@ function PoetryPageContent() {
         }
       }
 
-      // 获取当前配置中的generatePrompt
       const configParam = searchParams
         ? searchParams.get("config") || "default"
         : "default";
@@ -506,11 +460,9 @@ function PoetryPageContent() {
         return;
       }
 
-      // 确保图像数量与提示词数量一致
       const promptCount = generateConfig.prompt.length;
       let processedImagesBase64 = [...imagesBase64];
 
-      // 如果图像少于提示词，复制最后一张图片直到数量匹配
       while (processedImagesBase64.length < promptCount) {
         const lastImage =
           processedImagesBase64.length > 0
@@ -519,7 +471,6 @@ function PoetryPageContent() {
         processedImagesBase64.push(lastImage);
       }
 
-      // 如果图像多于提示词，截取需要的部分
       if (processedImagesBase64.length > promptCount) {
         processedImagesBase64 = processedImagesBase64.slice(0, promptCount);
       }
@@ -528,17 +479,14 @@ function PoetryPageContent() {
         `Sending ${processedImagesBase64.length} images to match ${promptCount} prompts`
       );
 
-      // 创建请求数据
       const requestData = {
         lora: generateConfig.lora,
         prompts: generateConfig.prompt,
         images_base64: processedImagesBase64,
       };
 
-      // 发送请求到后端
       try {
-        setProcessingMessage("生成图像中...");
-        // 使用相对URL或者本地开发URL
+        setProcessingMessage("Generating images...");
         if (!GENERATION_IMAGE_URL) {
           throw new Error("Missing NEXT_PUBLIC_GENERATION_SERVER");
         }
@@ -551,8 +499,6 @@ function PoetryPageContent() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(requestData),
-            // 添加模式为no-cors，这可能会导致响应不可读，
-            // 但如果后端正确设置了CORS，可以删除这一行
             mode: "cors",
             credentials: "omit",
           }
@@ -562,18 +508,13 @@ function PoetryPageContent() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // 解析响应
         const responseData = await response.json();
 
-        // 检查返回的图像数组
         if (responseData.images && responseData.images.length > 0) {
-          // 获取返回的图像和处理过的画布的映射关系
           const processedCanvases = [];
 
-          // 添加当前画布
           processedCanvases.push(canvasNumber);
 
-          // 添加其他处理过的画布
           for (let i = 1; i <= canvasCount; i++) {
             if (i !== canvasNumber) {
               const canvasElements = getCanvasElementsForCanvas(i);
@@ -583,13 +524,11 @@ function PoetryPageContent() {
             }
           }
 
-          // 确保返回的图像和处理的画布数量一致
           const imagesToProcess = Math.min(
             responseData.images.length,
             processedCanvases.length
           );
 
-          // 创建所有画布元素的副本以进行批量更新
           const allCanvasElements = [
             [...canvasElements1],
             [...canvasElements2],
@@ -597,29 +536,24 @@ function PoetryPageContent() {
             [...canvasElements4],
           ];
 
-          // 处理每个生成的图像
           for (let i = 0; i < imagesToProcess; i++) {
-            const canvasIndex = processedCanvases[i] - 1; // 转为0-索引
+            const canvasIndex = processedCanvases[i] - 1;
             const imgDataUrl = responseData.images[i];
 
-            // 创建新的画布元素
             const newElement = {
-              id: Date.now() + i, // 使用时间戳+索引作为唯一ID
+              id: Date.now() + i,
               type: "generated-image",
               src: imgDataUrl,
-              position: { x: 0, y: 0 }, // 居中放置
-              size: { width: 600, height: 600 }, // 使用画布大小
+              position: { x: 0, y: 0 },
+              size: { width: 600, height: 600 },
             };
 
-            // 替换对应画布上的所有元素
             allCanvasElements[canvasIndex] = [newElement];
           }
 
-          // 处理当前活动画布
           let updatedCanvasElements = Array(canvasCount)
             .fill(null)
             .map((_, i) => {
-              // 默认保留原始数据
               switch (i) {
                 case 0:
                   return [...canvasElements1];
@@ -634,66 +568,54 @@ function PoetryPageContent() {
               }
             });
 
-          // 更新所有处理过的画布
           for (
             let i = 0;
             i < processedCanvases.length && i < imagesToProcess;
             i++
           ) {
-            const canvasIndex = processedCanvases[i] - 1; // 转为0-索引
+            const canvasIndex = processedCanvases[i] - 1;
             const imgDataUrl = responseData.images[i];
 
-            // 确保base64字符串有正确的前缀
             let src = imgDataUrl;
             if (!src.startsWith("data:image/")) {
-              // 添加数据URL前缀
               src = `data:image/png;base64,${imgDataUrl}`;
             }
 
-            // 创建新的画布元素
             const newElement = {
-              id: Date.now() + i, // 使用时间戳+索引作为唯一ID
+              id: Date.now() + i,
               type: "generated-image",
               src: src,
-              position: { x: 0, y: 0 }, // 居中放置
-              size: { width: 600, height: 600 }, // 使用画布大小
+              position: { x: 0, y: 0 },
+              size: { width: 600, height: 600 },
             };
 
-            // 替换对应画布上的所有元素
             updatedCanvasElements[canvasIndex] = [newElement];
           }
 
-          // 创建一个新的图像对象，用于更新状态
           const newGeneratedImages = { ...generatedImages };
 
-          // 保存所有生成的图像
           for (
             let i = 0;
             i < processedCanvases.length && i < imagesToProcess;
             i++
           ) {
-            const canvasIndex = processedCanvases[i] - 1; // 转为0-索引
-            const canvasNumber = canvasIndex + 1; // 1-索引的画布编号
+            const canvasIndex = processedCanvases[i] - 1;
+            const canvasNumber = canvasIndex + 1;
             const imgDataUrl = responseData.images[i];
 
-            // 确保base64字符串有正确的前缀
             const imgSrc = imgDataUrl.startsWith("data:")
               ? imgDataUrl
               : `data:image/png;base64,${imgDataUrl}`;
 
-            // 保存图像到状态对象
             newGeneratedImages[canvasNumber] = imgSrc;
           }
 
-          // 更新生成图像状态
           setGeneratedImages(newGeneratedImages);
 
-          // 更新当前活动画布
           console.log(
             `Updating active canvas ${activeCanvas} with generated image`
           );
 
-          // 检查当前活动画布是否有对应的生成图像
           if (newGeneratedImages[activeCanvas]) {
             const newElement = {
               id: Date.now(),
@@ -703,7 +625,6 @@ function PoetryPageContent() {
               size: { width: 600, height: 600 },
             };
 
-            // 更新当前画布
             setCanvasElements([newElement]);
           }
         }
@@ -766,7 +687,6 @@ function PoetryPageContent() {
                 <button
                   onClick={prevCanvas}
                   disabled={
-                    // 如果只有1号画布有元素，或者当前已经是第1个画布，则禁用
                     (visualElements[1].length > 0 &&
                       visualElements[2].length === 0 &&
                       visualElements[3].length === 0 &&
@@ -832,7 +752,6 @@ function PoetryPageContent() {
                 <button
                   onClick={nextCanvas}
                   disabled={
-                    // 如果只有1号画布有元素，或者当前已经是最后一个画布，则禁用
                     (visualElements[1].length > 0 &&
                       visualElements[2].length === 0 &&
                       visualElements[3].length === 0 &&
@@ -921,7 +840,6 @@ function PoetryPageContent() {
                     <button
                       onClick={prevGraphCanvas}
                       disabled={
-                        // 如果只有1号画布有元素，或者当前已经是第1个画布，则禁用
                         (visualElements[1].length > 0 &&
                           visualElements[2].length === 0 &&
                           visualElements[3].length === 0 &&
@@ -963,16 +881,13 @@ function PoetryPageContent() {
                       </svg>
                     </button>
 
-                    {/* Graph container with line title - 增加高度 */}
                     <div className="relative w-full max-w-[calc(100%-80px)] sm:max-w-[calc(100%-100px)] h-[380px] sm:h-[380px] md:h-[380px]">
                       {/* Line title for the graph canvas */}
                       <div className="absolute top-3 left-5 text-sm font-medium text-gray-500 z-10">
                         Line {graphCanvasNumber}
                       </div>
 
-                      {/* Graph content - 增加高度和减少内边距 */}
                       <div className="w-full h-[380px] relative bg-white rounded-2xl overflow-hidden">
-                        {/* 增加渲染区域尺寸 */}
                         <div className="w-full h-full relative mx-auto my-auto">
                           {/* Use the same key to prevent component recreation when only props change */}
                           <GraphComponent
@@ -998,7 +913,6 @@ function PoetryPageContent() {
                     <button
                       onClick={nextGraphCanvas}
                       disabled={
-                        // 如果只有1号画布有元素，或者当前已经是最后一个画布，则禁用
                         (visualElements[1].length > 0 &&
                           visualElements[2].length === 0 &&
                           visualElements[3].length === 0 &&

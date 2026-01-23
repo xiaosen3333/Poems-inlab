@@ -401,7 +401,7 @@ export const quietNightPoem: PoemData = {
     "translated": ""
   },
   "author": {
-    "name": "与謝蕪村",
+    "name": "Yosa Buson",
     "dynasty": "Edo"
   },
   "verses": [

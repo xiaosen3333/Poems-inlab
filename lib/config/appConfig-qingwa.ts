@@ -400,7 +400,7 @@ export const quietNightPoem: PoemData = {
     "translated": ""
   },
   "author": {
-    "name": "松尾芭蕉",
+    "name": "Matsuo Basho",
     "dynasty": "Edo"
   },
   "verses": [

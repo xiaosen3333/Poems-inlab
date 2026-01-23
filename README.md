@@ -1,46 +1,128 @@
-# Getting Started with Create React App
+# <p align="center">Poems InLab: Interactive Poem Visualization and Generative Imagery</p>
+*<p align="center">[Paper Link](TODO) · [Project Page](TODO) · [Demo](TODO)</p>
+*<p align="center">TODO: Add author list and affiliations</p>
+![teaser](TODO)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Abstract
+Poems InLab is an interactive system for poem exploration, visualization, and AI-assisted image generation. It combines a Next.js frontend for poem browsing and composition, a FastAPI backend for chat and image requests, and an external ComfyUI pipeline for image synthesis. This repository is intended for paper reviewers and practitioners to self-deploy and experience the system.
 
-## Available Scripts
+## Reviewer Quickstart (UI-only)
 
-In the project directory, you can run:
+If you only want to explore the UI and poem visualizations (no AI chat / no image generation), run the frontend only:
 
-### `npm start`
+```bash
+cp .env.example .env.local
+npm install
+npm run dev
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open `http://localhost:3000`.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+What works without API keys:
+- Poem browsing and visualization: Yes
+- Chat/Q&A tab: No (requires `AI_API_KEY`)
+- Image generation: No (requires ComfyUI)
 
-### `npm test`
+## Environment Setup
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Tested with:
+- Node.js 23.2.0 (see `.nvmrc`)
+- Python 3.11.2 (see `backend/.python-version`)
+- ComfyUI + required models (external)
 
-### `npm run build`
+## Full Experience (Chat + Image Generation)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1) Frontend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+cp .env.example .env.local
+npm install
+npm run dev
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2) Backend
 
-### `npm run eject`
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+uvicorn main:app --reload --host 0.0.0.0 --port 8000 --env-file .env
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 3) ComfyUI (External)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Follow the setup guide in `backend/README.md` and ensure your ComfyUI instance is reachable from the backend.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The workflow template used by the backend is `backend/MyPoemWorkflow.json` (configurable via `WORKFLOW_TEMPLATE`).
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Docker (Optional)
 
-## Learn More
+If you prefer Docker for the frontend and backend (ComfyUI stays external):
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+cp .env.example .env.local
+cp backend/.env.example backend/.env
+docker compose up --build
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+When running ComfyUI on the host machine, set in `backend/.env`:
+
+```
+COMFYUI_API=http://host.docker.internal:8188/api/prompt
+```
+
+## Environment Variables
+
+### Frontend (`.env.local`)
+
+```
+NEXT_PUBLIC_GENERATION_SERVER=http://localhost:8000
+NEXT_PUBLIC_IMGBB_API_KEY=your_imgbb_api_key
+NEXT_PUBLIC_IMGBB_EXPIRATION=1555200
+```
+
+### Backend (`backend/.env`)
+
+```
+AI_API_URL=https://api.deepseek.com/v1/chat/completions
+AI_API_KEY=your_deepseek_api_key
+COMFYUI_API=http://127.0.0.1:8188/api/prompt
+WORKFLOW_TEMPLATE=MyPoemWorkflow.json
+UPLOAD_DIR=/absolute/path/to/ComfyUI/input/uploaded_images
+DEFAULT_OUTPUT_DIR=/absolute/path/to/ComfyUI/output
+```
+
+## AI API Key (DeepSeek)
+
+This repository does not include API keys. Apply for a DeepSeek API key here:
+- https://platform.deepseek.com/
+- https://platform.deepseek.com/api-keys
+
+Set `AI_API_KEY` in `backend/.env` and keep it out of version control.
+
+## API Endpoints
+
+- `POST /chat`: forwards chat messages to the configured AI provider.
+- `POST /generate`: sends base64 images + prompts to ComfyUI and returns generated images.
+
+## Citation
+
+Please cite the paper that this code accompanies.
+
+```
+TODO: Add paper title, authors, venue, year, and DOI/arXiv.
+```
+
+A BibTeX entry will be provided once the paper metadata is finalized.
+
+## Acknowledgements
+
+- ComfyUI: https://github.com/comfyanonymous/ComfyUI
+- DeepSeek API: https://platform.deepseek.com/
+- ImgBB: https://imgbb.com/
+
+## License
+
+MIT License. See `LICENSE`.

@@ -30,7 +30,6 @@ export function CanvasElement({
 }: CanvasElementProps) {
   const ref = useRef<HTMLDivElement>(null)
 
-  // 处理生成图像类型的元素
   if (element.type === 'generated-image' && element.src) {
     return (
       <div
@@ -82,7 +81,6 @@ export function CanvasElement({
     )
   }
 
-  // 处理原始视觉元素类型
   if (!visualElement) return null;
 
   return (
@@ -127,7 +125,7 @@ export function CanvasElement({
           quality={90}
           className="object-contain pointer-events-none"
           style={{ objectFit: "contain", objectPosition: "center" }}
-          unoptimized={false} // 确保图像质量
+          unoptimized={false}
         />
         
         {/* Delete button overlay */}

@@ -156,7 +156,6 @@ export function PoetryCanvas({
       {canvasElements.length > 0 && (
         <div className="absolute inset-0 overflow-visible">
           {canvasElements.map((element) => {
-            // 处理生成的图像类型
             if (element.type === 'generated-image') {
               return (
                 <CanvasElement
@@ -170,7 +169,6 @@ export function PoetryCanvas({
               );
             }
             
-            // 处理常规视觉元素
             const visualElement = visualElements.find(
               (ve) => ve.id === element.elementId
             );

@@ -1,0 +1,11 @@
+.DS_Store
+.git
+.gitignore
+.next
+node_modules
+npm-debug.log*
+.env*
+backend/.venv
+backend/__pycache__
+backend/*.pyc
+backend/.env

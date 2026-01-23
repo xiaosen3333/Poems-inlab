@@ -1,8 +1,15 @@
-# <p align="center">Poems InLab: Interactive Poem Visualization and Generative Imagery</p>
-*<p align="center">[Paper Link](https://doi.org/10.1145/3772318.3791460)</p>
-*<p align="center">Ying Zhang · Kaixin Jia · Hongjian Zhang · Kewen Zhu · Chenye Meng · Jiesi Zhang · Zejian Li* · Pei Chen · Lingyun Sun</p>
-*<p align="center">Zhejiang University, Ningbo, China (Ying Zhang, Kaixin Jia, Hongjian Zhang, Kewen Zhu, Chenye Meng, Jiesi Zhang, Zejian Li)</p>
-*<p align="center">Zhejiang University, Hangzhou, China (Pei Chen, Lingyun Sun)</p>
+# PoemPalette: Facilitating Poetry Creative Exploration and Foundational Understanding through the Ideorealm Alignment of Paintings and Poems
+*<p align="center">
+  [Paper Link](https://doi.org/10.1145/3772318.3791460)
+</p>
+
+*<p align="center">
+  by Ying Zhang<sup>1</sup>, Kaixin Jia<sup>1</sup>, Hongjian Zhang<sup>1</sup>, Kewen Zhu<sup>1</sup>, Chenye Meng<sup>1</sup>, Jiesi Zhang<sup>1</sup>, Zejian Li*<sup>1</sup>, Pei Chen<sup>1</sup>, Lingyun Sun<sup>1</sup>
+</p>
+
+*<p align="center">
+  <sup>1</sup>Zhejiang University
+</p>
 
 ## Abstract
 Poems InLab is an interactive system for poem exploration, visualization, and AI-assisted image generation. It combines a Next.js frontend for poem browsing and composition, a FastAPI backend for chat and image requests, and an external ComfyUI pipeline for image synthesis. This repository is intended for paper reviewers and practitioners to self-deploy and experience the system.
